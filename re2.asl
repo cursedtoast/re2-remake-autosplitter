@@ -58,6 +58,7 @@ startup
 	settings.Add("knight", false, "Knight Plug");
 	settings.Add("bishop", false, "Bishop Plug");
 	settings.Add("sewerKey", false, "Sewer Key");
+	settings.Add("rescue", false, "Rescued Sherry/Ada");
 	settings.Add("tbar", false, "T-Bar Valve Handle");
 	settings.Add("modulator", false, "Signal Modulator");
 	settings.Add("chip", false, "Electronic Chip");
@@ -191,6 +192,7 @@ update
 		vars.reachedSecretRoom = 0;
 		vars.exitedGarage = 0;
 		vars.end = 0;
+		vars.rescue = 0;
 		//vars.shotgun = 0;
 	}
 }
@@ -724,6 +726,12 @@ split
 		{
 			vars.exitedGarage = 1;
 			return settings["exitedGarage"];
+		}
+		
+		if (old.map == 335 && current.map == 338 && vars.rescue == 0)
+		{
+			vars.rescue = 1;
+			return settings["rescue"];
 		}
 	}
 	
