@@ -56,6 +56,8 @@ startup
 	settings.Add("parkingcard", false, "Parking Garage Key Card");
 	settings.Add("exitedGarage", false, "Back on the Streets (leave parking garage)");
 	settings.Add("reachedSewers", false, "Reached the Sewers");
+	settings.Add("adaStart", false, "Ada Start");
+	settings.Add("adaEnd", false, "Ada End");
 	settings.Add("rook", false, "Rook Plug");
 	settings.Add("queen", false, "Queen Plug");
 	settings.Add("king", false, "King Plug");
@@ -65,15 +67,16 @@ startup
 	settings.Add("rescue", false, "Rescued Sherry/Ada");
 	settings.Add("tbar", false, "T-Bar Valve Handle");
 	settings.Add("modulator", false, "Signal Modulator");
-	settings.Add("chip", false, "Electronic Chip");
-	settings.Add("generalChip", false, "Wristband (General Staff)");
+	settings.Add("generalChip", false, "Wristband (Guest)");
+	settings.Add("staffChip", false, "Wristband (General Staff)");
 	settings.Add("seniorChip", false, "Wristband (Senior Staff)");
+	settings.Add("g3", false, "G3 Battle Complete");
 	settings.Add("chipAdmin", false, "Wristband (Admin)");
 	settings.Add("dispenseEmpty", false, "Dispersal Cartridge (Empty)");
 	settings.Add("dispenseSolution", false, "Dispersal Cartridge (Solution)");
 	settings.Add("herbicide", false, "Dispersal Cartridge (Herbicide)");
 	settings.Add("jointPlug", false, "Joint Plug");
-	settings.Add("end", false, "End");
+	settings.Add("end", false, "End (Scenario A/First final boss of B)");
 }
 
 init
@@ -181,6 +184,7 @@ update
 		vars.herbicide = 0;
 		vars.jointPlug = 0;
 		vars.chipAdmin = 0;
+		vars.staffChip = 0;
 		vars.chip = 0;
 		vars.modulator = 0;
 		vars.sewerKey = 0;
@@ -196,7 +200,10 @@ update
 		vars.reachedSecretRoom = 0;
 		vars.exitedGarage = 0;
 		vars.end = 0;
+		vars.adaStart = 0;
+		vars.adaEnd = 0;
 		vars.rescue = 0;
+		vars.g3 = 0;
 		//vars.shotgun = 0;
 	}
 }
@@ -573,30 +580,12 @@ split
 					}
 					break;
 				}
-				case 0x000000BA:
+				case 0x000000BB:
 				{
 					if (vars.chipAdmin == 0)
 					{
 						vars.chipAdmin = 1;
 						return settings["chipAdmin"];
-					}
-					break;
-				}
-				case 0x000000C3:
-				{
-					if (vars.chip == 0)
-					{
-						vars.chip = 1;
-						return settings["chip"];
-					}
-					break;
-				}
-				case 0x000000C8:
-				{
-					if (vars.chip == 0)
-					{
-						vars.chip = 1;
-						return settings["chip"];
 					}
 					break;
 				}
@@ -618,7 +607,7 @@ split
 					}
 					break;
 				}
-				case 0x000000C4:
+				case 0x000000C3:
 				{
 					if (vars.generalChip == 0)
 					{
@@ -627,13 +616,31 @@ split
 					}
 					break;
 				}
-				case 0x000000C9:
+				case 0x000000C8:
 				{
 					if (vars.generalChip == 0)
 					{
 						vars.generalChip = 1;
 						return settings["generalChip"];
 					}
+					break;
+				}
+				case 0x000000C4:
+				{
+					if (vars.staffChip == 0)
+					{
+						vars.staffChip = 1;
+						return settings["staffChip"];
+					}
+					break;
+				}
+				case 0x000000C9:
+				{
+					if (vars.staffChip == 0)
+					{
+						vars.staffChip = 1;
+						return settings["staffChip"];
+					} 
 					break;
 				}
 				case 0x000000C5:
@@ -729,10 +736,22 @@ split
 	// Map splits
 	if (current.map != old.map)
 	{
-		if (current.map == 317 && vars.reachedSewers == 0)
+		if (current.map == 317 && vars.reachedSewers == 0 || current.map == 377 && old.map == 407 && vars.reachedSewers == 0)
 		{
 			vars.reachedSewers = 1;
 			return settings["reachedSewers"];
+		}
+		
+		if (current.map == 310 && current.weaponSlot1 == 8 && vars.adaStart == 0)
+		{
+			vars.adaStart = 1;
+			return settings["adaStart"];
+		}
+		
+		if (current.map == 310 && old.weaponSlot1 == 8 && current.weaponSlot1 != 8 && vars.adaEnd == 0)
+		{
+			vars.adaEnd = 1;
+			return settings["adaEnd"];
 		}
 		
 		if (current.map == 112 && vars.reachedRPDA == 0 && current.gamePauseState == 1 || current.map == 261 && vars.reachedRPDA == 0)
@@ -759,15 +778,21 @@ split
 			return settings["exitedGarage"];
 		}
 		
-		if (old.map == 335 && current.map == 338 && vars.rescue == 0)
+		if (current.map == 338 && vars.rescue == 0 || old.map == 0 && current.map == 335 && vars.rescue == 0)
 		{
 			vars.rescue = 1;
 			return settings["rescue"];
 		}
+		
+		if (current.map == 419 && current.bossHP <= 0 && old.bossHP > 0 && vars.g3 == 0)
+		{
+			vars.g3 = 1;
+			return settings["g3"];
+		}
 	}
 	
 	//End split
-	if (current.map == 421 && old.bossHP >= 50000 && !(current.bossHP >= 50000) && vars.end == 0)
+	if (current.map == 421 && old.bossHP >= 50000 && !(current.bossHP >= 50000) && vars.end == 0 || current.map == 422 && current.gamePauseState == 257 && vars.end == 0)
 	{
 		vars.end = 1;
 		return settings["end"];
