@@ -15,7 +15,7 @@ startup
 {
 	settings.Add("storageKey", false, "Storage Key");
 	settings.Add("courtyardkey", false, "Courtyard Key");
-	settings.Add("reachedRPDA", false, "Reached the RPD (scenario A only - for now)");
+	settings.Add("reachedRPDA", false, "Reached the RPD");
 	settings.Add("spade", false, "Spade Key");
 	settings.Add("emptyDetonator", false, "Detonator (No Battery)");
 	settings.Add("detonator", false, "Detonator");
