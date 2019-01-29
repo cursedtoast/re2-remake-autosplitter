@@ -62,9 +62,9 @@ startup
 	settings.Add("tbar", false, "T-Bar Valve Handle");
 	settings.Add("modulator", false, "Signal Modulator");
 	settings.Add("chip", false, "Electronic Chip");
-	settings.Add("generalChip", false, "Upgrade Chip (General Staff)");
-	settings.Add("seniorChip", false, "Upgrade Chip (Senior Staff)");
-	settings.Add("chipAdmin", false, "Upgrade Chip (Admin)");
+	settings.Add("generalChip", false, "Wristband (General Staff)");
+	settings.Add("seniorChip", false, "Wristband (Senior Staff)");
+	settings.Add("chipAdmin", false, "Wristband (Admin)");
 	settings.Add("dispenseEmpty", false, "Dispersal Cartridge (Empty)");
 	settings.Add("dispenseSolution", false, "Dispersal Cartridge (Solution)");
 	settings.Add("herbicide", false, "Dispersal Cartridge (Herbicide)");
@@ -578,7 +578,16 @@ split
 					}
 					break;
 				}
-				case 0x000000BC:
+				case 0x000000C3:
+				{
+					if (vars.chip == 0)
+					{
+						vars.chip = 1;
+						return settings["chip"];
+					}
+					break;
+				}
+				case 0x000000C8:
 				{
 					if (vars.chip == 0)
 					{
@@ -605,7 +614,7 @@ split
 					}
 					break;
 				}
-				case 0x000000C6:
+				case 0x000000C4:
 				{
 					if (vars.generalChip == 0)
 					{
@@ -614,7 +623,25 @@ split
 					}
 					break;
 				}
-				case 0x000000C7:
+				case 0x000000C9:
+				{
+					if (vars.generalChip == 0)
+					{
+						vars.generalChip = 1;
+						return settings["generalChip"];
+					}
+					break;
+				}
+				case 0x000000C5:
+				{
+					if (vars.seniorChip == 0)
+					{
+						vars.seniorChip = 1;
+						return settings["seniorChip"];
+					}
+					break;
+				}
+				case 0x000000CA:
 				{
 					if (vars.seniorChip == 0)
 					{
