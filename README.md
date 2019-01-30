@@ -8,7 +8,7 @@ Edit your splits and change the game name to "Resident Evil 2 2019". A message s
 
 After activating the RE2 autosplitter, click "Settings". Place a checkmark next to every split you want to use.
 
-Afterwards, create your splits. Name them anything you want (just make sure they correspond with a checkmarked autosplit). Order them however you'd like.
+Afterwards, create your splits. Name them anything you want (just make sure you have one split for each checkmarked autosplit setting). Order them however you'd like.
 
 Make sure you compare against Game Time.
 
