@@ -782,12 +782,6 @@ split
 			return settings["rescue"];
 		}
 		
-		if (current.map == 419 && current.gamePauseState == 257 && old.map == 386 && current.bossHP <= 0)
-		{
-			vars.g3 = 1;
-			return settings["g3"];
-		}
-		
 		if (current.map == 423 && vars.onTrain == 0)
 		{
 			vars.onTrain = 1;
@@ -797,6 +791,11 @@ split
 			vars.adaEnd = 1;
 			return settings["adaEnd"];
 		}
+	}
+	else if (current.map == 419 && !(current.bossHP >= 1) && vars.g3 == 0)
+	{
+		vars.g3 = 1;
+		return settings["g3"];
 	}
 	
 	//End split
