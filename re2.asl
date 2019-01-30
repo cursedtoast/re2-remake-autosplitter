@@ -782,7 +782,7 @@ split
 			return settings["rescue"];
 		}
 		
-		if (current.map == 419 && current.gamePauseState == 257)
+		if (current.map == 419 && current.gamePauseState == 257 && old.map == 386 && current.bossHP <= 0)
 		{
 			vars.g3 = 1;
 			return settings["g3"];
