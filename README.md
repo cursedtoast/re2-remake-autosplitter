@@ -1,4 +1,4 @@
-# Resident Evil 2 2019 Autosplitter
+# Resident Evil 2 (2019) Autosplitter
 
 Supports all scenarios. 
 
