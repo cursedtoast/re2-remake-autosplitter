@@ -21,6 +21,8 @@ startup
 	settings.Add("courtyardkey", false, "Courtyard Key");
 	settings.Add("reachedRPDA", false, "Reached the RPD");
 	settings.Add("spade", false, "Spade Key");
+	settings.Add("gL", false, "Grenade Launcher");
+	settings.Add("shotgun", false, "Shotgun");
 	settings.Add("emptyDetonator", false, "Detonator (No Battery)");
 	settings.Add("detonator", false, "Detonator");
 	settings.Add("battery", false, "Battery");
@@ -77,6 +79,7 @@ startup
 	settings.Add("herbicide", false, "Dispersal Cartridge (Herbicide)");
 	settings.Add("jointPlug", false, "Joint Plug");
 	settings.Add("end", false, "End (Scenario A/First final boss of B)");
+	settings.Add("trueEnd", false, "True End");
 }
 
 init
@@ -96,7 +99,7 @@ init
         current.inventory[i] = itemID;
     }
 	
-	/*// Track Weapon IDs
+	// Track Weapon IDs
 	current.weapons = new int[20];
     for (int i = 0; i < current.weapons.Length; ++i)
     {
@@ -105,7 +108,7 @@ init
         new DeepPointer(vars.inventoryPtr, 0x50, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x14).DerefOffsets(memory, out ptr);
         memory.ReadValue<int>(ptr, out weaponID);
         current.weapons[i] = weaponID;
-    }*/
+    }
 }
 
 
@@ -130,16 +133,16 @@ update
         current.inventory[i] = itemID;
     }
 
-	/*// Track Weapon IDs
+	// Track Weapon IDs 
 	current.weapons = new int[20];
-    for (int i = 0; i < current.weapons.Length; ++i)
+    for (int i = 0; i < current.weapons.Length; ++i) 
     {
         int weaponID = 0;
         IntPtr ptr;
         new DeepPointer(vars.inventoryPtr, 0x50, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x14).DerefOffsets(memory, out ptr);
         memory.ReadValue<int>(ptr, out weaponID);
         current.weapons[i] = weaponID;
-    }*/
+    }
 	
 	if (timer.CurrentPhase == TimerPhase.NotRunning)
 	{
@@ -204,7 +207,10 @@ update
 		vars.adaEnd = 0;
 		vars.rescue = 0;
 		vars.g3 = 0;
-		//vars.shotgun = 0;
+		vars.trueEnd = 0;
+		vars.onTrain = 0;
+		vars.shotgun = 0;
+		vars.gL = 0;
 	}
 }
 
@@ -704,7 +710,7 @@ split
             }
         }
     }
-	/*
+	
 	// Weapon splits
     int[] currentWeapons = (current.weapons as int[]);
     int[] oldWeapons = (old.weapons as int[]); // throws error first update, will be fine afterwards.
@@ -724,14 +730,34 @@ split
 					}
 					break;
 				}
+				case 0x0000002A:
+				{
+					if (vars.gL == 0)
+					{
+						vars.gL = 1;
+						return settings["gL"];
+					}
+					break;
+				}
                 default:
                 {
                     break; // No work to do.
                 }
             }
+			if (current.map == 310 && vars.adaEnd == 0)
+			{
+				for (int g = 0; i < 20; g++)
+				{
+					if (currentWeapons[g] != 8 && oldWeapons[g] == 8)
+					{
+						vars.adaEnd = 1;
+						return settings["adaEnd"];
+					}
+				}
+			}
         }
     }
-	*/
+	
 	
 	// Map splits
 	if (current.map != old.map)
@@ -746,12 +772,6 @@ split
 		{
 			vars.adaStart = 1;
 			return settings["adaStart"];
-		}
-		
-		if (current.map == 310 && old.weaponSlot1 == 8 && current.weaponSlot1 != 8 && vars.adaEnd == 0)
-		{
-			vars.adaEnd = 1;
-			return settings["adaEnd"];
 		}
 		
 		if (current.map == 112 && vars.reachedRPDA == 0 && current.gamePauseState == 1 || current.map == 261 && vars.reachedRPDA == 0)
@@ -789,6 +809,11 @@ split
 			vars.g3 = 1;
 			return settings["g3"];
 		}
+		
+		if (current.map == 423 && vars.onTrain == 0)
+		{
+			vars.onTrain = 1;
+		}
 	}
 	
 	//End split
@@ -796,6 +821,12 @@ split
 	{
 		vars.end = 1;
 		return settings["end"];
+	}
+	
+	if (current.map == 422 && vars.onTrain == 1 && current.gamePauseState == 257 && vars.trueEnd == 0)
+	{
+		vars.trueEnd = 1;
+		return settings["trueEnd"];
 	}
 }
 
