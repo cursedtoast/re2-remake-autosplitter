@@ -2,7 +2,7 @@
 
 Supports all scenarios. 
 
-# Instructions:
+# Instructions
 
 Edit your splits and change the game name to "Resident Evil 2 2019". A message should pop up saying an autosplitter by me is available. Click "Activate".
 
