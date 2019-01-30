@@ -805,7 +805,7 @@ split
 		return settings["end"];
 	}
 	
-	if (current.map == 422 && vars.onTrain == 1 && current.gamePauseState == 257 && vars.trueEnd == 0)
+	if (current.map == 422 && vars.onTrain == 1 && current.gamePauseState == 257 && vars.trueEnd == 0 || current.map == 421 && vars.onTrain == 1 && old.map == 423 && vars.trueEnd == 0)
 	{
 		vars.trueEnd = 1;
 		return settings["trueEnd"];
