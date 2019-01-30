@@ -1,6 +1,6 @@
 # Resident Evil 2 2019 Autosplitter
 
-Note: At this time the "end" split may not work for Leon A, Leon B, or Claire B. This will be fixed in the very near future.
+Supports all scenarios. 
 
 Instructions:
 
