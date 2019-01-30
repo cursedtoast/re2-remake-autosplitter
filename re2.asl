@@ -25,7 +25,6 @@ startup
 	settings.Add("shotgun", false, "Shotgun");
 	settings.Add("emptyDetonator", false, "Detonator (No Battery)");
 	settings.Add("detonator", false, "Detonator");
-	settings.Add("battery", false, "Battery");
 	settings.Add("mechanicHandle", false, "Mechanic Handle");
 	settings.Add("squareCrank", false, "Square Crank");
 	settings.Add("redbook", false, "Red Book");
@@ -148,7 +147,6 @@ update
 	{
 		vars.detonator = 0;
 		vars.emptyDetonator = 0;
-		vars.battery = 0;
 		vars.storageKey = 0;
 		vars.mechanicHandle = 0;
 		vars.squareCrank = 0;
@@ -241,15 +239,6 @@ split
 					{
 						vars.emptyDetonator = 1;
 						return settings["emptyDetonator"];
-					}
-					break;
-				}
-				case 0x00000023:
-				{
-					if (vars.battery == 0)
-					{
-						vars.battery = 1;
-						return settings["battery"];
 					}
 					break;
 				}
