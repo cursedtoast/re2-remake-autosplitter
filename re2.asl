@@ -744,17 +744,6 @@ split
                     break; // No work to do.
                 }
             }
-			if (current.map == 310 && vars.adaEnd == 0)
-			{
-				for (int g = 0; i < 20; g++)
-				{
-					if (currentWeapons[g] != 8 && oldWeapons[g] == 8)
-					{
-						vars.adaEnd = 1;
-						return settings["adaEnd"];
-					}
-				}
-			}
         }
     }
 	
@@ -813,6 +802,11 @@ split
 		if (current.map == 423 && vars.onTrain == 0)
 		{
 			vars.onTrain = 1;
+		}
+		if (current.map == 0 && old.map == 330 && vars.adaEnd == 0)
+		{
+			vars.adaEnd == 1;
+			return settings["adaEnd"];
 		}
 	}
 	
