@@ -1,6 +1,6 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Last updated 1/30/2019
+//Last updated 02/03/2019
 
 state("re2")
 {
@@ -17,68 +17,91 @@ state("re2")
 
 startup
 {
-	settings.Add("storageKey", false, "Storage Key");
-	settings.Add("courtyardkey", false, "Courtyard Key");
-	settings.Add("reachedRPDA", false, "Reached the RPD");
-	settings.Add("spade", false, "Spade Key");
-	settings.Add("gL", false, "Grenade Launcher");
-	settings.Add("shotgun", false, "Shotgun");
-	settings.Add("emptyDetonator", false, "Detonator (No Battery)");
-	settings.Add("detonator", false, "Detonator");
-	settings.Add("mechanicHandle", false, "Mechanic Handle");
-	settings.Add("squareCrank", false, "Square Crank");
-	settings.Add("redbook", false, "Red Book");
-	settings.Add("weaponcard", false, "Weapons Locker Key Card");
-	settings.Add("arm", false, "Statue's Left Arm");
-	settings.Add("scepter", false, "Scepter");
-	settings.Add("valve", false, "Valve Handle");
-	settings.Add("jewel", false, "Red Jewel");
-	settings.Add("jewelbox", false, "Bejewled Box");
-	settings.Add("starsbadge", false, "S.T.A.R.S Badge");
-	settings.Add("unicorn", false, "Unicorn Medallion");
-	settings.Add("lion", false, "Lion Medallion");
-	settings.Add("maiden", false, "Maiden Medallion");
-	settings.Add("reachedSecretRoom", false, "Reached Secret Room");
-	settings.Add("reachedGarage", false, "Reached Parking Garage");
-	settings.Add("boltCutters", false, "Bolt Cutters");
-	settings.Add("carkey", false, "Car Key");
-	settings.Add("fuse1", false, "Fuse (Main Hall)");
-	settings.Add("fuse2", false, "Fuse (Break Room Hallway)");
-	settings.Add("largegear", false, "Large Gear");
-	settings.Add("smallgear", false, "Small Gear");
-	settings.Add("diamond", false, "Diamond Key");
-	settings.Add("club", false, "Club Key");
-	settings.Add("heart", false, "Heart Key");
-	settings.Add("partA", false, "Boxed Electronic Part A");
-	settings.Add("partB", false, "Boxed Electronic Part B");
-	settings.Add("block", false, "Picture Block");
-	settings.Add("scissors", false, "Scissors");
-	settings.Add("orphanageKey", false, "Orphanage Key");
-	settings.Add("parkingcard", false, "Parking Garage Key Card");
-	settings.Add("exitedGarage", false, "Back on the Streets (leave parking garage)");
-	settings.Add("reachedSewers", false, "Reached the Sewers");
-	settings.Add("adaStart", false, "Ada Start");
-	settings.Add("adaEnd", false, "Ada End");
-	settings.Add("rook", false, "Rook Plug");
-	settings.Add("queen", false, "Queen Plug");
-	settings.Add("king", false, "King Plug");
-	settings.Add("knight", false, "Knight Plug");
-	settings.Add("bishop", false, "Bishop Plug");
-	settings.Add("sewerKey", false, "Sewer Key");
-	settings.Add("rescue", false, "Rescued Sherry/Ada");
-	settings.Add("tbar", false, "T-Bar Valve Handle");
-	settings.Add("modulator", false, "Signal Modulator");
-	settings.Add("generalChip", false, "Wristband (Guest)");
-	settings.Add("staffChip", false, "Wristband (General Staff)");
-	settings.Add("seniorChip", false, "Wristband (Senior Staff)");
-	settings.Add("g3", false, "G3 Battle Complete");
-	settings.Add("chipAdmin", false, "Wristband (Admin)");
-	settings.Add("dispenseEmpty", false, "Dispersal Cartridge (Empty)");
-	settings.Add("dispenseSolution", false, "Dispersal Cartridge (Solution)");
-	settings.Add("herbicide", false, "Dispersal Cartridge (Herbicide)");
-	settings.Add("jointPlug", false, "Joint Plug");
-	settings.Add("end", false, "End (Scenario A/First final boss of B)");
-	settings.Add("trueEnd", false, "True End");
+	settings.Add("keygroup", true, "Keys");
+	settings.Add("storageKey", false, "Storage Key", "keygroup");
+	settings.Add("courtyardkey", false, "Courtyard Key", "keygroup");
+	settings.Add("spade", false, "Spade Key", "keygroup");
+	settings.Add("diamond", false, "Diamond Key", "keygroup");
+	settings.Add("club", false, "Club Key", "keygroup");
+	settings.Add("heart", false, "Heart Key", "keygroup");
+	settings.Add("weaponcard", false, "Weapons Locker Key Card", "keygroup");
+	settings.Add("orphanageKey", false, "Orphanage Key", "keygroup");
+	settings.Add("parkingcard", false, "Parking Garage Key Card", "keygroup");
+	settings.Add("sewerKey", false, "Sewer Key", "keygroup");
+	
+	settings.Add("medalliongroup", true, "Medallions");
+	settings.Add("unicorn", false, "Unicorn Medallion", "medalliongroup");
+	settings.Add("lion", false, "Lion Medallion", "medalliongroup");
+	settings.Add("maiden", false, "Maiden Medallion", "medalliongroup");
+	
+	settings.Add("fusegroup", true, "Fuses");
+	settings.Add("fuse1", false, "Fuse (Main Hall)", "fusegroup");
+	settings.Add("fuse2", false, "Fuse (Break Room Hallway)", "fusegroup");
+	
+	settings.Add("weapongroup", true, "Weapons");
+	settings.Add("gL", false, "Grenade Launcher", "weapongroup");
+	settings.Add("shotgun", false, "Shotgun", "weapongroup");
+	
+	settings.Add("geargroup", true, "Gears");
+	settings.Add("largegear", false, "Large Gear", "geargroup");
+	settings.Add("smallgear", false, "Small Gear", "geargroup");
+	
+	settings.Add("electrogroup", true, "Electronic Parts");
+	settings.Add("partA", false, "Boxed Electronic Part A", "electrogroup");
+	settings.Add("partB", false, "Boxed Electronic Part B", "electrogroup");
+	
+	settings.Add("pluggroup", true, "Plugs");
+	settings.Add("rook", false, "Rook Plug", "pluggroup");
+	settings.Add("queen", false, "Queen Plug", "pluggroup");
+	settings.Add("king", false, "King Plug", "pluggroup");
+	settings.Add("knight", false, "Knight Plug", "pluggroup");
+	settings.Add("bishop", false, "Bishop Plug", "pluggroup");
+	
+	settings.Add("dispensergroups", true, "Dispensers");
+	settings.Add("dispenseEmpty", false, "Dispersal Cartridge (Empty)", "dispensergroups");
+	settings.Add("dispenseSolution", false, "Dispersal Cartridge (Solution)", "dispensergroups");
+	settings.Add("herbicide", false, "Dispersal Cartridge (Herbicide)", "dispensergroups");
+	
+	
+	settings.Add("wristgroup", true, "Wristbands");
+	settings.Add("generalChip", false, "Guest", "wristgroup");
+	settings.Add("staffChip", false, "General Staff", "wristgroup");
+	settings.Add("seniorChip", false, "Senior Staff", "wristgroup");
+	settings.Add("chipAdmin", false, "Admin (Claire Only)", "wristgroup");
+	
+	
+	settings.Add("eventgroup", true, "Events");
+	settings.Add("reachedRPDA", false, "Reached the RPD", "eventgroup");
+	settings.Add("reachedSecretRoom", false, "Reached Secret Room", "eventgroup");
+	settings.Add("reachedGarage", false, "Reached Parking Garage", "eventgroup");
+	settings.Add("exitedGarage", false, "Back on the Streets (leave parking garage)", "eventgroup");
+	settings.Add("reachedSewers", false, "Reached the Sewers", "eventgroup");
+	settings.Add("adaStart", false, "Ada Start", "eventgroup");
+	settings.Add("adaEnd", false, "Ada End", "eventgroup");
+	settings.Add("rescue", false, "Rescued Sherry/Ada", "eventgroup");
+	settings.Add("g3", false, "G3 Battle Complete", "eventgroup");
+	settings.Add("end", false, "End (Scenario A/First final boss of B)", "eventgroup");
+	settings.Add("trueEnd", false, "True End", "eventgroup");
+	
+	
+	settings.Add("miscgroup", true, "Misc.");
+	settings.Add("boltCutters", false, "Bolt Cutters", "miscgroup");
+	settings.Add("emptyDetonator", false, "Detonator (No Battery)", "miscgroup");
+	settings.Add("detonator", false, "Detonator", "miscgroup");
+	settings.Add("mechanicHandle", false, "Mechanic Handle", "miscgroup");
+	settings.Add("squareCrank", false, "Square Crank", "miscgroup");
+	settings.Add("block", false, "Picture Block", "miscgroup");
+	settings.Add("scissors", false, "Scissors", "miscgroup");
+	settings.Add("valve", false, "Valve Handle", "miscgroup");
+	settings.Add("tbar", false, "T-Bar Valve Handle", "miscgroup");
+	settings.Add("modulator", false, "Signal Modulator", "miscgroup");
+	settings.Add("jointPlug", false, "Joint Plug", "miscgroup");
+	settings.Add("redbook", false, "Red Book", "miscgroup");
+	settings.Add("arm", false, "Statue's Left Arm", "miscgroup");
+	settings.Add("scepter", false, "Scepter", "miscgroup");
+	settings.Add("jewel", false, "Red Jewel", "miscgroup");
+	settings.Add("jewelbox", false, "Bejewled Box", "miscgroup");
+	settings.Add("starsbadge", false, "S.T.A.R.S Badge", "miscgroup");
 }
 
 init
