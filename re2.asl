@@ -1,6 +1,6 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Last updated 02/03/2019
+//Last updated 02/15/2019
 
 state("re2", "2/15 Update")
 {
