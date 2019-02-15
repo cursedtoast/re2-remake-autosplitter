@@ -2,7 +2,18 @@
 //By CursedToast 1/28/2019
 //Last updated 02/03/2019
 
-state("re2")
+state("re2", "2/15 Update")
+{
+	int gamePauseState : "re2.exe", 0x070B0E90,  0x408, 0xD8, 0x18, 0x20, 0x130;
+	int map : "re2.exe", 0x048D4370,  0x1EC;
+	int weaponSlot1 : "re2.exe", 0x070AFE10, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
+	int bossHP : "re2.exe", 0x07081EA8, 0x80, 0x88, 0x18, 0x1A0, 0x58;
+	long active :  0x070AFEE8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
+	long cutscene :  0x070AFEE8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
+	long paused :  0x070AFEE8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
+}
+
+state("re2", "1.0")
 {
 	int gamePauseState : "re2.exe", 0x0707A510,  0x408, 0xD8, 0x18, 0x20, 0x130;
 	int map : "re2.exe", 0x0488A730,  0x1EC;
@@ -107,8 +118,20 @@ startup
 init
 {
 	vars.inventoryPtr = IntPtr.Zero;
-    vars.inventoryPtr = 0x070ACA88;
+    
     vars.fas = 0;
+	
+	switch (modules.First().ModuleMemorySize)
+	{
+		case (374067200):
+			version = "2/15 Update";
+			vars.inventoryPtr = 0x070AFE10;
+			break;
+		default:
+			version = "1.0";
+			vars.inventoryPtr = 0x070ACA88;
+			break;
+	}
 
     // Track inventory IDs
     current.inventory = new int[20];
@@ -144,7 +167,8 @@ start
 
 update
 {
-    // Track inventory IDs
+    //print(modules.First().ModuleMemorySize.ToString());
+	// Track inventory IDs
     current.inventory = new int[20];
     for (int i = 0; i < current.inventory.Length; ++i)
     {
