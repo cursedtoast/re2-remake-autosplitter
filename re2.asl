@@ -123,14 +123,16 @@ init
 	
 	switch (modules.First().ModuleMemorySize)
 	{
-		case (374067200):
+		//case (374067200):
+		default:
 			version = "2/15 Update";
 			vars.inventoryPtr = 0x070AFE10;
 			break;
-		default:
+		/*default:
 			version = "1.0";
 			vars.inventoryPtr = 0x070ACA88;
 			break;
+		*/
 	}
 
     // Track inventory IDs
