@@ -879,7 +879,7 @@ split
 
 gameTime
 {
-	return TimeSpan.FromSeconds((current.active - current.cutscene - current.paused) / 1000000.0);
+	return TimeSpan.FromSeconds((current.active - current.cutscene - current.paused) * 0.000001);
 }
 
 isLoading
