@@ -1,7 +1,18 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Last updated 02/20/2019
+//Last updated 04/23/2019
 
+
+state("re2", "4/23 Update")
+{
+	int gamePauseState : "re2.exe", 0x07097258,  0x408, 0xD8, 0x18, 0x20, 0x130;
+	int map : "re2.exe", 0x048FC170,  0x1DC;
+	int weaponSlot1 : "re2.exe", 0x0709A630, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
+	int bossHP : "re2.exe", 0x070A35B8, 0x80, 0x88, 0x18, 0x1A0, 0x58;
+	long active :  0x070936F0, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
+	long cutscene :  0x070936F0, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
+	long paused :  0x070936F0, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
+}
 
 state("re2", "2/20 Update")
 {
@@ -135,8 +146,11 @@ init
 	
 	switch (modules.First().ModuleMemorySize)
 	{
-		//379510784
 		default:
+			version = "2/23 Update";
+			vars.inventoryPtr = 0x0709A630;
+			break;
+		case (379510784):
 			version = "2/20 Update";
 			vars.inventoryPtr = 0x070B0840;
 			break;
