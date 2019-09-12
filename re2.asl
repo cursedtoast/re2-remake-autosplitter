@@ -65,16 +65,13 @@ startup
 	
 	settings.Add("medalliongroup", true, "Medallions");
 	settings.Add("unicorn", false, "Unicorn Medallion", "medalliongroup");
-	settings.Add("lion", false, "Lion Medallion", "medalliongroup");
 	settings.Add("maiden", false, "Maiden Medallion", "medalliongroup");
+	settings.Add("lion", false, "Lion Medallion", "medalliongroup");
+	
 	
 	settings.Add("fusegroup", true, "Fuses");
 	settings.Add("fuse1", false, "Fuse (Main Hall)", "fusegroup");
 	settings.Add("fuse2", false, "Fuse (Break Room Hallway)", "fusegroup");
-	
-	settings.Add("weapongroup", true, "Weapons");
-	settings.Add("gL", false, "Grenade Launcher", "weapongroup");
-	settings.Add("shotgun", false, "Shotgun", "weapongroup");
 	
 	settings.Add("geargroup", true, "Gears");
 	settings.Add("largegear", false, "Large Gear", "geargroup");
@@ -130,12 +127,16 @@ startup
 	settings.Add("tbar", false, "T-Bar Valve Handle", "miscgroup");
 	settings.Add("modulator", false, "Signal Modulator", "miscgroup");
 	settings.Add("jointPlug", false, "Joint Plug", "miscgroup");
-	settings.Add("redbook", false, "Red Book", "miscgroup");
-	settings.Add("arm", false, "Statue's Left Arm", "miscgroup");
-	settings.Add("scepter", false, "Scepter", "miscgroup");
-	settings.Add("jewel", false, "Red Jewel", "miscgroup");
-	settings.Add("jewelbox", false, "Bejewled Box", "miscgroup");
-	settings.Add("starsbadge", false, "S.T.A.R.S Badge", "miscgroup");
+	
+	settings.Add("deprecate", true, "Deprecated");
+	settings.Add("redbook", false, "Red Book", "deprecate");
+	settings.Add("arm", false, "Statue's Left Arm", "deprecate");
+	settings.Add("scepter", false, "Scepter", "deprecate");
+	settings.Add("jewel", false, "Red Jewel", "deprecate");
+	settings.Add("jewelbox", false, "Bejewled Box", "deprecate");
+	settings.Add("starsbadge", false, "S.T.A.R.S Badge", "deprecate");
+	settings.Add("gL", false, "Grenade Launcher", "deprecate");
+	settings.Add("shotgun", false, "Shotgun", "deprecate");
 }
 
 init
