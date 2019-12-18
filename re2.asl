@@ -1,7 +1,18 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Last updated 04/23/2019
+//Last updated 12/18/2019
 
+
+state("re2", "12/18 Update")
+{
+	int gamePauseState : "re2.exe", 0x070A8860,  0x478, 0x108, 0x128, 0xA10;
+	int map : "re2.exe", 0x048E7DC8,  0xEC;
+	int weaponSlot1 : "re2.exe", 0x070A17E0, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
+	int bossHP : "re2.exe", 0x070960E0, 0x80, 0x88, 0x18, 0x1A0, 0x58;
+	long active :  0x07097EF8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
+	long cutscene :  0x07097EF8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
+	long paused :  0x07097EF8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
+}
 
 state("re2", "4/23 Update")
 {
@@ -159,6 +170,10 @@ init
 			version = "2/15 Update";
 			vars.inventoryPtr = 0x070AFE10;
 			break;
+		case (124985344):
+			version = "12/8 Update";
+			vars.inventoryPtr = 0x070A17E0;
+			break;
 		/*default:
 			version = "1.0";
 			vars.inventoryPtr = 0x070ACA88;
@@ -200,7 +215,8 @@ start
 
 update
 {
-    //print(modules.First().ModuleMemorySize.ToString());
+    print("Test");
+	print(modules.First().ModuleMemorySize.ToString());
 	// Track inventory IDs
     current.inventory = new int[20];
     for (int i = 0; i < current.inventory.Length; ++i)
