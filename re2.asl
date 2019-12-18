@@ -171,7 +171,7 @@ init
 			vars.inventoryPtr = 0x070AFE10;
 			break;
 		case (124985344):
-			version = "12/8 Update";
+			version = "12/18 Update";
 			vars.inventoryPtr = 0x070A17E0;
 			break;
 		/*default:
