@@ -215,8 +215,8 @@ start
 
 update
 {
-    print("Test");
-	print(modules.First().ModuleMemorySize.ToString());
+    //print("Test");
+	//print(modules.First().ModuleMemorySize.ToString());
 	// Track inventory IDs
     current.inventory = new int[20];
     for (int i = 0; i < current.inventory.Length; ++i)
