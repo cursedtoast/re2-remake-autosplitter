@@ -205,16 +205,16 @@ split {
     if (
       vars.itemWatcher[itemID].Changed &&
       settings[vars.itemWatcher[itemID].Current.ToString()] &&
-      !(vars.completedSplits.Contains(vars.itemWatcher[itemID].Current.ToString()))
+      !(vars.completedSplits.Contains("item" + vars.itemWatcher[itemID].Current.ToString()))
       ) {
-        vars.completedSplits.Add(vars.itemWatcher[itemID].Current.ToString());
+        vars.completedSplits.Add("item" + vars.itemWatcher[itemID].Current.ToString());
         return true;
     } else if (
       vars.itemWatcher[weapID].Changed &&
       settings[vars.itemWatcher[weapID].Current.ToString()] &&
-      !(vars.completedSplits.Contains(vars.itemWatcher[weapID].Current.ToString()))
+      !(vars.completedSplits.Contains("weap" + vars.itemWatcher[weapID].Current.ToString()))
       ) {
-        vars.completedSplits.Add(vars.itemWatcher[weapID].Current.ToString());
+        vars.completedSplits.Add("weap" + vars.itemWatcher[weapID].Current.ToString());
         return true;
     }
   }
@@ -227,15 +227,15 @@ split {
 
     if (
       settings["map" + current.map.ToString()] &&
-      !(vars.completedSplits.Contains(current.map.ToString()))
+      !(vars.completedSplits.Contains("map" + current.map.ToString()))
       ) {
-        vars.completedSplits.Add(current.map.ToString());
+        vars.completedSplits.Add("map" + current.map.ToString());
         return true;
     } else if (
       settings["map" + old.map.ToString() + " to map" + current.map.ToString()] &&
-      !(vars.completedSplits.Contains(old.map.ToString() + "To" + current.map.ToString()))
+      !(vars.completedSplits.Contains(old.map.ToString() + "toMap" + current.map.ToString()))
       ) {
-        vars.completedSplits.Add(old.map.ToString() + "To" + current.map.ToString());
+        vars.completedSplits.Add(old.map.ToString() + "toMap" + current.map.ToString());
         return true;
     } else if (
       settings["adaStart"] && current.map == 310 && current.weaponSlot1 == 8 &&
