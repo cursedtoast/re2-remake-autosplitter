@@ -56,54 +56,54 @@ state("re2", "2/15 Update") {
 
 startup {
   settings.Add("keyGroup", true, "Keys");
-    settings.Add("77", false, "Storage Key", "keyGroup");
-    settings.Add("131", false, "Courtyard Key", "keyGroup");
-    settings.Add("82", false, "Spade Key", "keyGroup");
-    settings.Add("119", false, "Diamond Key", "keyGroup");
-    settings.Add("160", false, "Club Key", "keyGroup");
-    settings.Add("169", false, "Heart Key", "keyGroup");
-    settings.Add("84", false, "Locker Key Card", "keyGroup");
-    settings.Add("159", false, "Orphanage Key", "keyGroup");
-    settings.Add("83", false, "Parking Garage Key Card", "keyGroup");
-    settings.Add("194", false, "Sewer Key", "keyGroup");
-    //settings.Add("120", false, "Car Keys", "keyGroup");
+    settings.Add("item77", false, "Storage Key", "keyGroup");
+    settings.Add("item131", false, "Courtyard Key", "keyGroup");
+    settings.Add("item82", false, "Spade Key", "keyGroup");
+    settings.Add("item119", false, "Diamond Key", "keyGroup");
+    settings.Add("item160", false, "Club Key", "keyGroup");
+    settings.Add("item169", false, "Heart Key", "keyGroup");
+    settings.Add("item84", false, "Locker Key Card", "keyGroup");
+    settings.Add("item159", false, "Orphanage Key", "keyGroup");
+    settings.Add("item83", false, "Parking Garage Key Card", "keyGroup");
+    settings.Add("item194", false, "Sewer Key", "keyGroup");
+    //settings.Add("item120", false, "Car Keys", "keyGroup");
   
   settings.Add("medallionGroup", true, "Medallions");
-    settings.Add("81", false, "Unicorn Medallion", "medallionGroup");
-    settings.Add("124", false, "Maiden Medallion", "medallionGroup");
-    settings.Add("118", false, "Lion Medallion", "medallionGroup");
+    settings.Add("item81", false, "Unicorn Medallion", "medallionGroup");
+    settings.Add("item124", false, "Maiden Medallion", "medallionGroup");
+    settings.Add("item118", false, "Lion Medallion", "medallionGroup");
   
   
   settings.Add("fuseGroup", true, "Fuses");
-    settings.Add("240", false, "Fuse (Main Hall)", "fuseGroup");
-    settings.Add("241", false, "Fuse (Break Room Hallway)", "fuseGroup");
+    settings.Add("item240", false, "Fuse (Main Hall)", "fuseGroup");
+    settings.Add("item241", false, "Fuse (Break Room Hallway)", "fuseGroup");
   
   settings.Add("geargroup", true, "Gears");
-    settings.Add("130", false, "Large Gear", "geargroup");
-    settings.Add("129", false, "Small Gear", "geargroup");
+    settings.Add("item130", false, "Large Gear", "geargroup");
+    settings.Add("item129", false, "Small Gear", "geargroup");
     
   settings.Add("electrogroup", true, "Electronic Parts");
-    settings.Add("135", false, "Boxed Electronic Part A", "electrogroup");
-    settings.Add("136", false, "Boxed Electronic Part B", "electrogroup");
+    settings.Add("item135", false, "Boxed Electronic Part A", "electrogroup");
+    settings.Add("item136", false, "Boxed Electronic Part B", "electrogroup");
   
   settings.Add("pluggroup", true, "Plugs");
-    settings.Add("94", false, "Rook Plug", "pluggroup");
-    settings.Add("134", false, "Queen Plug", "pluggroup");
-    settings.Add("95", false, "King Plug", "pluggroup");
-    settings.Add("132", false, "Knight Plug", "pluggroup");
-    settings.Add("93", false, "Bishop Plug", "pluggroup");
+    settings.Add("item94", false, "Rook Plug", "pluggroup");
+    settings.Add("item134", false, "Queen Plug", "pluggroup");
+    settings.Add("item95", false, "King Plug", "pluggroup");
+    settings.Add("item132", false, "Knight Plug", "pluggroup");
+    settings.Add("item93", false, "Bishop Plug", "pluggroup");
   
   settings.Add("dispensergroups", true, "Dispensers");
-    settings.Add("179", false, "Dispersal Cartridge (Empty)", "dispensergroups");
-    settings.Add("180", false, "Dispersal Cartridge (Solution)", "dispensergroups");
-    settings.Add("181", false, "Dispersal Cartridge (Herbicide)", "dispensergroups");
+    settings.Add("item179", false, "Dispersal Cartridge (Empty)", "dispensergroups");
+    settings.Add("item180", false, "Dispersal Cartridge (Solution)", "dispensergroups");
+    settings.Add("item181", false, "Dispersal Cartridge (Herbicide)", "dispensergroups");
   
   
   settings.Add("wristgroup", true, "Wristbands");
-    settings.Add("195 and 200", false, "Guest", "wristgroup");
-    settings.Add("196 and 201", false, "General Staff", "wristgroup");
-    settings.Add("197 and 202", false, "Senior Staff", "wristgroup");
-    settings.Add("187", false, "Admin (Claire Only)", "wristgroup");
+    settings.Add("item195or200", false, "Guest", "wristgroup");
+    settings.Add("item196or201", false, "General Staff", "wristgroup");
+    settings.Add("item197or202", false, "Senior Staff", "wristgroup");
+    settings.Add("item187", false, "Admin (Claire Only)", "wristgroup");
   
   
   settings.Add("eventGroup", true, "Events");
@@ -121,27 +121,27 @@ startup {
   
   
   settings.Add("miscgroup", true, "Misc.");
-    settings.Add("244", false, "Bolt Cutters", "miscgroup");
-    settings.Add("34", false, "Detonator (No Battery)", "miscgroup");
-    settings.Add("31", false, "Detonator", "miscgroup");
-    settings.Add("79", false, "Mechanic Handle", "miscgroup");
-    settings.Add("80", false, "Square Crank", "miscgroup");
-    settings.Add("98", false, "Picture Block", "miscgroup");
-    settings.Add("243", false, "Scissors", "miscgroup");
-    settings.Add("86", false, "Valve Handle", "miscgroup");
-    settings.Add("176", false, "T-Bar Valve Handle", "miscgroup");
-    settings.Add("189", false, "Signal Modulator", "miscgroup");
-    settings.Add("183", false, "Joint Plug", "miscgroup");
+    settings.Add("item244", false, "Bolt Cutters", "miscgroup");
+    settings.Add("item34", false, "Detonator (No Battery)", "miscgroup");
+    settings.Add("item31", false, "Detonator", "miscgroup");
+    settings.Add("item79", false, "Mechanic Handle", "miscgroup");
+    settings.Add("item80", false, "Square Crank", "miscgroup");
+    settings.Add("item98", false, "Picture Block", "miscgroup");
+    settings.Add("item243", false, "Scissors", "miscgroup");
+    settings.Add("item86", false, "Valve Handle", "miscgroup");
+    settings.Add("item176", false, "T-Bar Valve Handle", "miscgroup");
+    settings.Add("item189", false, "Signal Modulator", "miscgroup");
+    settings.Add("item183", false, "Joint Plug", "miscgroup");
   
   settings.Add("deprecate", true, "Deprecated");
-    settings.Add("114", false, "Red Book", "deprecate");
-    settings.Add("115", false, "Statue's Left Arm", "deprecate");
-    settings.Add("88", false, "Scepter", "deprecate");
-    settings.Add("90", false, "Red Jewel", "deprecate");
-    settings.Add("91", false, "Bejewled Box", "deprecate");
-    settings.Add("87", false, "S.T.A.R.S Badge", "deprecate");
-    settings.Add("42", false, "Grenade Launcher", "deprecate");
-    settings.Add("11", false, "Shotgun", "deprecate");
+    settings.Add("item114", false, "Red Book", "deprecate");
+    settings.Add("item115", false, "Statue's Left Arm", "deprecate");
+    settings.Add("item88", false, "Scepter", "deprecate");
+    settings.Add("item90", false, "Red Jewel", "deprecate");
+    settings.Add("item91", false, "Bejewled Box", "deprecate");
+    settings.Add("item87", false, "S.T.A.R.S Badge", "deprecate");
+    settings.Add("item42", false, "Grenade Launcher", "deprecate");
+    settings.Add("item11", false, "Shotgun", "deprecate");
 }
 
 init {
@@ -201,21 +201,38 @@ split {
   vars.itemWatcher.UpdateAll(game);
   for (int i = 0; i <= 20; i++) {
     var itemID = "item" + i.ToString();
-    var weapID = "weapon" + i.ToString(); 
+    var weapID = "weapon" + i.ToString();
+
     if (
       vars.itemWatcher[itemID].Changed &&
-      settings[vars.itemWatcher[itemID].Current.ToString()] &&
+      settings["item" + vars.itemWatcher[itemID].Current.ToString()] &&
       !(vars.completedSplits.Contains("item" + vars.itemWatcher[itemID].Current.ToString()))
       ) {
         vars.completedSplits.Add("item" + vars.itemWatcher[itemID].Current.ToString());
         return true;
     } else if (
       vars.itemWatcher[weapID].Changed &&
-      settings[vars.itemWatcher[weapID].Current.ToString()] &&
+      settings["item" + vars.itemWatcher[weapID].Current.ToString()] &&
       !(vars.completedSplits.Contains("weap" + vars.itemWatcher[weapID].Current.ToString()))
       ) {
         vars.completedSplits.Add("weap" + vars.itemWatcher[weapID].Current.ToString());
         return true;
+    }
+
+    if (
+      vars.itemWatcher[weapID].Changed &&
+      settings["item" + vars.itemWatcher[itemID].Current.ToString() + "or" + (vars.itemWatcher[itemID].Current + 5).ToString()] &&
+      !(vars.completedSplits.Contains("item" + vars.itemWatcher[itemID].Current.ToString() + "or" + (vars.itemWatcher[itemID].Current + 5).ToString()))
+      ) {
+        vars.completedSplits.Add("item" + vars.itemWatcher[itemID].Current.ToString() + "or" + (vars.itemWatcher[itemID].Current + 5).ToString());
+        return true;
+    } else if (
+      vars.itemWatcher[weapID].Changed &&
+      settings["item" + (vars.itemWatcher[itemID].Current - 5).ToString() + "or" + vars.itemWatcher[itemID].Current.ToString()] &&
+      !(vars.completedSplits.Contains("item" + (vars.itemWatcher[itemID].Current - 5).ToString() + "or" + vars.itemWatcher[itemID].Current.ToString()))
+    ) {
+      vars.completedSplits.Add("item" + (vars.itemWatcher[itemID].Current - 5).ToString() + "or" + vars.itemWatcher[itemID].Current.ToString());
+      return true;
     }
   }
 
