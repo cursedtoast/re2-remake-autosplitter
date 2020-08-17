@@ -203,13 +203,26 @@ split {
     var itemID = "item" + i.ToString();
     var weapID = "weapon" + i.ToString();
 
-    if (
-      vars.itemWatcher[itemID].Changed &&
-      settings["item" + vars.itemWatcher[itemID].Current.ToString()] &&
-      !(vars.completedSplits.Contains("item" + vars.itemWatcher[itemID].Current.ToString()))
-      ) {
-        vars.completedSplits.Add("item" + vars.itemWatcher[itemID].Current.ToString());
-        return true;
+    if (vars.itemWatcher[itemID].Changed) {
+      if (
+        settings["item" + vars.itemWatcher[itemID].Current.ToString()] &&
+        !(vars.completedSplits.Contains("item" + vars.itemWatcher[itemID].Current.ToString()))
+        ) {
+          vars.completedSplits.Add("item" + vars.itemWatcher[itemID].Current.ToString());
+          return true;
+      } else if (
+        settings["item" + vars.itemWatcher[itemID].Current.ToString() + "or" + (vars.itemWatcher[itemID].Current + 5).ToString()] &&
+        !(vars.completedSplits.Contains("item" + vars.itemWatcher[itemID].Current.ToString() + "or" + (vars.itemWatcher[itemID].Current + 5).ToString()))
+        ) {
+          vars.completedSplits.Add("item" + vars.itemWatcher[itemID].Current.ToString() + "or" + (vars.itemWatcher[itemID].Current + 5).ToString());
+          return true;
+      } else if (
+        settings["item" + (vars.itemWatcher[itemID].Current - 5).ToString() + "or" + vars.itemWatcher[itemID].Current.ToString()] &&
+        !(vars.completedSplits.Contains("item" + (vars.itemWatcher[itemID].Current - 5).ToString() + "or" + vars.itemWatcher[itemID].Current.ToString()))
+        ) {
+          vars.completedSplits.Add("item" + (vars.itemWatcher[itemID].Current - 5).ToString() + "or" + vars.itemWatcher[itemID].Current.ToString());
+          return true;
+        }
     } else if (
       vars.itemWatcher[weapID].Changed &&
       settings["item" + vars.itemWatcher[weapID].Current.ToString()] &&
@@ -217,22 +230,6 @@ split {
       ) {
         vars.completedSplits.Add("weap" + vars.itemWatcher[weapID].Current.ToString());
         return true;
-    }
-
-    if (
-      vars.itemWatcher[weapID].Changed &&
-      settings["item" + vars.itemWatcher[itemID].Current.ToString() + "or" + (vars.itemWatcher[itemID].Current + 5).ToString()] &&
-      !(vars.completedSplits.Contains("item" + vars.itemWatcher[itemID].Current.ToString() + "or" + (vars.itemWatcher[itemID].Current + 5).ToString()))
-      ) {
-        vars.completedSplits.Add("item" + vars.itemWatcher[itemID].Current.ToString() + "or" + (vars.itemWatcher[itemID].Current + 5).ToString());
-        return true;
-    } else if (
-      vars.itemWatcher[weapID].Changed &&
-      settings["item" + (vars.itemWatcher[itemID].Current - 5).ToString() + "or" + vars.itemWatcher[itemID].Current.ToString()] &&
-      !(vars.completedSplits.Contains("item" + (vars.itemWatcher[itemID].Current - 5).ToString() + "or" + vars.itemWatcher[itemID].Current.ToString()))
-    ) {
-      vars.completedSplits.Add("item" + (vars.itemWatcher[itemID].Current - 5).ToString() + "or" + vars.itemWatcher[itemID].Current.ToString());
-      return true;
     }
   }
 
