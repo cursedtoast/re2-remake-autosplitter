@@ -2,6 +2,9 @@
 
 Supports all scenarios. 
 
+Care to buy me a coffee?
+https://streamlabs.com/cursedtoast/tip
+
 # Instructions
 
 Edit your splits and change the game name to "Resident Evil 2 2019". A message should display below "Start Timer at:" that notifies you that auto splitting and load removal is available by CursedToast. Click the "Activate" button.
