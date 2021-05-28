@@ -24,3 +24,6 @@ Great, reach out to me through the RE Speedrunning discord, and I'll see what I 
 # Something didn't split or split at the wrong time.
 
 Make sure you have the split checkmarked as explained above. If that doesn't work, or if a split of yours split at the wrong time, contact me.
+
+# Credits
+Special thanks to Squirrelies for collaborating in finding memory values.
