@@ -1,5 +1,6 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
+//Special thanks to Squirrelies for collaborating in finding memory values.
 //Last updated 02/01/2021
 
 state("re2", "Feb 2021 Update")
