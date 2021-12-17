@@ -1,7 +1,18 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
 //Special thanks to Squirrelies for collaborating in finding memory values.
-//Last updated 02/01/2021
+//Last updated 12/17/2021
+
+state("re2", "Dec 2021 Update")
+{
+	int gamePauseState : "re2.exe", 0x070A79C0,  0x478, 0x108, 0x128, 0xA10;
+	int map : "re2.exe", 0x048E6DC8,  0xEC;
+	int weaponSlot1 : "re2.exe", 0x70A0958, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
+	int bossHP : "re2.exe", 0x07095248, 0x80, 0x88, 0x18, 0x1A0, 0x58;
+	long active :  0x7097048, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
+	long cutscene :  0x7097048, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
+	long paused :  0x7097048, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
+}
 
 state("re2", "Feb 2021 Update")
 {
@@ -173,13 +184,13 @@ init
 			version = "2/23 Update";
 			vars.inventoryPtr = 0x0709A630;
 			break;
+		case (124981248):
+			version = "Dec 2021 Update";
+			vars.inventoryPtr = 0x70A0958;
+			break;
 		case (379510784):
 			version = "2/20 Update";
 			vars.inventoryPtr = 0x070B0840;
-			break;
-		case (124981248):
-			version = "Feb 2021 Update";
-			vars.inventoryPtr = 0x070A0948;
 			break;
 		case (374067200):
 			version = "2/15 Update";
