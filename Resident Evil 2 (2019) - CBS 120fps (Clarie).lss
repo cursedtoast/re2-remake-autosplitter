@@ -3,7 +3,7 @@
   <GameIcon />
   <GameName>Resident Evil 2 (2019)</GameName>
   <CategoryName>New Game + (PC)</CategoryName>
-  <LayoutPath>C:\Users\Andrew Craig\Documents\LiveSplit_1.8.19\Layouts\re2r_lb.lsl</LayoutPath>
+  <LayoutPath>?default</LayoutPath>
   <Metadata>
     <Run id="" />
     <Platform usesEmulator="False">PC</Platform>

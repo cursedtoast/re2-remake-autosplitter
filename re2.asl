@@ -731,7 +731,7 @@ split
 				}
 				case 0x000000C3:
 				{
-					if (vars.generalChip == 0 && current.survivorType == 0)
+					if (vars.generalChip == 0 && current.survivorType == 0 || vars.generalChip == 0 && current.survivorType == 1)
 					{
 						vars.generalChip = 1;
 						print("generalChip");
