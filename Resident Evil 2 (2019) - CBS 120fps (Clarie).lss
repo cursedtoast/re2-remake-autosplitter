@@ -1,0 +1,548 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<Run version="1.7.0">
+  <GameIcon />
+  <GameName>Resident Evil 2 (2019)</GameName>
+  <CategoryName>New Game + (PC)</CategoryName>
+  <LayoutPath>C:\Users\Andrew Craig\Documents\LiveSplit_1.8.19\Layouts\re2r_lb.lsl</LayoutPath>
+  <Metadata>
+    <Run id="" />
+    <Platform usesEmulator="False">PC</Platform>
+    <Region>
+    </Region>
+    <Variables>
+      <Variable name="Character">Claire 2nd</Variable>
+      <Variable name="Framerate">60</Variable>
+      <Variable name="Difficulty">Assisted</Variable>
+    </Variables>
+  </Metadata>
+  <Offset>00:00:00</Offset>
+  <AttemptCount>10</AttemptCount>
+  <AttemptHistory>
+    <Attempt id="1" started="05/06/2023 19:43:17" isStartedSynced="True" ended="05/06/2023 19:48:20" isEndedSynced="True" />
+    <Attempt id="2" started="05/06/2023 19:54:36" isStartedSynced="True" ended="05/06/2023 19:56:14" isEndedSynced="True" />
+    <Attempt id="3" started="05/06/2023 19:56:40" isStartedSynced="True" ended="05/06/2023 19:56:52" isEndedSynced="True" />
+    <Attempt id="4" started="05/06/2023 20:28:11" isStartedSynced="True" ended="05/06/2023 20:28:57" isEndedSynced="True" />
+    <Attempt id="5" started="05/06/2023 21:16:45" isStartedSynced="True" ended="05/06/2023 21:17:26" isEndedSynced="True" />
+  </AttemptHistory>
+  <Segments>
+    <Segment>
+      <Name>Bolt Cutters</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Courtyard Key</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Enter RPD</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Fuse</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Valve</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Empty Detonator</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Detonator</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Spade Key</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Maiden Medallion</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Unicorn Medallion</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Lion Medallion</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Secret Room</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>G1 Start</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>G1 Finished</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Reached Parking</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Diamond Key</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Heart Key</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Electronic Box A</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Large Gear</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Jack Handle</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Small Gear</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Electronic Box B</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Sherry Start</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Picture Block</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Sherry End (Keycard)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Exit RPD</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Reach Sewers</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>T Bar Handle</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Queen</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>King</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Rook</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Bishop</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>G2 Start</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>G2 Finished</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Rescue Sherry</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>ID Wristband (Visitor)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>ID Wristband (General)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Signal Modulator</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Dispenser (Empty)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Dispenser (Solution)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Dispenser (Herbicide)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>ID Wristband (Senior)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>G3 Start</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>G3 Finished</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>ID Wristband (Admin)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>Plug Joint</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>G4 Finished</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
+      <Name>G5 Finished (End)</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+  </Segments>
+  <AutoSplitterSettings>
+    <Version>1.5</Version>
+    <ScriptPath>H:\Projects\re2-remake-autosplitter\re2.asl</ScriptPath>
+    <Start>True</Start>
+    <Reset>True</Reset>
+    <Split>True</Split>
+    <CustomSettings>
+      <Setting id="keygroup" type="bool">True</Setting>
+      <Setting id="storageKey" type="bool">False</Setting>
+      <Setting id="courtyardkey" type="bool">True</Setting>
+      <Setting id="spade" type="bool">True</Setting>
+      <Setting id="diamond" type="bool">True</Setting>
+      <Setting id="club" type="bool">False</Setting>
+      <Setting id="heart" type="bool">True</Setting>
+      <Setting id="weaponcard" type="bool">False</Setting>
+      <Setting id="orphanageKey" type="bool">False</Setting>
+      <Setting id="parkingcard" type="bool">True</Setting>
+      <Setting id="sewerKey" type="bool">False</Setting>
+      <Setting id="medalliongroup" type="bool">True</Setting>
+      <Setting id="unicorn" type="bool">True</Setting>
+      <Setting id="maiden" type="bool">True</Setting>
+      <Setting id="lion" type="bool">True</Setting>
+      <Setting id="fusegroup" type="bool">True</Setting>
+      <Setting id="fuse1" type="bool">False</Setting>
+      <Setting id="fuse2" type="bool">True</Setting>
+      <Setting id="geargroup" type="bool">True</Setting>
+      <Setting id="largegear" type="bool">True</Setting>
+      <Setting id="smallgear" type="bool">True</Setting>
+      <Setting id="electrogroup" type="bool">True</Setting>
+      <Setting id="partA" type="bool">True</Setting>
+      <Setting id="partB" type="bool">True</Setting>
+      <Setting id="pluggroup" type="bool">True</Setting>
+      <Setting id="rook" type="bool">True</Setting>
+      <Setting id="queen" type="bool">True</Setting>
+      <Setting id="king" type="bool">True</Setting>
+      <Setting id="knight" type="bool">False</Setting>
+      <Setting id="bishop" type="bool">True</Setting>
+      <Setting id="dispensergroups" type="bool">True</Setting>
+      <Setting id="dispenseEmpty" type="bool">True</Setting>
+      <Setting id="dispenseSolution" type="bool">True</Setting>
+      <Setting id="herbicide" type="bool">True</Setting>
+      <Setting id="wristgroup" type="bool">True</Setting>
+      <Setting id="generalChip" type="bool">True</Setting>
+      <Setting id="staffChip" type="bool">True</Setting>
+      <Setting id="seniorChip" type="bool">True</Setting>
+      <Setting id="chipAdmin" type="bool">True</Setting>
+      <Setting id="eventgroup" type="bool">True</Setting>
+      <Setting id="reachedRPDA" type="bool">True</Setting>
+      <Setting id="reachedSecretRoom" type="bool">True</Setting>
+      <Setting id="reachedGarage" type="bool">True</Setting>
+      <Setting id="exitedGarage" type="bool">True</Setting>
+      <Setting id="reachedSewers" type="bool">True</Setting>
+      <Setting id="adaStart" type="bool">False</Setting>
+      <Setting id="adaEnd" type="bool">False</Setting>
+      <Setting id="sherryStart" type="bool">False</Setting>
+      <Setting id="rescue" type="bool">True</Setting>
+      <Setting id="g1Start" type="bool">True</Setting>
+      <Setting id="g2Start" type="bool">True</Setting>
+      <Setting id="g3Start" type="bool">True</Setting>
+      <Setting id="g1" type="bool">True</Setting>
+      <Setting id="g2" type="bool">True</Setting>
+      <Setting id="g3" type="bool">True</Setting>
+      <Setting id="end" type="bool">True</Setting>
+      <Setting id="trueEnd" type="bool">True</Setting>
+      <Setting id="miscgroup" type="bool">True</Setting>
+      <Setting id="boltCutters" type="bool">True</Setting>
+      <Setting id="emptyDetonator" type="bool">True</Setting>
+      <Setting id="detonator" type="bool">True</Setting>
+      <Setting id="mechanicHandle" type="bool">True</Setting>
+      <Setting id="squareCrank" type="bool">False</Setting>
+      <Setting id="block" type="bool">True</Setting>
+      <Setting id="scissors" type="bool">False</Setting>
+      <Setting id="valve" type="bool">True</Setting>
+      <Setting id="tbar" type="bool">True</Setting>
+      <Setting id="modulator" type="bool">True</Setting>
+      <Setting id="jointPlug" type="bool">True</Setting>
+      <Setting id="deprecate" type="bool">False</Setting>
+      <Setting id="redbook" type="bool">False</Setting>
+      <Setting id="arm" type="bool">False</Setting>
+      <Setting id="scepter" type="bool">False</Setting>
+      <Setting id="jewel" type="bool">False</Setting>
+      <Setting id="jewelbox" type="bool">False</Setting>
+      <Setting id="starsbadge" type="bool">False</Setting>
+      <Setting id="gL" type="bool">False</Setting>
+      <Setting id="shotgun" type="bool">False</Setting>
+    </CustomSettings>
+  </AutoSplitterSettings>
+</Run>

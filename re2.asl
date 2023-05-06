@@ -98,6 +98,7 @@ startup
 	settings.Add("reachedSewers", false, "Reached the Sewers", "eventgroup");
 	settings.Add("adaStart", false, "Ada Start", "eventgroup");
 	settings.Add("adaEnd", false, "Ada End", "eventgroup");
+	settings.Add("sherryStart", false, "Sherry Start", "eventgroup");
 	settings.Add("rescue", false, "Rescued Sherry/Ada", "eventgroup");
 	settings.Add("g1Start", true, "G1 Battle Start", "eventgroup");
 	settings.Add("g2Start", true, "G2 Battle Start", "eventgroup");
@@ -283,6 +284,7 @@ update
 		vars.end = 0;
 		vars.adaStart = 0;
 		vars.adaEnd = 0;
+		vars.sherryStart = 0;
 		vars.rescue = 0;
 		vars.reachedG3 = 0;
 		vars.g3Start = 0;
@@ -977,6 +979,13 @@ split
 		vars.adaStart = 1;
 		print("adaStart");
 		return settings["adaStart"];
+	}
+
+	if (current.map == 363 && current.survivorType == 3 && vars.sherryStart == 0)
+	{
+		vars.sherryStart = 1;
+		print("sherryStart");
+		return settings["sherryStart"];
 	}
 
 	// Cutscene Skip
