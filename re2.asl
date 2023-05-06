@@ -1,84 +1,41 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Special thanks to Squirrelies for collaborating in finding memory values.
-//Last updated 06/14/2022
-//New Pointers by Mysterion_06_ & Squirrelies
+//Last updated 05/05/2023
+//New Pointers by VideoGameRoulette & DeathHound
 
-state("re2", "6/14 2022 Update")
+state("re2", "World Public RT 2023")
 {
-    int gamePauseState : "re2.exe", 0x0913EEE8, 0x18, 0x168, 0x128, 0x130;
-	int map : "re2.exe", 0x06DB82D8,  0xEC;
-	int weaponSlot1 : "re2.exe", 0x09160F30, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
-	int bossHP : "re2.exe", 0x0913DC70, 0x80, 0x88, 0x18, 0x1A0, 0x58;
-	long active : 0x091689E0, 0x60, 0x18;
-	long cutscene : 0x091689E0, 0x60, 0x20;
-	long paused : 0x091689E0, 0x60, 0x30;
+    int gameStartType : "re2.exe", 0x091AE100, 0x54;
+	int survivorType : "re2.exe", 0x091AD1F0, 0x50, 0x10, 0x20, 0x54;
+	int playerCurrentHP : "re2.exe", 0x091AD1F0, 0x50, 0x10, 0x20, 0x230, 0x58;
+	int playerMaxHP : "re2.exe", 0x091AD1F0, 0x50, 0x10, 0x20, 0x230, 0x54;
+	int map : "re2.exe", 0x091A7F84;
+	int loc : "re2.exe", 0x091A7F80;
+	int bossCHP : "re2.exe", 0x091A6A08, 0x58, 0x10, 0x20, 0x218, 0xB8, 0x58;
+	int bossHP : "re2.exe", 0x091A6A08, 0x58, 0x10, 0x20, 0x218, 0xB8, 0x54;
+	byte isCutscene : "re2.exe", 0x091AEC78, 0x51;
+	byte isPaused : "re2.exe", 0x091AEC78, 0x53;
+	long active : "re2.exe", 0x091AEC78, 0x60, 0x18;
+	long cutscene : "re2.exe", 0x091AEC78, 0x60, 0x20;
+	long paused : "re2.exe", 0x091AEC78, 0x60, 0x30;
 }
 
-state("re2", "Dec 2021 Update")
+state("re2", "World DX11 2023")
 {
-	int gamePauseState : "re2.exe", 0x070A79C0,  0x478, 0x108, 0x128, 0xA10;
-	int map : "re2.exe", 0x048E6DC8,  0xEC;
-	int weaponSlot1 : "re2.exe", 0x70A0958, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
-	int bossHP : "re2.exe", 0x07095248, 0x80, 0x88, 0x18, 0x1A0, 0x58;
-	long active :  0x7097048, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
-	long cutscene :  0x7097048, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
-	long paused :  0x7097048, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
-}
-
-state("re2", "12/18 Update")
-{
-	int gamePauseState : "re2.exe", 0x070A8860,  0x478, 0x108, 0x128, 0xA10;
-	int map : "re2.exe", 0x048E7DC8,  0xEC;
-	int weaponSlot1 : "re2.exe", 0x070A17E0, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
-	int bossHP : "re2.exe", 0x070960E0, 0x80, 0x88, 0x18, 0x1A0, 0x58;
-	long active :  0x07097EF8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
-	long cutscene :  0x07097EF8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
-	long paused :  0x07097EF8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
-}
-
-state("re2", "4/23 Update")
-{
-	int gamePauseState : "re2.exe", 0x07097258,  0x408, 0xD8, 0x18, 0x20, 0x130;
-	int map : "re2.exe", 0x048FC170,  0x1DC;
-	int weaponSlot1 : "re2.exe", 0x0709A630, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
-	int bossHP : "re2.exe", 0x070A35B8, 0x80, 0x88, 0x18, 0x1A0, 0x58;
-	long active :  0x070936F0, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
-	long cutscene :  0x070936F0, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
-	long paused :  0x070936F0, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
-}
-
-state("re2", "2/20 Update")
-{
-	int gamePauseState : "re2.exe", 0x0707D370,  0x408, 0xD8, 0x18, 0x20, 0x130;
-	int map : "re2.exe", 0x04959168,  0x1DC;
-	int weaponSlot1 : "re2.exe", 0x070B0840, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
-	int bossHP : "re2.exe", 0x070838A8, 0x80, 0x88, 0x18, 0x1A0, 0x58;
-	long active :  0x070B0910, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
-	long cutscene :  0x070B0910, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
-	long paused :  0x070B0910, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
-}
-
-state("re2", "2/15 Update")
-{
-	int gamePauseState : "re2.exe", 0x070B0E90,  0x408, 0xD8, 0x18, 0x20, 0x130;
-	int map : "re2.exe", 0x048D4370,  0x1EC;
-	int weaponSlot1 : "re2.exe", 0x070AFE10, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
-	int bossHP : "re2.exe", 0x07081EA8, 0x80, 0x88, 0x18, 0x1A0, 0x58;
-	long active :  0x070AFEE8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
-	long cutscene :  0x070AFEE8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
-	long paused :  0x070AFEE8, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
-}
-
-state("re2", "1.0")
-{
-	int gamePauseState : "re2.exe", 0x0707A510,  0x408, 0xD8, 0x18, 0x20, 0x130;
-	int map : "re2.exe", 0x0488A730,  0x1EC;
-	int weaponSlot1 : "re2.exe", 0x70ACA88, 0x50, 0x98, 0x10, 0x20, 0x18, 0x10, 0x14;
-	int bossHP : "re2.exe", 0x0707B758, 0x80, 0x88, 0x18, 0x1A0, 0x58;
-	long active :  0x070ACAE0, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x18;
-	long cutscene :  0x070ACAE0, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x20;
-	long paused :  0x070ACAE0, 0x2E0, 0x218, 0x610, 0x710, 0x60, 0x30;
+    int gameStartType : "re2.exe", 0x070B9320, 0x54;
+	int survivorType : "re2.exe", 0x070AA850, 0x50, 0x10, 0x20, 0x54;
+	int playerCurrentHP : "re2.exe", 0x070AA850, 0x50, 0x10, 0x20, 0x230, 0x58;
+	int playerMaxHP : "re2.exe", 0x070AA850, 0x50, 0x10, 0x20, 0x230, 0x54;
+	int map : "re2.exe", 0x070A7D84;
+	int loc : "re2.exe", 0x070A7D80;
+	int bossCHP : "re2.exe", 0x070A69E0, 0x58, 0x10, 0x20, 0x218, 0xB8, 0x58;
+	int bossHP : "re2.exe", 0x070A69E0, 0x58, 0x10, 0x20, 0x218, 0xB8, 0x54;
+	byte isCutscene : "re2.exe", 0x070AEBB8, 0x51;
+	byte isPaused : "re2.exe", 0x070AEBB8, 0x53;
+	int cutscene : "re2.exe", 0x070AEBB8, 0x51;
+	long active : "re2.exe", 0x070AEBB8, 0x60, 0x18;
+	long cutscene : "re2.exe", 0x070AEBB8, 0x60, 0x20;
+	long paused : "re2.exe", 0x070AEBB8, 0x60, 0x30;
 }
 
 startup
@@ -125,13 +82,11 @@ startup
 	settings.Add("dispenseSolution", false, "Dispersal Cartridge (Solution)", "dispensergroups");
 	settings.Add("herbicide", false, "Dispersal Cartridge (Herbicide)", "dispensergroups");
 	
-	
 	settings.Add("wristgroup", true, "Wristbands");
 	settings.Add("generalChip", false, "Guest", "wristgroup");
 	settings.Add("staffChip", false, "General Staff", "wristgroup");
 	settings.Add("seniorChip", false, "Senior Staff", "wristgroup");
 	settings.Add("chipAdmin", false, "Admin (Claire Only)", "wristgroup");
-	
 	
 	settings.Add("eventgroup", true, "Events");
 	settings.Add("reachedRPDA", false, "Reached the RPD", "eventgroup");
@@ -142,10 +97,14 @@ startup
 	settings.Add("adaStart", false, "Ada Start", "eventgroup");
 	settings.Add("adaEnd", false, "Ada End", "eventgroup");
 	settings.Add("rescue", false, "Rescued Sherry/Ada", "eventgroup");
+	settings.Add("g1Start", true, "G1 Battle Start", "eventgroup");
+	settings.Add("g2Start", true, "G2 Battle Start", "eventgroup");
+	settings.Add("g3Start", true, "G3 Battle Start", "eventgroup");
+	settings.Add("g1", true, "G1 Battle Complete", "eventgroup");
+	settings.Add("g2", true, "G2 Battle Complete", "eventgroup");
 	settings.Add("g3", false, "G3 Battle Complete", "eventgroup");
 	settings.Add("end", false, "End (Scenario A/First final boss of B)", "eventgroup");
 	settings.Add("trueEnd", false, "True End", "eventgroup");
-	
 	
 	settings.Add("miscgroup", true, "Misc.");
 	settings.Add("boltCutters", false, "Bolt Cutters", "miscgroup");
@@ -176,38 +135,17 @@ init
 	vars.inventoryPtr = IntPtr.Zero;
     
     vars.fas = 0;
-	
+	print("=== Module Memory Size === " + modules.First().ModuleMemorySize.ToString());
 	switch (modules.First().ModuleMemorySize)
 	{
 		default:
-			version = "2/23 Update";
-			vars.inventoryPtr = 0x0709A630;
-			break;
-        case (162791424):
-            version = "6/14 2022 Update";
-            vars.inventoryPtr = 0x09160F30;
+            version = "World DX11 2023";
+            vars.inventoryPtr = 0x070B23A8;
             break;
-        case (124981248):
-			version = "Dec 2021 Update";
-			vars.inventoryPtr = 0x70A0958;
+		case (163291136):
+			version = "World Public RT 2023";
+			vars.inventoryPtr = 0x091A6CD0;
 			break;
-		case (379510784):
-			version = "2/20 Update";
-			vars.inventoryPtr = 0x070B0840;
-			break;
-		case (374067200):
-			version = "2/15 Update";
-			vars.inventoryPtr = 0x070AFE10;
-			break;
-		case (124985344):
-			version = "12/18 Update";
-			vars.inventoryPtr = 0x070A17E0;
-			break;
-		/*default:
-			version = "1.0";
-			vars.inventoryPtr = 0x070ACA88;
-			break;
-		*/
 	}
 
     // Track inventory IDs
@@ -216,7 +154,7 @@ init
     {
         int itemID = 0;
         IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x50, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
+        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
         memory.ReadValue<int>(ptr, out itemID);
         current.inventory[i] = itemID;
     }
@@ -227,7 +165,7 @@ init
     {
         int weaponID = 0;
         IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x50, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x14).DerefOffsets(memory, out ptr);
+        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x14).DerefOffsets(memory, out ptr);
         memory.ReadValue<int>(ptr, out weaponID);
         current.weapons[i] = weaponID;
     }
@@ -235,24 +173,34 @@ init
 
 
 start
-{	
-	if (current.map == 347 && current.gamePauseState == 1 || current.map == 219 && current.gamePauseState == 1)
+{
+	if (current.map == 0 && current.loc == 0 && current.playerCurrentHP == 1200 && old.playerMaxHP != 1200 && current.playerMaxHP == 1200 && old.gameStartType == 1 && current.gameStartType == 1 || 
+	current.gameStartType == 2)
 	{
-		return current.weaponSlot1 == 1 || current.weaponSlot1 == 9;
+		print("Starting Timer");
+		return true;
+	}
+	
+}
+
+reset
+{
+	if (current.loc != 0 && current.map != 0 && current.playerCurrentHP == 0 && current.playerMaxHP == 0 && current.gameStartType == 0)
+	{
+		print("Resetting Timer");
+		return true;
 	}
 }
 
 update
 {
-    //print("Test");
-	//print(modules.First().ModuleMemorySize.ToString());
 	// Track inventory IDs
     current.inventory = new int[20];
     for (int i = 0; i < current.inventory.Length; ++i)
     {
         int itemID = 0;
         IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x50, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
+        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
         memory.ReadValue<int>(ptr, out itemID);
         current.inventory[i] = itemID;
     }
@@ -263,7 +211,7 @@ update
     {
         int weaponID = 0;
         IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x50, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x14).DerefOffsets(memory, out ptr);
+        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
         memory.ReadValue<int>(ptr, out weaponID);
         current.weapons[i] = weaponID;
     }
@@ -324,11 +272,20 @@ update
 		vars.reachedRPDA = 0;
 		vars.reachedGarage = 0;
 		vars.reachedSecretRoom = 0;
+		vars.reachedG1 = 0;
+		vars.g1Start = 0;
+		vars.g2Start = 0;
+		vars.g1CutsceneSkipped = 0;
+		vars.g1 = 0;
+		vars.g2 = 0;
 		vars.exitedGarage = 0;
 		vars.end = 0;
 		vars.adaStart = 0;
 		vars.adaEnd = 0;
 		vars.rescue = 0;
+		vars.reachedG3 = 0;
+		vars.g3Start = 0;
+		vars.g3CutsceneSkipped = 0;
 		vars.g3 = 0;
 		vars.trueEnd = 0;
 		vars.onTrain = 0;
@@ -354,6 +311,7 @@ split
 					if (vars.detonator == 0)
 					{
 						vars.detonator = 1;
+						print("detonator");
 						return settings["detonator"];
 					}
 					break;
@@ -363,6 +321,7 @@ split
 					if (vars.emptyDetonator == 0)
 					{
 						vars.emptyDetonator = 1;
+						print("emptyDetonator");
 						return settings["emptyDetonator"];
 					}
 					break;
@@ -372,6 +331,7 @@ split
 					if (vars.storageKey == 0)
 					{
 						vars.storageKey = 1;
+						print("storageKey");
 						return settings["storageKey"];
 					}
 					break;
@@ -381,6 +341,7 @@ split
 					if (vars.mechanicHandle == 0)
 					{
 						vars.mechanicHandle = 1;
+						print("mechanicHandle");
 						return settings["mechanicHandle"];
 					}
 					break;
@@ -390,6 +351,7 @@ split
 					if (vars.squareCrank == 0)
 					{
 						vars.squareCrank = 1;
+						print("squareCrank");
 						return settings["squareCrank"];
 					}
 					break;
@@ -399,6 +361,7 @@ split
 					if (vars.unicorn == 0)
 					{
 						vars.unicorn = 1;
+						print("unicorn");
 						return settings["unicorn"];
 					}
 					break;
@@ -408,6 +371,7 @@ split
 					if (vars.lion == 0)
 					{
 						vars.lion = 1;
+						print("lion");
 						return settings["lion"];
 					}
 					break;
@@ -417,6 +381,7 @@ split
 					if (vars.maiden == 0)
 					{
 						vars.maiden = 1;
+						print("maiden");
 						return settings["maiden"];
 					}
 					break;
@@ -426,6 +391,7 @@ split
 					if (vars.spade == 0)
 					{
 						vars.spade = 1;
+						print("spade");
 						return settings["spade"];
 					}
 					break;
@@ -435,6 +401,7 @@ split
 					if (vars.parkingcard == 0)
 					{
 						vars.parkingcard = 1;
+						print("parkingcard");
 						return settings["parkingcard"];
 					}
 					break;
@@ -444,6 +411,7 @@ split
 					if (vars.weaponcard == 0)
 					{
 						vars.weaponcard = 1;
+						print("weaponcard");
 						return settings["weaponcard"];
 					}
 					break;
@@ -453,6 +421,7 @@ split
 					if (vars.valve == 0)
 					{
 						vars.valve = 1;
+						print("valve");
 						return settings["valve"];
 					}
 					break;
@@ -462,6 +431,7 @@ split
 					if (vars.starsbadge == 0)
 					{
 						vars.starsbadge = 1;
+						print("starsbadge");
 						return settings["starsbadge"];
 					}
 					break;
@@ -471,6 +441,7 @@ split
 					if (vars.scepter == 0)
 					{
 						vars.scepter = 1;
+						print("scepter");
 						return settings["scepter"];
 					}
 					break;
@@ -480,6 +451,7 @@ split
 					if (vars.jewel == 0)
 					{
 						vars.jewel = 1;
+						print("jewel");
 						return settings["jewel"];
 					}
 					break;
@@ -489,6 +461,7 @@ split
 					if (vars.jewelbox == 0)
 					{
 						vars.jewelbox = 1;
+						print("jewelbox");
 						return settings["jewelbox"];
 					}
 					break;
@@ -498,6 +471,7 @@ split
 					if (vars.rook == 0)
 					{
 						vars.rook = 1;
+						print("rook");
 						return settings["rook"];
 					}
 					break;
@@ -507,6 +481,7 @@ split
 					if (vars.king == 0)
 					{
 						vars.king = 1;
+						print("king");
 						return settings["king"];
 					}
 					break;
@@ -516,6 +491,7 @@ split
 					if (vars.knight == 0)
 					{
 						vars.knight = 1;
+						print("knight");
 						return settings["knight"];
 					}
 					break;
@@ -525,6 +501,7 @@ split
 					if (vars.queen == 0)
 					{
 						vars.queen = 1;
+						print("queen");
 						return settings["queen"];
 					}
 					break;
@@ -534,6 +511,7 @@ split
 					if (vars.bishop == 0)
 					{
 						vars.bishop = 1;
+						print("bishop");
 						return settings["bishop"];
 					}
 					break;
@@ -543,6 +521,7 @@ split
 					if (vars.block == 0)
 					{
 						vars.block = 1;
+						print("block");
 						return settings["block"];
 					}
 					break;
@@ -552,6 +531,7 @@ split
 					if (vars.redbook == 0)
 					{
 						vars.redbook = 1;
+						print("redbook");
 						return settings["redbook"];
 					}
 					break;
@@ -561,6 +541,7 @@ split
 					if (vars.arm == 0)
 					{
 						vars.arm = 1;
+						print("arm");
 						return settings["arm"];
 					}
 					break;
@@ -570,6 +551,7 @@ split
 					if (vars.diamond == 0)
 					{
 						vars.diamond = 1;
+						print("diamond");
 						return settings["diamond"];
 					}
 					break;
@@ -579,6 +561,7 @@ split
 					if (vars.carkey == 0)
 					{
 						vars.carkey = 1;
+						print("carkey");
 						return settings["carkey"];
 					}
 					break;
@@ -588,6 +571,7 @@ split
 					if (vars.partA == 0)
 					{
 						vars.partA = 1;
+						print("partA");
 						return settings["partA"];
 					}
 					break;
@@ -597,6 +581,7 @@ split
 					if (vars.partB == 0)
 					{
 						vars.partB = 1;
+						print("partB");
 						return settings["partB"];
 					}
 					break;
@@ -606,6 +591,7 @@ split
 					if (vars.smallgear == 0)
 					{
 						vars.smallgear = 1;
+						print("smallgear");
 						return settings["smallgear"];
 					}
 					break;
@@ -615,6 +601,7 @@ split
 					if (vars.largegear == 0)
 					{
 						vars.largegear = 1;
+						print("largegear");
 						return settings["largegear"];
 					}
 					break;
@@ -624,6 +611,7 @@ split
 					if (vars.courtyardkey == 0)
 					{
 						vars.courtyardkey = 1;
+						print("courtyardkey");
 						return settings["courtyardkey"];
 					}
 					break;
@@ -633,6 +621,7 @@ split
 					if (vars.orphanageKey == 0)
 					{
 						vars.orphanageKey = 1;
+						print("orphanageKey");
 						return settings["orphanageKey"];
 					}
 					break;
@@ -642,6 +631,7 @@ split
 					if (vars.club == 0)
 					{
 						vars.club = 1;
+						print("club");
 						return settings["club"];
 					}
 					break;
@@ -651,6 +641,7 @@ split
 					if (vars.heart == 0)
 					{
 						vars.heart = 1;
+						print("heart");
 						return settings["heart"];
 					}
 					break;
@@ -660,6 +651,7 @@ split
 					if (vars.tbar == 0)
 					{
 						vars.tbar = 1;
+						print("tbar");
 						return settings["tbar"];
 					}
 					break;
@@ -669,6 +661,7 @@ split
 					if (vars.dispenseEmpty == 0)
 					{
 						vars.dispenseEmpty = 1;
+						print("dispenseEmpty");
 						return settings["dispenseEmpty"];
 					}
 					break;
@@ -678,6 +671,7 @@ split
 					if (vars.dispenseSolution == 0)
 					{
 						vars.dispenseSolution = 1;
+						print("dispenseSolution");
 						return settings["dispenseSolution"]; 
 					}
 					break;
@@ -687,6 +681,7 @@ split
 					if (vars.herbicide == 0)
 					{
 						vars.herbicide = 1;
+						print("herbicide");
 						return settings["herbicide"];
 					}
 					break;
@@ -696,6 +691,7 @@ split
 					if (vars.jointPlug == 0)
 					{
 						vars.jointPlug = 1;
+						print("jointPlug");
 						return settings["jointPlug"];
 					}
 					break;
@@ -705,6 +701,7 @@ split
 					if (vars.chipAdmin == 0)
 					{
 						vars.chipAdmin = 1;
+						print("chipAdmin");
 						return settings["chipAdmin"];
 					}
 					break;
@@ -714,6 +711,7 @@ split
 					if (vars.modulator == 0)
 					{
 						vars.modulator = 1;
+						print("modulator");
 						return settings["modulator"];
 					}
 					break;
@@ -723,15 +721,17 @@ split
 					if (vars.sewerKey == 0)
 					{
 						vars.sewerKey = 1;
+						print("sewerKey");
 						return settings["sewerKey"];
 					}
 					break;
 				}
 				case 0x000000C3:
 				{
-					if (vars.generalChip == 0)
+					if (vars.generalChip == 0 && current.survivorType == 0)
 					{
 						vars.generalChip = 1;
+						print("generalChip");
 						return settings["generalChip"];
 					}
 					break;
@@ -741,6 +741,7 @@ split
 					if (vars.generalChip == 0)
 					{
 						vars.generalChip = 1;
+						print("generalChip");
 						return settings["generalChip"];
 					}
 					break;
@@ -750,6 +751,7 @@ split
 					if (vars.staffChip == 0)
 					{
 						vars.staffChip = 1;
+						print("staffChip");
 						return settings["staffChip"];
 					}
 					break;
@@ -759,6 +761,7 @@ split
 					if (vars.staffChip == 0)
 					{
 						vars.staffChip = 1;
+						print("staffChip");
 						return settings["staffChip"];
 					} 
 					break;
@@ -768,6 +771,7 @@ split
 					if (vars.seniorChip == 0)
 					{
 						vars.seniorChip = 1;
+						print("seniorChip");
 						return settings["seniorChip"];
 					}
 					break;
@@ -777,6 +781,7 @@ split
 					if (vars.seniorChip == 0)
 					{
 						vars.seniorChip = 1;
+						print("seniorChip");
 						return settings["seniorChip"];
 					}
 					break;
@@ -786,6 +791,7 @@ split
 					if (vars.fuse1 == 0)
 					{
 						vars.fuse1 = 1;
+						print("fuse1");
 						return settings["fuse1"];
 					}
 					break;
@@ -795,6 +801,7 @@ split
 					if (vars.fuse2 == 0)
 					{
 						vars.fuse2 = 1;
+						print("fuse2");
 						return settings["fuse2"];
 					}
 					break;
@@ -804,6 +811,7 @@ split
 					if (vars.scissors == 0)
 					{
 						vars.scissors = 1;
+						print("scissors");
 						return settings["scissors"];
 					}
 					break;
@@ -813,6 +821,7 @@ split
 					if (vars.boltCutters == 0)
 					{
 						vars.boltCutters = 1;
+						print("boltCutters");
 						return settings["boltCutters"];
 					}
 					break;
@@ -840,6 +849,7 @@ split
 					if (vars.shotgun == 0)
 					{
 						vars.shotgun = 1;
+						print("shotgun");
 						return settings["shotgun"];
 					}
 					break;
@@ -849,6 +859,7 @@ split
 					if (vars.gL == 0)
 					{
 						vars.gL = 1;
+						print("gL");
 						return settings["gL"];
 					}
 					break;
@@ -860,80 +871,158 @@ split
             }
         }
     }
+
+	if (current.map == 419 && !(current.bossCHP >= 1) && vars.g3Start == 1 && vars.g3 == 0)
+	{
+		vars.g3 = 1;
+		print("g3");
+		return settings["g3"];
+	}
+
+	if (current.map == 335 && !(current.bossHP == 24000) && vars.g2Start == 0)
+	{
+		vars.g2Start = 1;
+		print("g2Start");
+		return settings["g2Start"];
+	}
+
+	if (current.map == 335 && !(current.bossHP >= 1) && vars.g2Start == 1 && vars.g2 == 0)
+	{
+		vars.g2 = 1;
+		print("g2");
+		return settings["g2"];
+	}
 	
+	//End split
+	if (current.map == 421 && old.bossHP >= 50000 && !(current.bossHP >= 50000) && vars.end == 0 || old.map == 373 && current.map == 422 && vars.end == 0)
+	{
+		vars.end = 1;
+		print("end");
+		return settings["end"];
+	}
 	
+	if (old.map == 422 && current.map == 422 && vars.onTrain == 1 && vars.trueEnd == 0 && current.isCutscene == 1 || current.map == 421 && vars.onTrain == 1 && old.map == 423 && vars.trueEnd == 0 && current.isCutscene == 1)
+	{
+		vars.trueEnd = 1;
+		print("trueEnd");
+		return settings["trueEnd"];
+	}
+
 	// Map splits
 	if (current.map != old.map)
 	{
 		if (current.map == 317 && vars.reachedSewers == 0 || current.map == 377 && old.map == 407 && vars.reachedSewers == 0)
 		{
 			vars.reachedSewers = 1;
+			print("reachedSewers");
 			return settings["reachedSewers"];
 		}
-		
-		if (current.map == 310 && current.weaponSlot1 == 8 && vars.adaStart == 0)
-		{
-			vars.adaStart = 1;
-			return settings["adaStart"];
-		}
-		
-		if (current.map == 112 && vars.reachedRPDA == 0 && current.gamePauseState == 1 || current.map == 261 && vars.reachedRPDA == 0)
+
+		if (current.map == 112 && vars.reachedRPDA == 0 && current.gameStartType == 1 || current.map == 261 && vars.reachedRPDA == 0)
 		{
 			vars.reachedRPDA = 1;
+			print("reachedRPDA");
 			return settings["reachedRPDA"];
 		}
 		
 		if (current.map == 277 && vars.reachedGarage == 0)
 		{
 			vars.reachedGarage = 1;
+			print("reachedGarage");
 			return settings["reachedGarage"];
 		}
 		
 		if (current.map == 350 && vars.reachedSecretRoom == 0)
 		{
 			vars.reachedSecretRoom = 1;
+			print("reachedSecretRoom");
 			return settings["reachedSecretRoom"];
 		}
-		
+
 		if (old.map == 277 && current.map == 351 && vars.exitedGarage == 0)
 		{
 			vars.exitedGarage = 1;
+			print("exitedGarage");
 			return settings["exitedGarage"];
 		}
 		
 		if (current.map == 338 && vars.rescue == 0 || old.map == 0 && current.map == 335 && vars.rescue == 0)
 		{
 			vars.rescue = 1;
+			print("rescue");
 			return settings["rescue"];
 		}
 		
 		if (current.map == 423 && vars.onTrain == 0)
 		{
 			vars.onTrain = 1;
+			print("onTrain");
 		}
 		if (current.map == 0 && old.map == 330 && vars.adaEnd == 0)
 		{
 			vars.adaEnd = 1;
+			print("adaEnd");
 			return settings["adaEnd"];
 		}
 	}
-	else if (current.map == 419 && !(current.bossHP >= 1) && vars.g3 == 0)
+
+	// Character Swap splits
+	if (current.map == 310 && current.survivorType == 2 && vars.adaStart == 0)
 	{
-		vars.g3 = 1;
-		return settings["g3"];
+		vars.adaStart = 1;
+		print("adaStart");
+		return settings["adaStart"];
 	}
-	
-	//End split
-	if (current.map == 421 && old.bossHP >= 50000 && !(current.bossHP >= 50000) && vars.end == 0 || current.map == 422 && current.gamePauseState == 257 && vars.end == 0)
+
+	// Cutscene Skip
+	if (current.isPaused == 1)
 	{
-		vars.end = 1;
-		return settings["end"];
+		if (current.map == 353 && vars.reachedG1 == 1 && vars.g1CutsceneSkipped == 0)
+		{
+			vars.g1CutsceneSkipped = 1;
+			print("g1CutsceneSkipped");
+		}
+		if (current.map == 419 && vars.reachedG3 == 1 && vars.g3CutsceneSkipped == 0)
+		{
+			vars.g3CutsceneSkipped = 1;
+			print("g3CutsceneSkipped");
+		}
 	}
-	
-	if (current.map == 422 && vars.onTrain == 1 && current.gamePauseState == 257 && vars.trueEnd == 0 || current.map == 421 && vars.onTrain == 1 && old.map == 423 && vars.trueEnd == 0)
+
+	if (current.isCutscene == 0 && current.isPaused == 0)
 	{
-		vars.trueEnd = 1;
-		return settings["trueEnd"];
+		if (current.map == 353 && vars.g1CutsceneSkipped == 1 && vars.g1Start == 0)
+		{
+			vars.g1Start = 1;
+			print("g1Start");
+			return settings["g1Start"];
+		}
+		if (current.map == 353 && vars.g1CutsceneSkipped == 1 && vars.g3Start == 0)
+		{
+			vars.g3Start = 1;
+			print("g3Start");
+			return settings["g3Start"];
+		}
+		if (current.map == 353 && !(current.bossHP >= 1) && vars.g1Start == 1 && vars.g1 == 0)
+		{
+			vars.g1 = 1;
+			print("g1");
+			return settings["g1"];
+		}
+	}
+
+	if (current.isCutscene == 1)
+	{
+		if (current.map == 353 && vars.reachedG1 == 0)
+		{
+			vars.reachedG1 = 1;
+			print("reachedG1");
+		}
+		if (current.map == 419 && vars.reachedG3 == 0)
+		{
+			vars.reachedG3 = 1;
+			print("reachedG3");
+		}
 	}
 }
 
@@ -945,5 +1034,4 @@ gameTime
 isLoading
 {
 	return true;
-	//return current.gamePauseState != 1 && current.gamePauseState != 65537;
 }
