@@ -6,6 +6,7 @@
 state("re2", "World Public RT 2023")
 {
     int gameStartType : "re2.exe", 0x091AE100, 0x54;
+	int scenerioTypeValue : "re2.exe", 0x091AE100, 0x1A0, 0x1C;
 	int survivorType : "re2.exe", 0x091AD1F0, 0x50, 0x10, 0x20, 0x54;
 	int playerCurrentHP : "re2.exe", 0x091AD1F0, 0x50, 0x10, 0x20, 0x230, 0x58;
 	int playerMaxHP : "re2.exe", 0x091AD1F0, 0x50, 0x10, 0x20, 0x230, 0x54;
@@ -23,6 +24,7 @@ state("re2", "World Public RT 2023")
 state("re2", "World DX11 2023")
 {
     int gameStartType : "re2.exe", 0x070B9320, 0x54;
+	int scenerioTypeValue : "re2.exe", 0x070B9320, 0x198, 0x1C;
 	int survivorType : "re2.exe", 0x070AA850, 0x50, 0x10, 0x20, 0x54;
 	int playerCurrentHP : "re2.exe", 0x070AA850, 0x50, 0x10, 0x20, 0x230, 0x58;
 	int playerMaxHP : "re2.exe", 0x070AA850, 0x50, 0x10, 0x20, 0x230, 0x54;
@@ -174,8 +176,7 @@ init
 
 start
 {
-	if (current.map == 0 && current.loc == 0 && current.playerCurrentHP == 1200 && old.playerMaxHP != 1200 && current.playerMaxHP == 1200 && old.gameStartType == 1 && current.gameStartType == 1 || 
-	current.gameStartType == 2)
+	if (current.map == 0 && current.loc == 0 && current.playerCurrentHP == 1200 && old.playerMaxHP != 1200 && current.playerMaxHP == 1200 && old.gameStartType == 1 && current.gameStartType == 1)
 	{
 		print("Starting Timer");
 		return true;
@@ -918,8 +919,12 @@ split
 			return settings["reachedSewers"];
 		}
 
-		if (current.map == 112 && vars.reachedRPDA == 0 && current.gameStartType == 1 || current.map == 261 && vars.reachedRPDA == 0)
+		if (current.map == 112 && vars.reachedRPDA == 0 || current.map == 261 && vars.reachedRPDA == 0)
 		{
+			// Check is Scenerio B and Does Not Have Courtyard Key
+			if (current.scenerioTypeValue == 2 || current.scenerioTypeValue == 3)
+				if (vars.courtyardkey == 0) return false;
+
 			vars.reachedRPDA = 1;
 			print("reachedRPDA");
 			return settings["reachedRPDA"];
@@ -997,7 +1002,7 @@ split
 			print("g1Start");
 			return settings["g1Start"];
 		}
-		if (current.map == 353 && vars.g1CutsceneSkipped == 1 && vars.g3Start == 0)
+		if (current.map == 419 && vars.g3CutsceneSkipped == 1 && vars.g3Start == 0)
 		{
 			vars.g3Start = 1;
 			print("g3Start");
