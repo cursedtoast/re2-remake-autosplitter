@@ -91,7 +91,7 @@ startup
 	settings.Add("chipAdmin", false, "Admin (Claire Only)", "wristgroup");
 	
 	settings.Add("eventgroup", true, "Events");
-	settings.Add("reachedRPDA", false, "Reached the RPD", "eventgroup");
+	settings.Add("reachedRPDA", false, "Reached the RPD (A Scenario only)", "eventgroup");
 	settings.Add("reachedSecretRoom", false, "Reached Secret Room", "eventgroup");
 	settings.Add("reachedGarage", false, "Reached Parking Garage", "eventgroup");
 	settings.Add("exitedGarage", false, "Back on the Streets (leave parking garage)", "eventgroup");
@@ -136,8 +136,6 @@ startup
 init
 {
 	vars.inventoryPtr = IntPtr.Zero;
-    
-    vars.fas = 0;
 	print("=== Module Memory Size === " + modules.First().ModuleMemorySize.ToString());
 	switch (modules.First().ModuleMemorySize)
 	{
@@ -730,18 +728,10 @@ split
 					break;
 				}
 				case 0x000000C3:
-				{
-					if (vars.generalChip == 0 && current.survivorType == 0 || vars.generalChip == 0 && current.survivorType == 1)
-					{
-						vars.generalChip = 1;
-						print("generalChip");
-						return settings["generalChip"];
-					}
-					break;
-				}
 				case 0x000000C8:
 				{
-					if (vars.generalChip == 0)
+					// check if leon so it doesnt split on ada
+					if (vars.generalChip == 0 && (current.survivorType == 0 || current.survivorType == 1))
 					{
 						vars.generalChip = 1;
 						print("generalChip");
@@ -750,15 +740,6 @@ split
 					break;
 				}
 				case 0x000000C4:
-				{
-					if (vars.staffChip == 0)
-					{
-						vars.staffChip = 1;
-						print("staffChip");
-						return settings["staffChip"];
-					}
-					break;
-				}
 				case 0x000000C9:
 				{
 					if (vars.staffChip == 0)
@@ -766,19 +747,10 @@ split
 						vars.staffChip = 1;
 						print("staffChip");
 						return settings["staffChip"];
-					} 
-					break;
-				}
-				case 0x000000C5:
-				{
-					if (vars.seniorChip == 0)
-					{
-						vars.seniorChip = 1;
-						print("seniorChip");
-						return settings["seniorChip"];
 					}
 					break;
 				}
+				case 0x000000C5:
 				case 0x000000CA:
 				{
 					if (vars.seniorChip == 0)
