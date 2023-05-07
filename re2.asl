@@ -331,8 +331,7 @@ update
 
 split
 {
-	Func<string, object, bool> LogAndSplit = (splitId, v) => {
-  		v = 1;
+	Func<string, bool> LogAndSplit = (splitId) => {
   		print("Splitting: " + splitId);
   		return settings[splitId];
 	};
@@ -832,15 +831,12 @@ split
 					break;
 				}
 				case 0x000000F4:
-				{
 					if (vars.boltCutters == 0)
 					{
 						vars.boltCutters = 1;
-						print("boltCutters");
-						return settings["boltCutters"];
+						return LogAndSplit("boltCutters");
 					}
 					break;
-				}
                 default:
                 {
                     break; // No work to do.
