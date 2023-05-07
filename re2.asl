@@ -42,12 +42,17 @@ state("re2", "World DX11 2023")
 
 startup
 {
+	Action<string> DebugOutput = (text) => {
+		print("[Debug Livesplit]: " + text);
+	};
+	vars.Log = DebugOutput;
+
 	Action<string, bool, string, string> initSettingGroup = (key, enabled, title, description) => {
 		settings.Add(key, enabled, title);
 		settings.SetToolTip(key, description);
 	};
 
-	Action<string, bool, string, string, string> initSettingGroupOption = (key, enabled, title, description, group) => {
+	Action<string, bool, string, string, string> initSettingGroupOption = (key, enabled, title, group, description) => {
 		settings.Add(key, true, title, group);
 		settings.SetToolTip(key, description);
 	};
@@ -55,101 +60,100 @@ startup
 	initSettingGroup("segments", false, "Segment Practice Start", "Enables or disables segmented start trigger for segmented practice.");
 
 	initSettingGroup("keygroup", true, "Keys", "Key items to split when first picked up.");
-	initSettingGroupOption("storageKey", false, "Storage Key", "Storage Key. Location: ??", "keygroup");
-	settings.Add("courtyardkey", false, "Courtyard Key", "keygroup");
-	settings.Add("spade", false, "Spade Key", "keygroup");
-	settings.Add("diamond", false, "Diamond Key", "keygroup");
-	settings.Add("club", false, "Club Key", "keygroup");
-	settings.Add("heart", false, "Heart Key", "keygroup");
-	settings.Add("weaponcard", false, "Weapons Locker Key Card", "keygroup");
-	settings.Add("orphanageKey", false, "Orphanage Key", "keygroup");
-	settings.Add("parkingcard", false, "Parking Garage Key Card", "keygroup");
-	settings.Add("sewerKey", false, "Sewer Key", "keygroup");
+	initSettingGroupOption("storageKey", false, "Storage Key", "keygroup", "");
+	initSettingGroupOption("courtyardkey", false, "Courtyard Key", "keygroup", "");
+	initSettingGroupOption("spade", false, "Spade Key", "keygroup", "");
+	initSettingGroupOption("diamond", false, "Diamond Key", "keygroup", "");
+	initSettingGroupOption("club", false, "Club Key", "keygroup", "");
+	initSettingGroupOption("heart", false, "Heart Key", "keygroup", "");
+	initSettingGroupOption("weaponcard", false, "Weapons Locker Key Card", "keygroup", "");
+	initSettingGroupOption("orphanageKey", false, "Orphanage Key", "keygroup", "");
+	initSettingGroupOption("parkingcard", false, "Parking Garage Key Card", "keygroup", "");
+	initSettingGroupOption("sewerKey", false, "Sewer Key", "keygroup", "");
 	
-	settings.Add("medalliongroup", true, "Medallions");
-	settings.Add("unicorn", false, "Unicorn Medallion", "medalliongroup");
-	settings.Add("maiden", false, "Maiden Medallion", "medalliongroup");
-	settings.Add("lion", false, "Lion Medallion", "medalliongroup");
+	initSettingGroup("medalliongroup", true, "Medallions", "Medallion items to split when first picked up.");
+	initSettingGroupOption("unicorn", false, "Unicorn Medallion", "medalliongroup", "");
+	initSettingGroupOption("maiden", false, "Maiden Medallion", "medalliongroup", "");
+	initSettingGroupOption("lion", false, "Lion Medallion", "medalliongroup", "");
 	
+	initSettingGroup("fusegroup", true, "Fuses", "Fuse items to split when first picked up.");
+	initSettingGroupOption("fuse1", false, "Fuse (Main Hall)", "fusegroup", "");
+	initSettingGroupOption("fuse2", false, "Fuse (Break Room Hallway)", "fusegroup", "");
 	
-	settings.Add("fusegroup", true, "Fuses");
-	settings.Add("fuse1", false, "Fuse (Main Hall)", "fusegroup");
-	settings.Add("fuse2", false, "Fuse (Break Room Hallway)", "fusegroup");
+	initSettingGroup("geargroup", true, "Gears", "Gear items to split when first picked up.");
+	initSettingGroupOption("largegear", false, "Large Gear", "geargroup", "");
+	initSettingGroupOption("smallgear", false, "Small Gear", "geargroup", "");
 	
-	settings.Add("geargroup", true, "Gears");
-	settings.Add("largegear", false, "Large Gear", "geargroup");
-	settings.Add("smallgear", false, "Small Gear", "geargroup");
+	initSettingGroup("electrogroup", true, "Electronic Parts", "Electronic Parts to split when first picked up.");
+	initSettingGroupOption("partA", false, "Boxed Electronic Part A", "electrogroup", "");
+	initSettingGroupOption("partB", false, "Boxed Electronic Part B", "electrogroup", "");
 	
-	settings.Add("electrogroup", true, "Electronic Parts");
-	settings.Add("partA", false, "Boxed Electronic Part A", "electrogroup");
-	settings.Add("partB", false, "Boxed Electronic Part B", "electrogroup");
+	initSettingGroup("pluggroup", true, "Plugs", "Plug items to split when first picked up.");
+	initSettingGroupOption("rook", false, "Rook Plug", "pluggroup", "");
+	initSettingGroupOption("queen", false, "Queen Plug", "pluggroup", "");
+	initSettingGroupOption("king", false, "King Plug", "pluggroup", "");
+	initSettingGroupOption("knight", false, "Knight Plug", "pluggroup", "");
+	initSettingGroupOption("bishop", false, "Bishop Plug", "pluggroup", "");
 	
-	settings.Add("pluggroup", true, "Plugs");
-	settings.Add("rook", false, "Rook Plug", "pluggroup");
-	settings.Add("queen", false, "Queen Plug", "pluggroup");
-	settings.Add("king", false, "King Plug", "pluggroup");
-	settings.Add("knight", false, "Knight Plug", "pluggroup");
-	settings.Add("bishop", false, "Bishop Plug", "pluggroup");
+	initSettingGroup("dispensergroups", true, "Dispensers", "Dispenser items to split when first picked up.");
+	initSettingGroupOption("dispenseEmpty", false, "Dispersal Cartridge (Empty)", "dispensergroups", "");
+	initSettingGroupOption("dispenseSolution", false, "Dispersal Cartridge (Solution)", "dispensergroups", "");
+	initSettingGroupOption("herbicide", false, "Dispersal Cartridge (Herbicide)", "dispensergroups", "");
 	
-	settings.Add("dispensergroups", true, "Dispensers");
-	settings.Add("dispenseEmpty", false, "Dispersal Cartridge (Empty)", "dispensergroups");
-	settings.Add("dispenseSolution", false, "Dispersal Cartridge (Solution)", "dispensergroups");
-	settings.Add("herbicide", false, "Dispersal Cartridge (Herbicide)", "dispensergroups");
+	initSettingGroup("wristgroup", true, "Wristbands", "Wristband items to split when first picked up.");
+	initSettingGroupOption("generalChip", false, "Guest", "wristgroup", "");
+	initSettingGroupOption("staffChip", false, "General Staff", "wristgroup", "");
+	initSettingGroupOption("seniorChip", false, "Senior Staff", "wristgroup", "");
+	initSettingGroupOption("chipAdmin", false, "Admin (Claire Only)", "wristgroup", "");
 	
-	settings.Add("wristgroup", true, "Wristbands");
-	settings.Add("generalChip", false, "Guest", "wristgroup");
-	settings.Add("staffChip", false, "General Staff", "wristgroup");
-	settings.Add("seniorChip", false, "Senior Staff", "wristgroup");
-	settings.Add("chipAdmin", false, "Admin (Claire Only)", "wristgroup");
+	initSettingGroup("eventgroup", true, "Events", "Events to split when first picked up.");
+	initSettingGroupOption("reachedRPDA", false, "Reached the RPD (A Scenario only)", "eventgroup", "");
+	initSettingGroupOption("reachedSecretRoom", false, "Reached Secret Room", "eventgroup", "");
+	initSettingGroupOption("reachedGarage", false, "Reached Parking Garage", "eventgroup", "");
+	initSettingGroupOption("exitedGarage", false, "Back on the Streets (leave parking garage)", "eventgroup", "");
+	initSettingGroupOption("reachedSewers", false, "Reached the Sewers", "eventgroup", "");
+	initSettingGroupOption("adaStart", false, "Ada Start", "eventgroup", "");
+	initSettingGroupOption("adaEnd", false, "Ada End", "eventgroup", "");
+	initSettingGroupOption("sherryStart", false, "Sherry Start", "eventgroup", "");
+	initSettingGroupOption("rescue", false, "Rescued Sherry/Ada", "eventgroup", "");
+	initSettingGroupOption("g1Start", true, "G1 Battle Start", "eventgroup", "");
+	initSettingGroupOption("g2Start", true, "G2 Battle Start", "eventgroup", "");
+	initSettingGroupOption("g3Start", true, "G3 Battle Start", "eventgroup", "");
+	initSettingGroupOption("g4Start", true, "G4 Battle Start", "eventgroup", "");
+	initSettingGroupOption("g1", true, "G1 Battle Complete", "eventgroup", "");
+	initSettingGroupOption("g2", true, "G2 Battle Complete", "eventgroup", "");
+	initSettingGroupOption("g3", false, "G3 Battle Complete", "eventgroup", "");
+	initSettingGroupOption("end", false, "End (Scenario A/First final boss of B)", "eventgroup", "");
+	initSettingGroupOption("trueEnd", false, "True End", "eventgroup", "");
 	
-	settings.Add("eventgroup", true, "Events");
-	settings.Add("reachedRPDA", false, "Reached the RPD (A Scenario only)", "eventgroup");
-	settings.Add("reachedSecretRoom", false, "Reached Secret Room", "eventgroup");
-	settings.Add("reachedGarage", false, "Reached Parking Garage", "eventgroup");
-	settings.Add("exitedGarage", false, "Back on the Streets (leave parking garage)", "eventgroup");
-	settings.Add("reachedSewers", false, "Reached the Sewers", "eventgroup");
-	settings.Add("adaStart", false, "Ada Start", "eventgroup");
-	settings.Add("adaEnd", false, "Ada End", "eventgroup");
-	settings.Add("sherryStart", false, "Sherry Start", "eventgroup");
-	settings.Add("rescue", false, "Rescued Sherry/Ada", "eventgroup");
-	settings.Add("g1Start", true, "G1 Battle Start", "eventgroup");
-	settings.Add("g2Start", true, "G2 Battle Start", "eventgroup");
-	settings.Add("g3Start", true, "G3 Battle Start", "eventgroup");
-	settings.Add("g4Start", true, "G4 Battle Start", "eventgroup");
-	settings.Add("g1", true, "G1 Battle Complete", "eventgroup");
-	settings.Add("g2", true, "G2 Battle Complete", "eventgroup");
-	settings.Add("g3", false, "G3 Battle Complete", "eventgroup");
-	settings.Add("end", false, "End (Scenario A/First final boss of B)", "eventgroup");
-	settings.Add("trueEnd", false, "True End", "eventgroup");
+	initSettingGroup("miscgroup", true, "Misc.", "Misc items to split when first picked up.");
+	initSettingGroupOption("boltCutters", false, "Bolt Cutters", "miscgroup", "");
+	initSettingGroupOption("emptyDetonator", false, "Detonator (No Battery)", "miscgroup", "");
+	initSettingGroupOption("detonator", false, "Detonator", "miscgroup", "");
+	initSettingGroupOption("mechanicHandle", false, "Mechanic Handle", "miscgroup", "");
+	initSettingGroupOption("squareCrank", false, "Square Crank", "miscgroup", "");
+	initSettingGroupOption("block", false, "Picture Block", "miscgroup", "");
+	initSettingGroupOption("scissors", false, "Scissors", "miscgroup", "");
+	initSettingGroupOption("valve", false, "Valve Handle", "miscgroup", "");
+	initSettingGroupOption("tbar", false, "T-Bar Valve Handle", "miscgroup", "");
+	initSettingGroupOption("modulator", false, "Signal Modulator", "miscgroup", "");
+	initSettingGroupOption("jointPlug", false, "Joint Plug", "miscgroup", "");
 	
-	settings.Add("miscgroup", true, "Misc.");
-	settings.Add("boltCutters", false, "Bolt Cutters", "miscgroup");
-	settings.Add("emptyDetonator", false, "Detonator (No Battery)", "miscgroup");
-	settings.Add("detonator", false, "Detonator", "miscgroup");
-	settings.Add("mechanicHandle", false, "Mechanic Handle", "miscgroup");
-	settings.Add("squareCrank", false, "Square Crank", "miscgroup");
-	settings.Add("block", false, "Picture Block", "miscgroup");
-	settings.Add("scissors", false, "Scissors", "miscgroup");
-	settings.Add("valve", false, "Valve Handle", "miscgroup");
-	settings.Add("tbar", false, "T-Bar Valve Handle", "miscgroup");
-	settings.Add("modulator", false, "Signal Modulator", "miscgroup");
-	settings.Add("jointPlug", false, "Joint Plug", "miscgroup");
-	
-	settings.Add("deprecate", true, "Deprecated");
-	settings.Add("redbook", false, "Red Book", "deprecate");
-	settings.Add("arm", false, "Statue's Left Arm", "deprecate");
-	settings.Add("scepter", false, "Scepter", "deprecate");
-	settings.Add("jewel", false, "Red Jewel", "deprecate");
-	settings.Add("jewelbox", false, "Bejewled Box", "deprecate");
-	settings.Add("starsbadge", false, "S.T.A.R.S Badge", "deprecate");
-	settings.Add("gL", false, "Grenade Launcher", "deprecate");
-	settings.Add("shotgun", false, "Shotgun", "deprecate");
+	initSettingGroup("deprecate", true, "Deprecated", "Deprecated items to split when first picked up.");
+	initSettingGroupOption("redbook", false, "Red Book", "deprecate", "");
+	initSettingGroupOption("arm", false, "Statue's Left Arm", "deprecate", "");
+	initSettingGroupOption("scepter", false, "Scepter", "deprecate", "");
+	initSettingGroupOption("jewel", false, "Red Jewel", "deprecate", "");
+	initSettingGroupOption("jewelbox", false, "Bejewled Box", "deprecate", "");
+	initSettingGroupOption("starsbadge", false, "S.T.A.R.S Badge", "deprecate", "");
+	initSettingGroupOption("gL", false, "Grenade Launcher", "deprecate", "");
+	initSettingGroupOption("shotgun", false, "Shotgun", "deprecate", "");
 }
 
 init
 {
 	vars.inventoryPtr = IntPtr.Zero;
-	print("=== Module Memory Size === " + modules.First().ModuleMemorySize.ToString());
+	vars.Log("=== Module Memory Size === " + modules.First().ModuleMemorySize.ToString());
 	switch (modules.First().ModuleMemorySize)
 	{
 		default:
@@ -201,7 +205,7 @@ start
 	// Start Conditions
 	if (isNewGameStart || isSegmentedStart)
 	{
-		print(isNewGameStart ? "New Game Timer Started" : "Load Game Timer Started");
+		vars.Log(isNewGameStart ? "New Game Timer Started" : "Load Game Timer Started");
 		return true;
 	}
 }
@@ -219,7 +223,7 @@ reset
 	// Reset Conditions
 	if (exitedToTitle)
 	{
-		print("Exited To Title Resetting Timer");
+		vars.Log("Exited To Title Resetting Timer");
 		return true;
 	}
 }
@@ -332,7 +336,7 @@ update
 split
 {
 	Func<string, bool> LogAndSplit = (splitId) => {
-  		print("Splitting: " + splitId);
+  		vars.Log("Splitting: " + splitId);
   		return settings[splitId];
 	};
 	
@@ -351,8 +355,7 @@ split
 					if (vars.detonator == 0)
 					{
 						vars.detonator = 1;
-						print("detonator");
-						return settings["detonator"];
+						return LogAndSplit("detonator");
 					}
 					break;
 				}
@@ -361,8 +364,7 @@ split
 					if (vars.emptyDetonator == 0)
 					{
 						vars.emptyDetonator = 1;
-						print("emptyDetonator");
-						return settings["emptyDetonator"];
+						return LogAndSplit("emptyDetonator");
 					}
 					break;
 				}
@@ -371,8 +373,7 @@ split
 					if (vars.storageKey == 0)
 					{
 						vars.storageKey = 1;
-						print("storageKey");
-						return settings["storageKey"];
+						return LogAndSplit("storageKey");
 					}
 					break;
 				}
@@ -381,8 +382,7 @@ split
 					if (vars.mechanicHandle == 0)
 					{
 						vars.mechanicHandle = 1;
-						print("mechanicHandle");
-						return settings["mechanicHandle"];
+						return LogAndSplit("mechanicHandle");
 					}
 					break;
 				}
@@ -391,8 +391,7 @@ split
 					if (vars.squareCrank == 0)
 					{
 						vars.squareCrank = 1;
-						print("squareCrank");
-						return settings["squareCrank"];
+						return LogAndSplit("squareCrank");
 					}
 					break;
 				}
@@ -401,8 +400,7 @@ split
 					if (vars.unicorn == 0)
 					{
 						vars.unicorn = 1;
-						print("unicorn");
-						return settings["unicorn"];
+						return LogAndSplit("unicorn");
 					}
 					break;
 				}
@@ -411,8 +409,7 @@ split
 					if (vars.lion == 0)
 					{
 						vars.lion = 1;
-						print("lion");
-						return settings["lion"];
+						return LogAndSplit("lion");
 					}
 					break;
 				}
@@ -421,8 +418,7 @@ split
 					if (vars.maiden == 0)
 					{
 						vars.maiden = 1;
-						print("maiden");
-						return settings["maiden"];
+						return LogAndSplit("maiden");
 					}
 					break;
 				}
@@ -431,8 +427,7 @@ split
 					if (vars.spade == 0)
 					{
 						vars.spade = 1;
-						print("spade");
-						return settings["spade"];
+						return LogAndSplit("spade");
 					}
 					break;
 				}
@@ -441,8 +436,7 @@ split
 					if (vars.parkingcard == 0)
 					{
 						vars.parkingcard = 1;
-						print("parkingcard");
-						return settings["parkingcard"];
+						return LogAndSplit("parkingcard");
 					}
 					break;
 				}
@@ -451,8 +445,7 @@ split
 					if (vars.weaponcard == 0)
 					{
 						vars.weaponcard = 1;
-						print("weaponcard");
-						return settings["weaponcard"];
+						return LogAndSplit("weaponcard");
 					}
 					break;
 				}
@@ -461,8 +454,7 @@ split
 					if (vars.valve == 0)
 					{
 						vars.valve = 1;
-						print("valve");
-						return settings["valve"];
+						return LogAndSplit("valve");
 					}
 					break;
 				}
@@ -471,8 +463,7 @@ split
 					if (vars.starsbadge == 0)
 					{
 						vars.starsbadge = 1;
-						print("starsbadge");
-						return settings["starsbadge"];
+						return LogAndSplit("starsbadge");
 					}
 					break;
 				}
@@ -481,8 +472,7 @@ split
 					if (vars.scepter == 0)
 					{
 						vars.scepter = 1;
-						print("scepter");
-						return settings["scepter"];
+						return LogAndSplit("scepter");
 					}
 					break;
 				}
@@ -491,8 +481,7 @@ split
 					if (vars.jewel == 0)
 					{
 						vars.jewel = 1;
-						print("jewel");
-						return settings["jewel"];
+						return LogAndSplit("jewel");
 					}
 					break;
 				}
@@ -501,8 +490,7 @@ split
 					if (vars.jewelbox == 0)
 					{
 						vars.jewelbox = 1;
-						print("jewelbox");
-						return settings["jewelbox"];
+						return LogAndSplit("jewelbox");
 					}
 					break;
 				}
@@ -511,8 +499,7 @@ split
 					if (vars.rook == 0)
 					{
 						vars.rook = 1;
-						print("rook");
-						return settings["rook"];
+						return LogAndSplit("rook");
 					}
 					break;
 				}
@@ -521,8 +508,7 @@ split
 					if (vars.king == 0)
 					{
 						vars.king = 1;
-						print("king");
-						return settings["king"];
+						return LogAndSplit("king");
 					}
 					break;
 				}
@@ -531,8 +517,7 @@ split
 					if (vars.knight == 0)
 					{
 						vars.knight = 1;
-						print("knight");
-						return settings["knight"];
+						return LogAndSplit("knight");
 					}
 					break;
 				}
@@ -541,8 +526,7 @@ split
 					if (vars.queen == 0)
 					{
 						vars.queen = 1;
-						print("queen");
-						return settings["queen"];
+						return LogAndSplit("queen");
 					}
 					break;
 				}
@@ -551,8 +535,7 @@ split
 					if (vars.bishop == 0)
 					{
 						vars.bishop = 1;
-						print("bishop");
-						return settings["bishop"];
+						return LogAndSplit("bishop");
 					}
 					break;
 				}
@@ -561,8 +544,7 @@ split
 					if (vars.block == 0)
 					{
 						vars.block = 1;
-						print("block");
-						return settings["block"];
+						return LogAndSplit("block");
 					}
 					break;
 				}
@@ -571,8 +553,7 @@ split
 					if (vars.redbook == 0)
 					{
 						vars.redbook = 1;
-						print("redbook");
-						return settings["redbook"];
+						return LogAndSplit("redbook");
 					}
 					break;
 				}
@@ -581,8 +562,7 @@ split
 					if (vars.arm == 0)
 					{
 						vars.arm = 1;
-						print("arm");
-						return settings["arm"];
+						return LogAndSplit("arm");
 					}
 					break;
 				}
@@ -591,8 +571,7 @@ split
 					if (vars.diamond == 0)
 					{
 						vars.diamond = 1;
-						print("diamond");
-						return settings["diamond"];
+						return LogAndSplit("diamond");
 					}
 					break;
 				}
@@ -601,8 +580,7 @@ split
 					if (vars.carkey == 0)
 					{
 						vars.carkey = 1;
-						print("carkey");
-						return settings["carkey"];
+						return LogAndSplit("carkey");
 					}
 					break;
 				}
@@ -611,8 +589,7 @@ split
 					if (vars.partA == 0)
 					{
 						vars.partA = 1;
-						print("partA");
-						return settings["partA"];
+						return LogAndSplit("partA");
 					}
 					break;
 				}
@@ -621,8 +598,7 @@ split
 					if (vars.partB == 0)
 					{
 						vars.partB = 1;
-						print("partB");
-						return settings["partB"];
+						return LogAndSplit("partB");
 					}
 					break;
 				}
@@ -631,8 +607,7 @@ split
 					if (vars.smallgear == 0)
 					{
 						vars.smallgear = 1;
-						print("smallgear");
-						return settings["smallgear"];
+						return LogAndSplit("smallgear");
 					}
 					break;
 				}
@@ -641,8 +616,7 @@ split
 					if (vars.largegear == 0)
 					{
 						vars.largegear = 1;
-						print("largegear");
-						return settings["largegear"];
+						return LogAndSplit("largegear");
 					}
 					break;
 				}
@@ -651,8 +625,7 @@ split
 					if (vars.courtyardkey == 0)
 					{
 						vars.courtyardkey = 1;
-						print("courtyardkey");
-						return settings["courtyardkey"];
+						return LogAndSplit("courtyardkey");
 					}
 					break;
 				}
@@ -661,8 +634,7 @@ split
 					if (vars.orphanageKey == 0)
 					{
 						vars.orphanageKey = 1;
-						print("orphanageKey");
-						return settings["orphanageKey"];
+						return LogAndSplit("orphanageKey");
 					}
 					break;
 				}
@@ -671,8 +643,7 @@ split
 					if (vars.club == 0)
 					{
 						vars.club = 1;
-						print("club");
-						return settings["club"];
+						return LogAndSplit("club");
 					}
 					break;
 				}
@@ -681,8 +652,7 @@ split
 					if (vars.heart == 0)
 					{
 						vars.heart = 1;
-						print("heart");
-						return settings["heart"];
+						return LogAndSplit("heart");
 					}
 					break;
 				}
@@ -691,8 +661,7 @@ split
 					if (vars.tbar == 0)
 					{
 						vars.tbar = 1;
-						print("tbar");
-						return settings["tbar"];
+						return LogAndSplit("tbar");
 					}
 					break;
 				}
@@ -701,8 +670,7 @@ split
 					if (vars.dispenseEmpty == 0)
 					{
 						vars.dispenseEmpty = 1;
-						print("dispenseEmpty");
-						return settings["dispenseEmpty"];
+						return LogAndSplit("dispenseEmpty");
 					}
 					break;
 				}
@@ -711,8 +679,7 @@ split
 					if (vars.dispenseSolution == 0)
 					{
 						vars.dispenseSolution = 1;
-						print("dispenseSolution");
-						return settings["dispenseSolution"]; 
+						return LogAndSplit("dispenseSolution"); 
 					}
 					break;
 				}
@@ -721,8 +688,7 @@ split
 					if (vars.herbicide == 0)
 					{
 						vars.herbicide = 1;
-						print("herbicide");
-						return settings["herbicide"];
+						return LogAndSplit("herbicide");
 					}
 					break;
 				}
@@ -731,8 +697,7 @@ split
 					if (vars.jointPlug == 0)
 					{
 						vars.jointPlug = 1;
-						print("jointPlug");
-						return settings["jointPlug"];
+						return LogAndSplit("jointPlug");
 					}
 					break;
 				}
@@ -741,8 +706,7 @@ split
 					if (vars.chipAdmin == 0)
 					{
 						vars.chipAdmin = 1;
-						print("chipAdmin");
-						return settings["chipAdmin"];
+						return LogAndSplit("chipAdmin");
 					}
 					break;
 				}
@@ -751,8 +715,7 @@ split
 					if (vars.modulator == 0)
 					{
 						vars.modulator = 1;
-						print("modulator");
-						return settings["modulator"];
+						return LogAndSplit("modulator");
 					}
 					break;
 				}
@@ -761,8 +724,7 @@ split
 					if (vars.sewerKey == 0)
 					{
 						vars.sewerKey = 1;
-						print("sewerKey");
-						return settings["sewerKey"];
+						return LogAndSplit("sewerKey");
 					}
 					break;
 				}
@@ -773,8 +735,7 @@ split
 					if (vars.generalChip == 0 && (current.survivorType == 0 || current.survivorType == 1))
 					{
 						vars.generalChip = 1;
-						print("generalChip");
-						return settings["generalChip"];
+						return LogAndSplit("generalChip");
 					}
 					break;
 				}
@@ -784,8 +745,7 @@ split
 					if (vars.staffChip == 0)
 					{
 						vars.staffChip = 1;
-						print("staffChip");
-						return settings["staffChip"];
+						return LogAndSplit("staffChip");
 					}
 					break;
 				}
@@ -795,8 +755,7 @@ split
 					if (vars.seniorChip == 0)
 					{
 						vars.seniorChip = 1;
-						print("seniorChip");
-						return settings["seniorChip"];
+						return LogAndSplit("seniorChip");
 					}
 					break;
 				}
@@ -805,8 +764,7 @@ split
 					if (vars.fuse1 == 0)
 					{
 						vars.fuse1 = 1;
-						print("fuse1");
-						return settings["fuse1"];
+						return LogAndSplit("fuse1");
 					}
 					break;
 				}
@@ -815,8 +773,7 @@ split
 					if (vars.fuse2 == 0)
 					{
 						vars.fuse2 = 1;
-						print("fuse2");
-						return settings["fuse2"];
+						return LogAndSplit("fuse2");
 					}
 					break;
 				}
@@ -825,8 +782,7 @@ split
 					if (vars.scissors == 0)
 					{
 						vars.scissors = 1;
-						print("scissors");
-						return settings["scissors"];
+						return LogAndSplit("scissors");
 					}
 					break;
 				}
@@ -860,8 +816,7 @@ split
 					if (vars.shotgun == 0)
 					{
 						vars.shotgun = 1;
-						print("shotgun");
-						return settings["shotgun"];
+						return LogAndSplit("shotgun");
 					}
 					break;
 				}
@@ -870,8 +825,7 @@ split
 					if (vars.gL == 0)
 					{
 						vars.gL = 1;
-						print("gL");
-						return settings["gL"];
+						return LogAndSplit("gL");
 					}
 					break;
 				}
@@ -887,32 +841,28 @@ split
 	if (current.map == 419 && !(current.bossCHP >= 1) && vars.g3Start == 1 && vars.g3 == 0)
 	{
 		vars.g3 = 1;
-		print("g3");
-		return settings["g3"];
+		return LogAndSplit("g3");
 	}
 
 	// G2 Start
 	if (current.map == 335 && !(current.bossHP == 24000) && vars.g2Start == 0)
 	{
 		vars.g2Start = 1;
-		print("g2Start");
-		return settings["g2Start"];
+		return LogAndSplit("g2Start");
 	}
 
 	// G2 End
 	if (current.map == 335 && !(current.bossHP >= 1) && vars.g2Start == 1 && vars.g2 == 0)
 	{
 		vars.g2 = 1;
-		print("g2");
-		return settings["g2"];
+		return LogAndSplit("g2");
 	}
 
 	// G4 Start
 	if (current.map == 421 && current.bossHP >= 3000000 && vars.g4Start == 0)
 	{
 		vars.g4Start = 1;
-		print("g4Start");
-		return settings["g4Start"];
+		return LogAndSplit("g4Start");
 	}
 
 	// G4 End and Alt Ending
@@ -922,8 +872,7 @@ split
 	if (isG4Ending || isOtherEnding)
 	{
 		vars.end = 1;
-		print("end");
-		return settings["end"];
+		return LogAndSplit("end");
 	}
 	
 	// True Endings?
@@ -932,8 +881,7 @@ split
 	if (isSTyrantEnding || isG5Ending)
 	{
 		vars.trueEnd = 1;
-		print("trueEnd");
-		return settings["trueEnd"];
+		return LogAndSplit("trueEnd");
 	}
 
 	// Map splits
@@ -942,8 +890,7 @@ split
 		if (current.map == 317 && vars.reachedSewers == 0 || current.map == 377 && old.map == 407 && vars.reachedSewers == 0)
 		{
 			vars.reachedSewers = 1;
-			print("reachedSewers");
-			return settings["reachedSewers"];
+			return LogAndSplit("reachedSewers");
 		}
 
 		if (current.map == 112 && vars.reachedRPDA == 0 || current.map == 261 && vars.reachedRPDA == 0)
@@ -953,48 +900,41 @@ split
 				if (vars.courtyardkey == 0) return false;
 
 			vars.reachedRPDA = 1;
-			print("reachedRPDA");
-			return settings["reachedRPDA"];
+			return LogAndSplit("reachedRPDA");
 		}
 		
 		if (current.map == 277 && vars.reachedGarage == 0)
 		{
 			vars.reachedGarage = 1;
-			print("reachedGarage");
-			return settings["reachedGarage"];
+			return LogAndSplit("reachedGarage");
 		}
 		
 		if (current.map == 350 && vars.reachedSecretRoom == 0)
 		{
 			vars.reachedSecretRoom = 1;
-			print("reachedSecretRoom");
-			return settings["reachedSecretRoom"];
+			return LogAndSplit("reachedSecretRoom");
 		}
 
 		if (old.map == 277 && current.map == 351 && vars.exitedGarage == 0)
 		{
 			vars.exitedGarage = 1;
-			print("exitedGarage");
-			return settings["exitedGarage"];
+			return LogAndSplit("exitedGarage");
 		}
 		
 		if (current.map == 338 && vars.rescue == 0 || old.map == 0 && current.map == 335 && vars.rescue == 0)
 		{
 			vars.rescue = 1;
-			print("rescue");
-			return settings["rescue"];
+			return LogAndSplit("rescue");
 		}
 		
 		if (current.map == 423 && vars.onTrain == 0)
 		{
 			vars.onTrain = 1;
-			print("onTrain");
 		}
 		if (current.map == 0 && old.map == 330 && vars.adaEnd == 0)
 		{
 			vars.adaEnd = 1;
-			print("adaEnd");
-			return settings["adaEnd"];
+			return LogAndSplit("adaEnd");
 		}
 	}
 
@@ -1002,15 +942,13 @@ split
 	if (current.map == 310 && current.survivorType == 2 && vars.adaStart == 0)
 	{
 		vars.adaStart = 1;
-		print("adaStart");
-		return settings["adaStart"];
+		return LogAndSplit("adaStart");
 	}
 
 	if (current.map == 363 && current.survivorType == 3 && vars.sherryStart == 0)
 	{
 		vars.sherryStart = 1;
-		print("sherryStart");
-		return settings["sherryStart"];
+		return LogAndSplit("sherryStart");
 	}
 
 	// Cutscene Playing
@@ -1019,12 +957,10 @@ split
 		if (current.map == 353 && vars.reachedG1 == 0)
 		{
 			vars.reachedG1 = 1;
-			print("reachedG1");
 		}
 		if (current.map == 419 && vars.reachedG3 == 0)
 		{
 			vars.reachedG3 = 1;
-			print("reachedG3");
 		}
 	}
 
@@ -1034,7 +970,6 @@ split
 		if (current.map == 353 && vars.reachedG1 == 1 && vars.g1CutsceneSkipped == 0)
 		{
 			vars.g1CutsceneSkipped = 1;
-			print("g1CutsceneSkipped");
 		}
 		
 	}
@@ -1042,7 +977,6 @@ split
 	if (current.map == 419 && vars.reachedG3 == 1 && vars.g3CutsceneSkipped == 0)
 	{
 		vars.g3CutsceneSkipped = 1;
-		print("g3CutsceneSkipped");
 	}
 
 	// Cutscene Skipped
@@ -1051,20 +985,17 @@ split
 		if (current.map == 353 && vars.g1CutsceneSkipped == 1 && vars.g1Start == 0)
 		{
 			vars.g1Start = 1;
-			print("g1Start");
-			return settings["g1Start"];
+			return LogAndSplit("g1Start");
 		}
 		if (current.map == 419 && vars.g3CutsceneSkipped == 1 && vars.g3Start == 0)
 		{
 			vars.g3Start = 1;
-			print("g3Start");
-			return settings["g3Start"];
+			return LogAndSplit("g3Start");
 		}
 		if (current.map == 353 && !(current.bossHP >= 1) && vars.g1Start == 1 && vars.g1 == 0)
 		{
 			vars.g1 = 1;
-			print("g1");
-			return settings["g1"];
+			return LogAndSplit("g1");
 		}
 	}
 }
