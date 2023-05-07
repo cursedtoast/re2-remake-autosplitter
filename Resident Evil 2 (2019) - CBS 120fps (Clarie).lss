@@ -11,7 +11,7 @@
     </Region>
     <Variables>
       <Variable name="Character">Claire 2nd</Variable>
-      <Variable name="Framerate">60</Variable>
+      <Variable name="Framerate">120</Variable>
       <Variable name="Difficulty">Assisted</Variable>
     </Variables>
   </Metadata>
@@ -434,6 +434,15 @@
       <SegmentHistory />
     </Segment>
     <Segment>
+      <Name>G4 Start</Name>
+      <Icon />
+      <SplitTimes>
+        <SplitTime name="Personal Best" />
+      </SplitTimes>
+      <BestSegmentTime />
+      <SegmentHistory />
+    </Segment>
+    <Segment>
       <Name>G4 Finished</Name>
       <Icon />
       <SplitTimes>
@@ -459,6 +468,7 @@
     <Reset>True</Reset>
     <Split>True</Split>
     <CustomSettings>
+      <Setting id="segments" type="bool">False</Setting>
       <Setting id="keygroup" type="bool">True</Setting>
       <Setting id="storageKey" type="bool">False</Setting>
       <Setting id="courtyardkey" type="bool">True</Setting>
@@ -511,6 +521,7 @@
       <Setting id="g1Start" type="bool">True</Setting>
       <Setting id="g2Start" type="bool">True</Setting>
       <Setting id="g3Start" type="bool">True</Setting>
+      <Setting id="g4Start" type="bool">True</Setting>
       <Setting id="g1" type="bool">True</Setting>
       <Setting id="g2" type="bool">True</Setting>
       <Setting id="g3" type="bool">True</Setting>
