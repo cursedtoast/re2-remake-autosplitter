@@ -42,10 +42,20 @@ state("re2", "World DX11 2023")
 
 startup
 {
-	settings.Add("segments", false, "Segment Practice Start");
+	Action<string, bool, string, string> initSettingGroup = (key, enabled, title, description) => {
+		settings.Add(key, enabled, title);
+		settings.SetToolTip(key, description);
+	};
 
-	settings.Add("keygroup", true, "Keys");
-	settings.Add("storageKey", false, "Storage Key", "keygroup");
+	Action<string, bool, string, string, string> initSettingGroupOption = (key, enabled, title, description, group) => {
+		settings.Add(key, true, title, group);
+		settings.SetToolTip(key, description);
+	};
+
+	initSettingGroup("segments", false, "Segment Practice Start", "Enables or disables segmented start trigger for segmented practice.");
+
+	initSettingGroup("keygroup", true, "Keys", "Key items to split when first picked up.");
+	initSettingGroupOption("storageKey", false, "Storage Key", "Storage Key. Location: ??", "keygroup");
 	settings.Add("courtyardkey", false, "Courtyard Key", "keygroup");
 	settings.Add("spade", false, "Spade Key", "keygroup");
 	settings.Add("diamond", false, "Diamond Key", "keygroup");
