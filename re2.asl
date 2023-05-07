@@ -1,6 +1,6 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Last updated 05/06/2023
+//Last updated 05/07/2023
 //New Pointers by VideoGameRoulette & DeathHound
 
 state("re2", "World Public RT 2023")
@@ -42,7 +42,7 @@ state("re2", "World DX11 2023")
 
 startup
 {
-	settings.Add("segments", true, "Segment Practice Start");
+	settings.Add("segments", false, "Segment Practice Start");
 
 	settings.Add("keygroup", true, "Keys");
 	settings.Add("storageKey", false, "Storage Key", "keygroup");
