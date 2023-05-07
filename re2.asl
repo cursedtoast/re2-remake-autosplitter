@@ -915,7 +915,9 @@ split
 	}
 	
 	// True Endings?
-	if (old.map == 422 && current.map == 422 && vars.onTrain == 1 && vars.trueEnd == 0 && current.isCutscene == 1 || current.map == 421 && vars.onTrain == 1 && old.map == 423 && vars.trueEnd == 0 && current.isCutscene == 1)
+	bool isSTyrantEnding = old.map == 422 && current.map == 422 && vars.end == 1 && vars.trueEnd == 0 && current.isCutscene == 1;
+	bool isG5Ending = current.map == 421 && vars.onTrain == 1 && old.map == 423 && vars.trueEnd == 0 && current.isCutscene == 1;
+	if (isSTyrantEnding || isG5Ending)
 	{
 		vars.trueEnd = 1;
 		print("trueEnd");
