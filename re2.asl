@@ -177,22 +177,39 @@ init
 
 start
 {
-	bool isNewGameStart = current.map == 0 && current.loc == 0 && current.playerCurrentHP == 1200 && old.playerMaxHP != 1200 && current.playerMaxHP == 1200 && old.gameStartType == 1 && current.gameStartType == 1;
+	// isNewGameStart conditions
+	bool locationsReset = current.map == 0 && current.loc == 0;
+	bool isPlayerInit = old.playerMaxHP != 1200 && current.playerCurrentHP == 1200 && current.playerMaxHP == 1200;
+	bool isNewGameInit = old.gameStartType == 1 && current.gameStartType == 1;
+
+	// New Game Run Started
+	bool isNewGameStart = locationsReset && isPlayerInit && isNewGameInit;
+
+	// Segmented Runs Started
 	bool isSegmentedStart = settings["segments"] && current.gameStartType == 2;
+
+	// Start Conditions
 	if (isNewGameStart || isSegmentedStart)
 	{
-		string s = isNewGameStart ? "New Game Timer Started" : "Load Game Timer Started";
-		print(s);
+		print(isNewGameStart ? "New Game Timer Started" : "Load Game Timer Started");
 		return true;
 	}
-	
 }
 
 reset
 {
-	if (current.loc != 0 && current.map != 0 && current.playerCurrentHP == 0 && current.playerMaxHP == 0 && current.gameStartType == 0)
+	// isResetting conditions
+	bool hasLocation = current.loc != 0 && current.map != 0;
+	bool isPlayerHP0 = current.playerCurrentHP == 0 && current.playerMaxHP == 0;
+	bool isTitleScreen = current.gameStartType == 0;
+
+	// Exited to Title Screen
+	bool exitedToTitle = hasLocation && isPlayerHP0 && isTitleScreen;
+
+	// Reset Conditions
+	if (exitedToTitle)
 	{
-		print("Resetting Timer");
+		print("Exited To Title Resetting Timer");
 		return true;
 	}
 }
@@ -221,6 +238,7 @@ update
         current.weapons[i] = weaponID;
     }
 	
+	// Initialize Global Run Variables
 	if (timer.CurrentPhase == TimerPhase.NotRunning)
 	{
 		vars.detonator = 0;
@@ -853,6 +871,7 @@ split
         }
     }
 
+	// G3 End
 	if (current.map == 419 && !(current.bossCHP >= 1) && vars.g3Start == 1 && vars.g3 == 0)
 	{
 		vars.g3 = 1;
@@ -860,6 +879,7 @@ split
 		return settings["g3"];
 	}
 
+	// G2 Start
 	if (current.map == 335 && !(current.bossHP == 24000) && vars.g2Start == 0)
 	{
 		vars.g2Start = 1;
@@ -867,6 +887,7 @@ split
 		return settings["g2Start"];
 	}
 
+	// G2 End
 	if (current.map == 335 && !(current.bossHP >= 1) && vars.g2Start == 1 && vars.g2 == 0)
 	{
 		vars.g2 = 1;
@@ -874,6 +895,7 @@ split
 		return settings["g2"];
 	}
 
+	// G4 Start
 	if (current.map == 421 && current.bossHP >= 3000000 && vars.g4Start == 0)
 	{
 		vars.g4Start = 1;
@@ -881,6 +903,7 @@ split
 		return settings["g4Start"];
 	}
 
+	// G4 End and Alt Ending
 	bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.g4Start == 1 && vars.end == 0;
 	bool isOtherEnding = old.map == 373 && current.map == 422 && vars.end == 0;
 
@@ -891,6 +914,7 @@ split
 		return settings["end"];
 	}
 	
+	// True Endings?
 	if (old.map == 422 && current.map == 422 && vars.onTrain == 1 && vars.trueEnd == 0 && current.isCutscene == 1 || current.map == 421 && vars.onTrain == 1 && old.map == 423 && vars.trueEnd == 0 && current.isCutscene == 1)
 	{
 		vars.trueEnd = 1;
