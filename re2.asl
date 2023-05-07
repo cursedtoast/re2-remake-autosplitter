@@ -331,6 +331,12 @@ update
 
 split
 {
+	Func<string, object, bool> LogAndSplit = (splitId, v) => {
+  		v = 1;
+  		print("Splitting: " + splitId);
+  		return settings[splitId];
+	};
+	
 	// Item splits
     int[] currentInventory = (current.inventory as int[]);
     int[] oldInventory = (old.inventory as int[]); // throws error first update, will be fine afterwards.
