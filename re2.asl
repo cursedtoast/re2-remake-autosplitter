@@ -42,6 +42,8 @@ state("re2", "World DX11 2023")
 
 startup
 {
+	settings.Add("segments", true, "Segment Practice Start");
+
 	settings.Add("keygroup", true, "Keys");
 	settings.Add("storageKey", false, "Storage Key", "keygroup");
 	settings.Add("courtyardkey", false, "Courtyard Key", "keygroup");
@@ -103,6 +105,7 @@ startup
 	settings.Add("g1Start", true, "G1 Battle Start", "eventgroup");
 	settings.Add("g2Start", true, "G2 Battle Start", "eventgroup");
 	settings.Add("g3Start", true, "G3 Battle Start", "eventgroup");
+	settings.Add("g4Start", true, "G4 Battle Start", "eventgroup");
 	settings.Add("g1", true, "G1 Battle Complete", "eventgroup");
 	settings.Add("g2", true, "G2 Battle Complete", "eventgroup");
 	settings.Add("g3", false, "G3 Battle Complete", "eventgroup");
@@ -172,12 +175,14 @@ init
     }
 }
 
-
 start
 {
-	if (current.map == 0 && current.loc == 0 && current.playerCurrentHP == 1200 && old.playerMaxHP != 1200 && current.playerMaxHP == 1200 && old.gameStartType == 1 && current.gameStartType == 1)
+	bool isNewGameStart = current.map == 0 && current.loc == 0 && current.playerCurrentHP == 1200 && old.playerMaxHP != 1200 && current.playerMaxHP == 1200 && old.gameStartType == 1 && current.gameStartType == 1;
+	bool isSegmentedStart = settings["segments"] && current.gameStartType == 2;
+	if (isNewGameStart || isSegmentedStart)
 	{
-		print("Starting Timer");
+		string s = isNewGameStart ? "New Game Timer Started" : "Load Game Timer Started";
+		print(s);
 		return true;
 	}
 	
@@ -288,6 +293,7 @@ update
 		vars.g3Start = 0;
 		vars.g3CutsceneSkipped = 0;
 		vars.g3 = 0;
+		vars.g4Start = 0;
 		vars.trueEnd = 0;
 		vars.onTrain = 0;
 		vars.shotgun = 0;
@@ -867,9 +873,18 @@ split
 		print("g2");
 		return settings["g2"];
 	}
-	
-	//End split
-	if (current.map == 421 && old.bossHP >= 50000 && !(current.bossHP >= 50000) && vars.end == 0 || old.map == 373 && current.map == 422 && vars.end == 0)
+
+	if (current.map == 421 && current.bossHP >= 3000000 && vars.g4Start == 0)
+	{
+		vars.g4Start = 1;
+		print("g4Start");
+		return settings["g4Start"];
+	}
+
+	bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.g4Start == 1 && vars.end == 0;
+	bool isOtherEnding = old.map == 373 && current.map == 422 && vars.end == 0;
+
+	if (isG4Ending || isOtherEnding)
 	{
 		vars.end = 1;
 		print("end");
@@ -960,7 +975,22 @@ split
 		return settings["sherryStart"];
 	}
 
-	// Cutscene Skip
+	// Cutscene Playing
+	if (current.isCutscene == 1)
+	{
+		if (current.map == 353 && vars.reachedG1 == 0)
+		{
+			vars.reachedG1 = 1;
+			print("reachedG1");
+		}
+		if (current.map == 419 && vars.reachedG3 == 0)
+		{
+			vars.reachedG3 = 1;
+			print("reachedG3");
+		}
+	}
+
+	// Cutscene Paused For Skipping
 	if (current.isPaused == 1)
 	{
 		if (current.map == 353 && vars.reachedG1 == 1 && vars.g1CutsceneSkipped == 0)
@@ -968,13 +998,16 @@ split
 			vars.g1CutsceneSkipped = 1;
 			print("g1CutsceneSkipped");
 		}
-		if (current.map == 419 && vars.reachedG3 == 1 && vars.g3CutsceneSkipped == 0)
-		{
-			vars.g3CutsceneSkipped = 1;
-			print("g3CutsceneSkipped");
-		}
+		
 	}
 
+	if (current.map == 419 && vars.reachedG3 == 1 && vars.g3CutsceneSkipped == 0)
+	{
+		vars.g3CutsceneSkipped = 1;
+		print("g3CutsceneSkipped");
+	}
+
+	// Cutscene Skipped
 	if (current.isCutscene == 0 && current.isPaused == 0)
 	{
 		if (current.map == 353 && vars.g1CutsceneSkipped == 1 && vars.g1Start == 0)
@@ -994,20 +1027,6 @@ split
 			vars.g1 = 1;
 			print("g1");
 			return settings["g1"];
-		}
-	}
-
-	if (current.isCutscene == 1)
-	{
-		if (current.map == 353 && vars.reachedG1 == 0)
-		{
-			vars.reachedG1 = 1;
-			print("reachedG1");
-		}
-		if (current.map == 419 && vars.reachedG3 == 0)
-		{
-			vars.reachedG3 = 1;
-			print("reachedG3");
 		}
 	}
 }
