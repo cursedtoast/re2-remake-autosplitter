@@ -1,6 +1,6 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Last updated 05/07/2023
+//Last updated 05/08/2023
 //New Pointers by VideoGameRoulette & DeathHound
 
 state("re2", "World Public RT 2023")
@@ -42,16 +42,15 @@ state("re2", "World DX11 2023")
 
 startup
 {
+    vars.logToFile = false;
+	vars.logPath = "re2.log";
+	vars.MAX_ITEMS = 20;
+
     // DX11
     vars.re2WW_11055033 = new byte[32] { 0xF2, 0x6C, 0xDE, 0xBF, 0xFE, 0x66, 0x55, 0xD0, 0x5B, 0xF0, 0x04, 0x7F, 0x79, 0x39, 0xEA, 0x5E, 0x38, 0x36, 0x08, 0xAF, 0xF4, 0x60, 0x3C, 0xA3, 0xF0, 0xF3, 0x6A, 0x12, 0xDC, 0x56, 0x23, 0xCA };
     // DX12
     vars.re2WW_11026357 = new byte[32] { 0xA6, 0xE7, 0x20, 0xDB, 0xA2, 0x01, 0xAB, 0xEA, 0x9A, 0xCC, 0x05, 0xCF, 0xAF, 0x1E, 0xDA, 0x46, 0x0C, 0xA7, 0xF7, 0x29, 0x25, 0x57, 0xF5, 0x71, 0x85, 0x7A, 0xD2, 0xB0, 0xE5, 0x54, 0x13, 0x54 };
 	
-    Action<string> DebugOutput = (text) => {
-		print("[Debug Livesplit]: " + text);
-	};
-	vars.Log = DebugOutput;
-
 	Action<string, bool, string, string> initSettingGroup = (key, enabled, title, description) => {
 		settings.Add(key, enabled, title);
 		settings.SetToolTip(key, description);
@@ -62,8 +61,36 @@ startup
 		settings.SetToolTip(key, description);
 	};
 
+	Action<string, string> SaveLogs = (filePath, text) => {
+        if (!File.Exists(filePath)) {
+            // Create a new file with the specified name
+            using (StreamWriter sw = File.CreateText(filePath))
+                sw.WriteLine(text);
+        }
+        else {
+		    // Append the new line to the file
+		    using (StreamWriter sw = File.AppendText(filePath))
+		    	sw.WriteLine(text);
+        }
+	};
+	vars.LogsSave = SaveLogs;
+
+	Action<string> DebugOutput = (text) => {
+		print("[Debug Livesplit]: " + text);
+        if (vars.logToFile)
+		    SaveLogs(vars.logPath, text);
+	};
+	vars.Log = DebugOutput;
+
+	Action<string> ClearLogs = (filePath) => {
+		vars.Log("Clearing Logs");
+		if (File.Exists(filePath))
+			File.WriteAllLines(filePath, new string[0]);
+	};
+	vars.LogsClear = ClearLogs;
+	
     Func<byte[], string> OutputVersionString = (checksum) => {
-        StringBuilder sb = new StringBuilder("private static readonly byte[] re2??_00000000 = new byte[32] { ");
+        StringBuilder sb = new StringBuilder("vars.re2??_00000000 = new byte[32] { ");
         for (int i = 0; i < checksum.Length; i++)
         {
             sb.AppendFormat("0x{0:X2}", checksum[i]);
@@ -73,6 +100,7 @@ startup
         sb.Append(" };");
         return sb.ToString();
     };
+	vars.OutputVersion = OutputVersionString;
 
     Func<ProcessModuleWow64Safe, byte[]> CalcModuleHash = (module) => {
         vars.Log("Calcuating hash of "+module.FileName);
@@ -80,11 +108,39 @@ startup
         using (var hashFunc = System.Security.Cryptography.SHA256.Create())
             using (var fs = new FileStream(module.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
                 checksum = hashFunc.ComputeHash(fs);
-        vars.Log("Checksum: " + OutputVersionString(checksum));
         return checksum;
     };
     vars.CalcModuleHash = CalcModuleHash;
 
+    Func<int, string> GetStartType = (type) => {
+        switch (type) {
+            case 1:
+                return "New Game";
+            case 2:
+                return "Load Game";
+            case 3:
+                return "Back New Game";
+            default:
+                return "Main Menu";
+        }
+    };
+    vars.GetStartType = GetStartType;
+
+    Func<int, string> GetCharacter = (type) => {
+        switch (type) {
+            case 1:
+                return "Claire";
+            case 2:
+                return "Ada";
+            case 3:
+                return "Sherry";
+            default:
+                return "Leon";
+        }
+    };
+    vars.GetCharacter = GetCharacter;
+
+	initSettingGroup("logToFile", false, "Debug Logging", "Toggles the DebugOutput to output 10 latest logs to log file");
 	initSettingGroup("segments", false, "Segment Practice Start", "Enables or disables segmented start trigger for segmented practice.");
 
 	initSettingGroup("keygroup", true, "Keys", "Key items to split when first picked up.");
@@ -180,46 +236,46 @@ startup
 
 init
 {
-	vars.inventoryPtr = IntPtr.Zero;
-	vars.Log("=== Module Memory Size === " + modules.First().ModuleMemorySize.ToString());
+    // Initialize Version
+    vars.inventoryPtr = IntPtr.Zero;
+
+    // Update Version Info and Inventory Pointer
+	Action<string, int> UpdateVersion = (ver, address) => {
+		version = ver;
+		vars.inventoryPtr = address;
+	};
+
     byte[] checksum = vars.CalcModuleHash(modules.First());
     if (Enumerable.SequenceEqual(checksum, vars.re2WW_11026357))
-    {
-        version = "World Public RT 2023";
-		vars.inventoryPtr = 0x091A6CD0;
-    }
+		UpdateVersion("World Public RT 2023", 0x091A6CD0);
     else if (Enumerable.SequenceEqual(checksum, vars.re2WW_11055033))
-    {
-        version = "World DX11 2023";
-        vars.inventoryPtr = 0x070B23A8;
-    }
+		UpdateVersion("World DX11 2023", 0x070B23A8);
     else
     {
-        version = "Unknown";
-        vars.inventoryPtr = 0x0;
+		vars.LogsSave("re2Version.log", vars.OutputVersion(checksum));
+		UpdateVersion("Unknown", 0x0);
     }
 
-    // Track inventory IDs
-    current.inventory = new int[20];
-    for (int i = 0; i < current.inventory.Length; ++i)
-    {
-        int itemID = 0;
+    // Initialize Inventory 
+    // Gets ItemID from given index of the array in game memory
+    Func<int, int> GetItemID = (idx) => {
+		int id = 0;
         IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
-        memory.ReadValue<int>(ptr, out itemID);
-        current.inventory[i] = itemID;
-    }
-	
-	// Track Weapon IDs
-	current.weapons = new int[20];
-    for (int i = 0; i < current.weapons.Length; ++i)
-    {
-        int weaponID = 0;
+        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (idx * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
+        memory.ReadValue<int>(ptr, out id);
+		return id;
+	};
+	vars.GetItemID = GetItemID;
+
+    // Gets WeaponID from given index of the array in game memory
+	Func<int, int> GetWeaponID = (idx) => {
+		int id = 0;
         IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x14).DerefOffsets(memory, out ptr);
-        memory.ReadValue<int>(ptr, out weaponID);
-        current.weapons[i] = weaponID;
-    }
+        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (idx * 8), 0x18, 0x10, 0x14).DerefOffsets(memory, out ptr);
+        memory.ReadValue<int>(ptr, out id);
+		return id;
+	};
+	vars.GetWeaponID = GetWeaponID;
 }
 
 start
@@ -238,6 +294,7 @@ start
 	// Start Conditions
 	if (isNewGameStart || isSegmentedStart)
 	{
+		vars.LogsClear(vars.logPath);
 		vars.Log(isNewGameStart ? "New Game Timer Started" : "Load Game Timer Started");
 		return true;
 	}
@@ -263,29 +320,35 @@ reset
 
 update
 {
+    vars.logToFile = settings["logToFile"];
     if (version == "Unknown")
 		return false;
 
-	// Track inventory IDs
-    current.inventory = new int[20];
-    for (int i = 0; i < current.inventory.Length; ++i)
-    {
-        int itemID = 0;
-        IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
-        memory.ReadValue<int>(ptr, out itemID);
-        current.inventory[i] = itemID;
-    }
+    if (current.isCutscene != old.isCutscene)
+        vars.Log("Cutscene " + (current.isCutscene == 1 ? "Started" : "Ended"));
 
-	// Track Weapon IDs 
-	current.weapons = new int[20];
-    for (int i = 0; i < current.weapons.Length; ++i) 
+    if (current.survivorType != old.survivorType)
+        vars.Log("Character Set To " + vars.GetCharacter(current.gameStartType));
+
+    if (current.gameStartType != old.gameStartType)
+        vars.Log("Game Start Type Set To " + vars.GetStartType(current.gameStartType));
+
+    if (current.map != old.map)
+        vars.Log("Map ID Set To " + current.map);
+
+    if (current.loc != old.loc)
+        vars.Log("Location ID Set To " + current.loc + " Map ID Set To " + current.map);
+
+    if (current.map != old.map)
+        vars.Log("Map ID Set To " + current.map);
+
+	// Track inventory IDs
+    current.inventory = new int[vars.MAX_ITEMS];
+	current.weapons = new int[vars.MAX_ITEMS];
+    for (int i = 0; i < vars.MAX_ITEMS; ++i)
     {
-        int weaponID = 0;
-        IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
-        memory.ReadValue<int>(ptr, out weaponID);
-        current.weapons[i] = weaponID;
+        current.inventory[i] = vars.GetItemID(i);
+		current.weapons[i] = vars.GetWeaponID(i);
     }
 	
 	// Initialize Global Run Variables
