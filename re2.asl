@@ -112,33 +112,19 @@ startup
     };
     vars.CalcModuleHash = CalcModuleHash;
 
-    Func<int, string> GetStartType = (type) => {
-        switch (type) {
-            case 1:
-                return "New Game";
-            case 2:
-                return "Load Game";
-            case 3:
-                return "Back New Game";
-            default:
-                return "Main Menu";
-        }
-    };
-    vars.GetStartType = GetStartType;
+    vars.GetStartType = new Dictionary<int,string> {
+		{0, "Main Menu"},
+		{1, "New Game"},
+		{2, "Load Game"},
+		{3, "Back New Game"},
+	};
 
-    Func<int, string> GetCharacter = (type) => {
-        switch (type) {
-            case 1:
-                return "Claire";
-            case 2:
-                return "Ada";
-            case 3:
-                return "Sherry";
-            default:
-                return "Leon";
-        }
-    };
-    vars.GetCharacter = GetCharacter;
+    vars.GetCharacter = new Dictionary<int,string> {
+		{0, "Leon"},
+		{1, "Claire"},
+		{2, "Ada"},
+		{3, "Sherry"},
+	};
 
 	initSettingGroup("logToFile", false, "Debug Logging", "Toggles the DebugOutput to output 10 latest logs to log file");
 	initSettingGroup("segments", false, "Segment Practice Start", "Enables or disables segmented start trigger for segmented practice.");
@@ -328,10 +314,10 @@ update
         vars.Log("Cutscene " + (current.isCutscene == 1 ? "Started" : "Ended"));
 
     if (current.survivorType != old.survivorType)
-        vars.Log("Character Set To " + vars.GetCharacter(current.gameStartType));
+        vars.Log("Character Set To " + vars.GetCharacter[current.survivorType]);
 
     if (current.gameStartType != old.gameStartType)
-        vars.Log("Game Start Type Set To " + vars.GetStartType(current.gameStartType));
+        vars.Log("Game Start Type Set To " + vars.GetStartType[current.gameStartType]);
 
     if (current.map != old.map)
         vars.Log("Map ID Set To " + current.map);
