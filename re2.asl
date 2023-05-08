@@ -1,6 +1,6 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Last updated 05/07/2023
+//Last updated 05/08/2023
 //New Pointers by VideoGameRoulette & DeathHound
 
 state("re2", "World Public RT 2023")
@@ -42,145 +42,226 @@ state("re2", "World DX11 2023")
 
 startup
 {
+    vars.logToFile = false;
+    vars.logPath = "re2.log";
+    vars.MAX_ITEMS = 20;
+
+    // DX11
+    vars.re2WW_11055033 = new byte[32] { 0xF2, 0x6C, 0xDE, 0xBF, 0xFE, 0x66, 0x55, 0xD0, 0x5B, 0xF0, 0x04, 0x7F, 0x79, 0x39, 0xEA, 0x5E, 0x38, 0x36, 0x08, 0xAF, 0xF4, 0x60, 0x3C, 0xA3, 0xF0, 0xF3, 0x6A, 0x12, 0xDC, 0x56, 0x23, 0xCA };
+    // DX12
+    vars.re2WW_11026357 = new byte[32] { 0xA6, 0xE7, 0x20, 0xDB, 0xA2, 0x01, 0xAB, 0xEA, 0x9A, 0xCC, 0x05, 0xCF, 0xAF, 0x1E, 0xDA, 0x46, 0x0C, 0xA7, 0xF7, 0x29, 0x25, 0x57, 0xF5, 0x71, 0x85, 0x7A, 0xD2, 0xB0, 0xE5, 0x54, 0x13, 0x54 };
+
     Action<string, bool, string, string> initSettingGroup = (key, enabled, title, description) => {
         settings.Add(key, enabled, title);
         settings.SetToolTip(key, description);
     };
-    Action<string, bool, string, string, string> initSettingGroupOption = (key, enabled, title, description, group) => {
+
+    Action<string, bool, string, string, string> initSettingGroupOption = (key, enabled, title, group, description) => {
         settings.Add(key, true, title, group);
         settings.SetToolTip(key, description);
     };
 
+    Action<string, string> SaveLogs = (filePath, text) => {
+        if (!File.Exists(filePath)) {
+            // Create a new file with the specified name
+            using (StreamWriter sw = File.CreateText(filePath))
+                sw.WriteLine(text);
+        }
+        else {
+            // Append the new line to the file
+            using (StreamWriter sw = File.AppendText(filePath))
+                sw.WriteLine(text);
+        }
+    };
+    vars.LogsSave = SaveLogs;
+
+    Action<string> DebugOutput = (text) => {
+        print("[Debug " + timer.CurrentTime.GameTime.ToString(@"hh\:mm\:ss") + "]: " + text);
+        if (vars.logToFile)
+            SaveLogs(vars.logPath, text);
+    };
+    vars.Log = DebugOutput;
+
+    Action<string> ClearLogs = (filePath) => {
+        vars.Log("Clearing Logs");
+        if (File.Exists(filePath))
+            File.WriteAllLines(filePath, new string[0]);
+    };
+    vars.LogsClear = ClearLogs;
+
+    Func<byte[], string> OutputVersionString = (checksum) => {
+        StringBuilder sb = new StringBuilder("vars.re2??_00000000 = new byte[32] { ");
+        for (int i = 0; i < checksum.Length; i++)
+        {
+            sb.AppendFormat("0x{0:X2}", checksum[i]);
+            if (i < checksum.Length - 1)
+                sb.Append(", ");
+        }
+        sb.Append(" };");
+        return sb.ToString();
+    };
+    vars.OutputVersion = OutputVersionString;
+
+    Func<ProcessModuleWow64Safe, byte[]> CalcModuleHash = (module) => {
+        vars.Log("Calcuating hash of "+module.FileName);
+        byte[] checksum = new byte[32];
+        using (var hashFunc = System.Security.Cryptography.SHA256.Create())
+            using (var fs = new FileStream(module.FileName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+                checksum = hashFunc.ComputeHash(fs);
+        return checksum;
+    };
+    vars.CalcModuleHash = CalcModuleHash;
+
+    vars.GetStartType = new Dictionary<int,string> {
+        {0, "Main Menu"},
+        {1, "New Game"},
+        {2, "Load Game"},
+        {3, "Back New Game"},
+    };
+
+    vars.GetCharacter = new Dictionary<int,string> {
+        {0, "Leon"},
+        {1, "Claire"},
+        {2, "Ada"},
+        {3, "Sherry"},
+    };
+
+    initSettingGroup("logToFile", false, "Debug Logging", "Toggles the DebugOutput to output 10 latest logs to log file");
     initSettingGroup("segments", false, "Segment Practice Start", "Enables or disables segmented start trigger for segmented practice.");
+
     initSettingGroup("keygroup", true, "Keys", "Key items to split when first picked up.");
-    initSettingGroupOption("storageKey", false, "Storage Key", "Storage Key. Location: ??", "keygroup");
+    initSettingGroupOption("storageKey", false, "Storage Key", "keygroup", "");
+    initSettingGroupOption("courtyardkey", false, "Courtyard Key", "keygroup", "");
+    initSettingGroupOption("spade", false, "Spade Key", "keygroup", "");
+    initSettingGroupOption("diamond", false, "Diamond Key", "keygroup", "");
+    initSettingGroupOption("club", false, "Club Key", "keygroup", "");
+    initSettingGroupOption("heart", false, "Heart Key", "keygroup", "");
+    initSettingGroupOption("weaponcard", false, "Weapons Locker Key Card", "keygroup", "");
+    initSettingGroupOption("orphanageKey", false, "Orphanage Key", "keygroup", "");
+    initSettingGroupOption("parkingcard", false, "Parking Garage Key Card", "keygroup", "");
+    initSettingGroupOption("sewerKey", false, "Sewer Key", "keygroup", "");
 
-    settings.Add("courtyardkey", false, "Courtyard Key", "keygroup");
-    settings.Add("spade", false, "Spade Key", "keygroup");
-    settings.Add("diamond", false, "Diamond Key", "keygroup");
-    settings.Add("club", false, "Club Key", "keygroup");
-    settings.Add("heart", false, "Heart Key", "keygroup");
-    settings.Add("weaponcard", false, "Weapons Locker Key Card", "keygroup");
-    settings.Add("orphanageKey", false, "Orphanage Key", "keygroup");
-    settings.Add("parkingcard", false, "Parking Garage Key Card", "keygroup");
-    settings.Add("sewerKey", false, "Sewer Key", "keygroup");
+    initSettingGroup("medalliongroup", true, "Medallions", "Medallion items to split when first picked up.");
+    initSettingGroupOption("unicorn", false, "Unicorn Medallion", "medalliongroup", "");
+    initSettingGroupOption("maiden", false, "Maiden Medallion", "medalliongroup", "");
+    initSettingGroupOption("lion", false, "Lion Medallion", "medalliongroup", "");
 
-    settings.Add("medalliongroup", true, "Medallions");
-    settings.Add("unicorn", false, "Unicorn Medallion", "medalliongroup");
-    settings.Add("maiden", false, "Maiden Medallion", "medalliongroup");
-    settings.Add("lion", false, "Lion Medallion", "medalliongroup");
+    initSettingGroup("fusegroup", true, "Fuses", "Fuse items to split when first picked up.");
+    initSettingGroupOption("fuse1", false, "Fuse (Main Hall)", "fusegroup", "");
+    initSettingGroupOption("fuse2", false, "Fuse (Break Room Hallway)", "fusegroup", "");
 
-    settings.Add("fusegroup", true, "Fuses");
-    settings.Add("fuse1", false, "Fuse (Main Hall)", "fusegroup");
-    settings.Add("fuse2", false, "Fuse (Break Room Hallway)", "fusegroup");
+    initSettingGroup("geargroup", true, "Gears", "Gear items to split when first picked up.");
+    initSettingGroupOption("largegear", false, "Large Gear", "geargroup", "");
+    initSettingGroupOption("smallgear", false, "Small Gear", "geargroup", "");
 
-    settings.Add("geargroup", true, "Gears");
-    settings.Add("largegear", false, "Large Gear", "geargroup");
-    settings.Add("smallgear", false, "Small Gear", "geargroup");
+    initSettingGroup("electrogroup", true, "Electronic Parts", "Electronic Parts to split when first picked up.");
+    initSettingGroupOption("partA", false, "Boxed Electronic Part A", "electrogroup", "");
+    initSettingGroupOption("partB", false, "Boxed Electronic Part B", "electrogroup", "");
 
-    settings.Add("electrogroup", true, "Electronic Parts");
-    settings.Add("partA", false, "Boxed Electronic Part A", "electrogroup");
-    settings.Add("partB", false, "Boxed Electronic Part B", "electrogroup");
+    initSettingGroup("pluggroup", true, "Plugs", "Plug items to split when first picked up.");
+    initSettingGroupOption("rook", false, "Rook Plug", "pluggroup", "");
+    initSettingGroupOption("queen", false, "Queen Plug", "pluggroup", "");
+    initSettingGroupOption("king", false, "King Plug", "pluggroup", "");
+    initSettingGroupOption("knight", false, "Knight Plug", "pluggroup", "");
+    initSettingGroupOption("bishop", false, "Bishop Plug", "pluggroup", "");
 
-    settings.Add("pluggroup", true, "Plugs");
-    settings.Add("rook", false, "Rook Plug", "pluggroup");
-    settings.Add("queen", false, "Queen Plug", "pluggroup");
-    settings.Add("king", false, "King Plug", "pluggroup");
-    settings.Add("knight", false, "Knight Plug", "pluggroup");
-    settings.Add("bishop", false, "Bishop Plug", "pluggroup");
+    initSettingGroup("dispensergroups", true, "Dispensers", "Dispenser items to split when first picked up.");
+    initSettingGroupOption("dispenseEmpty", false, "Dispersal Cartridge (Empty)", "dispensergroups", "");
+    initSettingGroupOption("dispenseSolution", false, "Dispersal Cartridge (Solution)", "dispensergroups", "");
+    initSettingGroupOption("herbicide", false, "Dispersal Cartridge (Herbicide)", "dispensergroups", "");
 
-    settings.Add("dispensergroups", true, "Dispensers");
-    settings.Add("dispenseEmpty", false, "Dispersal Cartridge (Empty)", "dispensergroups");
-    settings.Add("dispenseSolution", false, "Dispersal Cartridge (Solution)", "dispensergroups");
-    settings.Add("herbicide", false, "Dispersal Cartridge (Herbicide)", "dispensergroups");
+    initSettingGroup("wristgroup", true, "Wristbands", "Wristband items to split when first picked up.");
+    initSettingGroupOption("generalChip", false, "Guest", "wristgroup", "");
+    initSettingGroupOption("staffChip", false, "General Staff", "wristgroup", "");
+    initSettingGroupOption("seniorChip", false, "Senior Staff", "wristgroup", "");
+    initSettingGroupOption("chipAdmin", false, "Admin (Claire Only)", "wristgroup", "");
 
-    settings.Add("wristgroup", true, "Wristbands");
-    settings.Add("generalChip", false, "Guest", "wristgroup");
-    settings.Add("staffChip", false, "General Staff", "wristgroup");
-    settings.Add("seniorChip", false, "Senior Staff", "wristgroup");
-    settings.Add("chipAdmin", false, "Admin (Claire Only)", "wristgroup");
+    initSettingGroup("eventgroup", true, "Events", "Events to split when first picked up.");
+    initSettingGroupOption("reachedRPDA", false, "Reached the RPD (A Scenario only)", "eventgroup", "");
+    initSettingGroupOption("reachedSecretRoom", false, "Reached Secret Room", "eventgroup", "");
+    initSettingGroupOption("reachedGarage", false, "Reached Parking Garage", "eventgroup", "");
+    initSettingGroupOption("exitedGarage", false, "Back on the Streets (leave parking garage)", "eventgroup", "");
+    initSettingGroupOption("reachedSewers", false, "Reached the Sewers", "eventgroup", "");
+    initSettingGroupOption("adaStart", false, "Ada Start", "eventgroup", "");
+    initSettingGroupOption("adaEnd", false, "Ada End", "eventgroup", "");
+    initSettingGroupOption("sherryStart", false, "Sherry Start", "eventgroup", "");
+    initSettingGroupOption("rescue", false, "Rescued Sherry/Ada", "eventgroup", "");
+    initSettingGroupOption("g1Start", true, "G1 Battle Start", "eventgroup", "");
+    initSettingGroupOption("g2Start", true, "G2 Battle Start", "eventgroup", "");
+    initSettingGroupOption("g3Start", true, "G3 Battle Start", "eventgroup", "");
+    initSettingGroupOption("g4Start", true, "G4 Battle Start", "eventgroup", "");
+    initSettingGroupOption("g1", true, "G1 Battle Complete", "eventgroup", "");
+    initSettingGroupOption("g2", true, "G2 Battle Complete", "eventgroup", "");
+    initSettingGroupOption("g3", false, "G3 Battle Complete", "eventgroup", "");
+    initSettingGroupOption("end", false, "End (Scenario A/First final boss of B)", "eventgroup", "");
+    initSettingGroupOption("trueEnd", false, "True End", "eventgroup", "");
 
-    settings.Add("eventgroup", true, "Events");
-    settings.Add("reachedRPDA", false, "Reached the RPD (A Scenario only)", "eventgroup");
-    settings.Add("reachedSecretRoom", false, "Reached Secret Room", "eventgroup");
-    settings.Add("reachedGarage", false, "Reached Parking Garage", "eventgroup");
-    settings.Add("exitedGarage", false, "Back on the Streets (leave parking garage)", "eventgroup");
-    settings.Add("reachedSewers", false, "Reached the Sewers", "eventgroup");
-    settings.Add("adaStart", false, "Ada Start", "eventgroup");
-    settings.Add("adaEnd", false, "Ada End", "eventgroup");
-    settings.Add("sherryStart", false, "Sherry Start", "eventgroup");
-    settings.Add("rescue", false, "Rescued Sherry/Ada", "eventgroup");
-    settings.Add("g1Start", true, "G1 Battle Start", "eventgroup");
-    settings.Add("g2Start", true, "G2 Battle Start", "eventgroup");
-    settings.Add("g3Start", true, "G3 Battle Start", "eventgroup");
-    settings.Add("g4Start", true, "G4 Battle Start", "eventgroup");
-    settings.Add("g1", true, "G1 Battle Complete", "eventgroup");
-    settings.Add("g2", true, "G2 Battle Complete", "eventgroup");
-    settings.Add("g3", false, "G3 Battle Complete", "eventgroup");
-    settings.Add("end", false, "End (Scenario A/First final boss of B)", "eventgroup");
-    settings.Add("trueEnd", false, "True End", "eventgroup");
-
-    settings.Add("miscgroup", true, "Misc.");
-    settings.Add("boltCutters", false, "Bolt Cutters", "miscgroup");
-    settings.Add("emptyDetonator", false, "Detonator (No Battery)", "miscgroup");
-    settings.Add("detonator", false, "Detonator", "miscgroup");
-    settings.Add("mechanicHandle", false, "Mechanic Handle", "miscgroup");
-    settings.Add("squareCrank", false, "Square Crank", "miscgroup");
-    settings.Add("block", false, "Picture Block", "miscgroup");
-    settings.Add("scissors", false, "Scissors", "miscgroup");
-    settings.Add("valve", false, "Valve Handle", "miscgroup");
-    settings.Add("tbar", false, "T-Bar Valve Handle", "miscgroup");
-    settings.Add("modulator", false, "Signal Modulator", "miscgroup");
-    settings.Add("jointPlug", false, "Joint Plug", "miscgroup");
-
-    settings.Add("deprecate", true, "Deprecated");
-    settings.Add("redbook", false, "Red Book", "deprecate");
-    settings.Add("arm", false, "Statue's Left Arm", "deprecate");
-    settings.Add("scepter", false, "Scepter", "deprecate");
-    settings.Add("jewel", false, "Red Jewel", "deprecate");
-    settings.Add("jewelbox", false, "Bejewled Box", "deprecate");
-    settings.Add("starsbadge", false, "S.T.A.R.S Badge", "deprecate");
-    settings.Add("gL", false, "Grenade Launcher", "deprecate");
-    settings.Add("shotgun", false, "Shotgun", "deprecate");
+    initSettingGroup("miscgroup", true, "Misc.", "Misc items to split when first picked up.");
+    initSettingGroupOption("boltCutters", false, "Bolt Cutters", "miscgroup", "");
+    initSettingGroupOption("emptyDetonator", false, "Detonator (No Battery)", "miscgroup", "");
+    initSettingGroupOption("detonator", false, "Detonator", "miscgroup", "");
+    initSettingGroupOption("mechanicHandle", false, "Mechanic Handle", "miscgroup", "");
+    initSettingGroupOption("squareCrank", false, "Square Crank", "miscgroup", "");
+    initSettingGroupOption("block", false, "Picture Block", "miscgroup", "");
+    initSettingGroupOption("scissors", false, "Scissors", "miscgroup", "");
+    initSettingGroupOption("valve", false, "Valve Handle", "miscgroup", "");
+    initSettingGroupOption("tbar", false, "T-Bar Valve Handle", "miscgroup", "");
+    initSettingGroupOption("modulator", false, "Signal Modulator", "miscgroup", "");
+    initSettingGroupOption("jointPlug", false, "Joint Plug", "miscgroup", "");
+    
+    initSettingGroup("deprecate", true, "Deprecated", "Deprecated items to split when first picked up.");
+    initSettingGroupOption("redbook", false, "Red Book", "deprecate", "");
+    initSettingGroupOption("arm", false, "Statue's Left Arm", "deprecate", "");
+    initSettingGroupOption("scepter", false, "Scepter", "deprecate", "");
+    initSettingGroupOption("jewel", false, "Red Jewel", "deprecate", "");
+    initSettingGroupOption("jewelbox", false, "Bejewled Box", "deprecate", "");
+    initSettingGroupOption("starsbadge", false, "S.T.A.R.S Badge", "deprecate", "");
+    initSettingGroupOption("gL", false, "Grenade Launcher", "deprecate", "");
+    initSettingGroupOption("shotgun", false, "Shotgun", "deprecate", "");
 }
 
 init
 {
+    // Initialize Version
     vars.inventoryPtr = IntPtr.Zero;
-    print("=== Module Memory Size === " + modules.First().ModuleMemorySize.ToString());
-    switch (modules.First().ModuleMemorySize)
+
+    // Update Version Info and Inventory Pointer
+    Action<string, int> UpdateVersion = (ver, address) => {
+        version = ver;
+        vars.inventoryPtr = address;
+    };
+
+    byte[] checksum = vars.CalcModuleHash(modules.First());
+    if (Enumerable.SequenceEqual(checksum, vars.re2WW_11026357))
+        UpdateVersion("World Public RT 2023", 0x091A6CD0);
+    else if (Enumerable.SequenceEqual(checksum, vars.re2WW_11055033))
+        UpdateVersion("World DX11 2023", 0x070B23A8);
+    else
     {
-        default:
-            version = "World DX11 2023";
-            vars.inventoryPtr = 0x070B23A8;
-            break;
-        case (163291136):
-            version = "World Public RT 2023";
-            vars.inventoryPtr = 0x091A6CD0;
-            break;
+        vars.LogsSave("re2Version.log", vars.OutputVersion(checksum));
+        UpdateVersion("Unknown", 0x0);
     }
 
-    // Track inventory IDs
-    current.inventory = new int[20];
-    for (int i = 0; i < current.inventory.Length; ++i)
-    {
-        int itemID = 0;
+    // Initialize Inventory 
+    // Gets ItemID from given index of the array in game memory
+    Func<int, int> GetItemID = (idx) => {
+        int id = 0;
         IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
-        memory.ReadValue<int>(ptr, out itemID);
-        current.inventory[i] = itemID;
-    }
+        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (idx * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
+        memory.ReadValue<int>(ptr, out id);
+        return id;
+    };
+    vars.GetItemID = GetItemID;
 
-    // Track Weapon IDs
-    current.weapons = new int[20];
-    for (int i = 0; i < current.weapons.Length; ++i)
-    {
-        int weaponID = 0;
+    // Gets WeaponID from given index of the array in game memory
+    Func<int, int> GetWeaponID = (idx) => {
+        int id = 0;
         IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x14).DerefOffsets(memory, out ptr);
-        memory.ReadValue<int>(ptr, out weaponID);
-        current.weapons[i] = weaponID;
-    }
+        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (idx * 8), 0x18, 0x10, 0x14).DerefOffsets(memory, out ptr);
+        memory.ReadValue<int>(ptr, out id);
+        return id;
+    };
+    vars.GetWeaponID = GetWeaponID;
 }
 
 start
@@ -192,12 +273,15 @@ start
 
     // New Game Run Started
     bool isNewGameStart = locationsReset && isPlayerInit && isNewGameInit;
+
     // Segmented Runs Started
     bool isSegmentedStart = settings["segments"] && current.gameStartType == 2;
+
     // Start Conditions
     if (isNewGameStart || isSegmentedStart)
     {
-        print(isNewGameStart ? "New Game Timer Started" : "Load Game Timer Started");
+        vars.LogsClear(vars.logPath);
+        vars.Log(isNewGameStart ? "New Game Timer Started" : "Load Game Timer Started");
         return true;
     }
 }
@@ -211,36 +295,46 @@ reset
 
     // Exited to Title Screen
     bool exitedToTitle = hasLocation && isPlayerHP0 && isTitleScreen;
+
     // Reset Conditions
     if (exitedToTitle)
     {
-        print("Exited To Title Resetting Timer");
+        vars.Log("Exited To Title Resetting Timer");
         return true;
     }
 }
 
 update
 {
-    // Track inventory IDs
-    current.inventory = new int[20];
-    for (int i = 0; i < current.inventory.Length; ++i)
-    {
-        int itemID = 0;
-        IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
-        memory.ReadValue<int>(ptr, out itemID);
-        current.inventory[i] = itemID;
-    }
+    vars.logToFile = settings["logToFile"];
+    if (version == "Unknown")
+        return false;
 
-    // Track Weapon IDs 
-    current.weapons = new int[20];
-    for (int i = 0; i < current.weapons.Length; ++i) 
+    if (current.isCutscene != old.isCutscene)
+        vars.Log("Cutscene " + (current.isCutscene == 1 ? "Started" : "Ended"));
+
+    if (current.survivorType != old.survivorType)
+        vars.Log("Character Set To " + vars.GetCharacter[current.survivorType]);
+
+    if (current.gameStartType != old.gameStartType)
+        vars.Log("Game Start Type Set To " + vars.GetStartType[current.gameStartType]);
+
+    if (current.map != old.map)
+        vars.Log("Map ID Set To " + current.map);
+
+    if (current.loc != old.loc)
+        vars.Log("Location ID Set To " + current.loc + " Map ID Set To " + current.map);
+
+    if (current.map != old.map)
+        vars.Log("Map ID Set To " + current.map);
+
+    // Track inventory IDs
+    current.inventory = new int[vars.MAX_ITEMS];
+    current.weapons = new int[vars.MAX_ITEMS];
+    for (int i = 0; i < vars.MAX_ITEMS; ++i)
     {
-        int weaponID = 0;
-        IntPtr ptr;
-        new DeepPointer(vars.inventoryPtr, 0x58, 0x10, 0x20, 0x98, 0x10, 0x20 + (i * 8), 0x18, 0x10, 0x10).DerefOffsets(memory, out ptr);
-        memory.ReadValue<int>(ptr, out weaponID);
-        current.weapons[i] = weaponID;
+        current.inventory[i] = vars.GetItemID(i);
+        current.weapons[i] = vars.GetWeaponID(i);
     }
 
     // Initialize Global Run Variables
@@ -327,16 +421,49 @@ update
 split
 {
     Func<string, bool> LogAndSplit = (splitId) => {
-          print("Splitting: " + splitId);
+          vars.Log("Splitting: " + splitId);
           return settings[splitId];
     };
 
-    // Item splits
     int[] currentInventory = (current.inventory as int[]);
     int[] oldInventory = (old.inventory as int[]); // throws error first update, will be fine afterwards.
 
+    int[] currentWeapons = (current.weapons as int[]);
+    int[] oldWeapons = (old.weapons as int[]); // throws error first update, will be fine afterwards.
+
     for (int i = 0; i < currentInventory.Length; i++)
     {
+        // Weapon splits
+        if (currentWeapons[i] != oldWeapons[i])
+        {
+            switch (currentWeapons[i])
+            {
+                case 0x0000000B:
+                {
+                    if (vars.shotgun == 0)
+                    {
+                        vars.shotgun = 1;
+                        return LogAndSplit("shotgun");
+                    }
+                    break;
+                }
+                case 0x0000002A:
+                {
+                    if (vars.gL == 0)
+                    {
+                        vars.gL = 1;
+                        return LogAndSplit("gL");
+                    }
+                    break;
+                }
+                default:
+                {
+                    break; // No work to do.
+                }
+            }
+        }
+
+        // Item splits
         if (currentInventory[i] != oldInventory[i])
         {
             switch (currentInventory[i])
@@ -670,7 +797,7 @@ split
                     if (vars.dispenseSolution == 0)
                     {
                         vars.dispenseSolution = 1;
-                        return LogAndSplit("dispenseSolution");
+                        return LogAndSplit("dispenseSolution"); 
                     }
                     break;
                 }
@@ -694,7 +821,6 @@ split
                 }
                 case 0x000000BB:
                 {
-                    // admin wristband - claire only
                     if (vars.chipAdmin == 0)
                     {
                         vars.chipAdmin = 1;
@@ -723,7 +849,6 @@ split
                 case 0x000000C3:
                 case 0x000000C8:
                 {
-                    // visitor wristbands
                     // check if leon so it doesnt split on ada
                     if (vars.generalChip == 0 && (current.survivorType == 0 || current.survivorType == 1))
                     {
@@ -735,7 +860,6 @@ split
                 case 0x000000C4:
                 case 0x000000C9:
                 {
-                    // general staff wristbands
                     if (vars.staffChip == 0)
                     {
                         vars.staffChip = 1;
@@ -746,7 +870,6 @@ split
                 case 0x000000C5:
                 case 0x000000CA:
                 {
-                    // senior staff wristbands
                     if (vars.seniorChip == 0)
                     {
                         vars.seniorChip = 1;
@@ -796,42 +919,6 @@ split
         }
     }
 
-    // Weapon splits
-    int[] currentWeapons = (current.weapons as int[]);
-    int[] oldWeapons = (old.weapons as int[]); // throws error first update, will be fine afterwards.
-
-    for (int i = 0; i < currentWeapons.Length; i++)
-    {
-        if (currentWeapons[i] != oldWeapons[i])
-        {
-            switch (currentWeapons[i])
-            {
-                case 0x0000000B:
-                {
-                    if (vars.shotgun == 0)
-                    {
-                        vars.shotgun = 1;
-                        return LogAndSplit("shotgun");
-                    }
-                    break;
-                }
-                case 0x0000002A:
-                {
-                    if (vars.gL == 0)
-                    {
-                        vars.gL = 1;
-                        return LogAndSplit("gL");
-                    }
-                    break;
-                }
-                default:
-                {
-                    break; // No work to do.
-                }
-            }
-        }
-    }
-
     // G3 End
     if (current.map == 419 && !(current.bossCHP >= 1) && vars.g3Start == 1 && vars.g3 == 0)
     {
@@ -860,19 +947,20 @@ split
         return LogAndSplit("g4Start");
     }
 
-    // G4 End and Train Ending - A only
+    // G4 End and Alt Ending
     bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.g4Start == 1 && vars.end == 0;
-    //bool isOtherEnding = old.map == 373 && current.map == 422 && vars.end == 0;
-    bool isSTyrantEnding = old.map == 422 && current.map == 422 && vars.end == 0 && current.isCutscene == 1;
-    if (isG4Ending || isSTyrantEnding)
+    bool isOtherEnding = old.map == 373 && current.map == 422 && vars.end == 0;
+
+    if (isG4Ending || isOtherEnding)
     {
         vars.end = 1;
         return LogAndSplit("end");
     }
 
-    // True Ending - B only
+    // True Endings?
+    bool isSTyrantEnding = old.map == 422 && current.map == 422 && vars.end == 1 && vars.trueEnd == 0 && current.isCutscene == 1;
     bool isG5Ending = current.map == 421 && vars.onTrain == 1 && old.map == 423 && vars.trueEnd == 0 && current.isCutscene == 1;
-    if (isG5Ending)
+    if (isSTyrantEnding || isG5Ending)
     {
         vars.trueEnd = 1;
         return LogAndSplit("trueEnd");
@@ -896,13 +984,13 @@ split
             vars.reachedRPDA = 1;
             return LogAndSplit("reachedRPDA");
         }
-        
+
         if (current.map == 277 && vars.reachedGarage == 0)
         {
             vars.reachedGarage = 1;
             return LogAndSplit("reachedGarage");
         }
-        
+
         if (current.map == 350 && vars.reachedSecretRoom == 0)
         {
             vars.reachedSecretRoom = 1;
@@ -914,18 +1002,18 @@ split
             vars.exitedGarage = 1;
             return LogAndSplit("exitedGarage");
         }
-        
+
         if (current.map == 338 && vars.rescue == 0 || old.map == 0 && current.map == 335 && vars.rescue == 0)
         {
             vars.rescue = 1;
             return LogAndSplit("rescue");
         }
-        
+
         if (current.map == 423 && vars.onTrain == 0)
         {
             vars.onTrain = 1;
-            print("onTrain");
         }
+        
         if (current.map == 0 && old.map == 330 && vars.adaEnd == 0)
         {
             vars.adaEnd = 1;
@@ -952,12 +1040,10 @@ split
         if (current.map == 353 && vars.reachedG1 == 0)
         {
             vars.reachedG1 = 1;
-            print("reachedG1");
         }
         if (current.map == 419 && vars.reachedG3 == 0)
         {
             vars.reachedG3 = 1;
-            print("reachedG3");
         }
     }
 
@@ -965,18 +1051,11 @@ split
     if (current.isPaused == 1)
     {
         if (current.map == 353 && vars.reachedG1 == 1 && vars.g1CutsceneSkipped == 0)
-        {
             vars.g1CutsceneSkipped = 1;
-            print("g1CutsceneSkipped");
-        }
-        
     }
 
     if (current.map == 419 && vars.reachedG3 == 1 && vars.g3CutsceneSkipped == 0)
-    {
         vars.g3CutsceneSkipped = 1;
-        print("g3CutsceneSkipped");
-    }
 
     // Cutscene Skipped
     if (current.isCutscene == 0 && current.isPaused == 0)
