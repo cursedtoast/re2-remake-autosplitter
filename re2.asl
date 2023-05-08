@@ -76,7 +76,7 @@ startup
     vars.LogsSave = SaveLogs;
 
     Action<string> DebugOutput = (text) => {
-        print("[Debug " + timer.CurrentTime.GameTime.ToString(@"hh\:mm\:ss") + "]: " + text);
+        print("[Debug " + timer.CurrentTime.GameTime.ToString() + "]: " + text);
         if (vars.logToFile)
             SaveLogs(vars.logPath, text);
     };
