@@ -1013,6 +1013,7 @@ split
         {
             vars.onTrain = 1;
         }
+        
         if (current.map == 0 && old.map == 330 && vars.adaEnd == 0)
         {
             vars.adaEnd = 1;
