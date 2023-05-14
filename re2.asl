@@ -1,6 +1,6 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Last updated 05/08/2023
+//Last updated 05/14/2023
 //New Pointers by VideoGameRoulette & DeathHound
 
 state("re2", "World Public RT 2023")
@@ -45,7 +45,9 @@ startup
     vars.logToFile = false;
     vars.logPath = "re2.log";
     vars.MAX_ITEMS = 20;
-    vars.Splits = new List<string>();
+	vars.ItemSplits = new List<string>();
+	vars.LocationSplits = new List<string>();
+	vars.BossSplits = new List<string>();
 
     // DX11
     vars.re2WW_11055033 = new byte[32] { 0xF2, 0x6C, 0xDE, 0xBF, 0xFE, 0x66, 0x55, 0xD0, 0x5B, 0xF0, 0x04, 0x7F, 0x79, 0x39, 0xEA, 0x5E, 0x38, 0x36, 0x08, 0xAF, 0xF4, 0x60, 0x3C, 0xA3, 0xF0, 0xF3, 0x6A, 0x12, 0xDC, 0x56, 0x23, 0xCA };
@@ -172,7 +174,8 @@ startup
     initSettingGroupOption("herbicide", false, "Dispersal Cartridge (Herbicide)", "dispensergroups", "");
 
     initSettingGroup("wristgroup", true, "Wristbands", "Wristband items to split when first picked up.");
-    initSettingGroupOption("generalChip", false, "Guest", "wristgroup", "");
+    initSettingGroupOption("generalChipAda", false, "Guest (Ada)", "wristgroup", "");
+    initSettingGroupOption("generalChipMain", false, "Guest (Leon or Claire)", "wristgroup", "");
     initSettingGroupOption("staffChip", false, "General Staff", "wristgroup", "");
     initSettingGroupOption("seniorChip", false, "Senior Staff", "wristgroup", "");
     initSettingGroupOption("chipAdmin", false, "Admin (Claire Only)", "wristgroup", "");
@@ -281,7 +284,6 @@ start
     // Start Conditions
     if (isNewGameStart || isSegmentedStart)
     {
-        // vars.Splits.Clear();
         vars.LogsClear(vars.logPath);
         vars.Log(isNewGameStart ? "New Game Timer Started" : "Load Game Timer Started");
         return true;
@@ -341,15 +343,18 @@ update
 
     // Initialize Global Run Variables
     if (timer.CurrentPhase == TimerPhase.NotRunning)
-        vars.Splits.Clear();
+	{
+		vars.ItemSplits.Clear();
+		vars.LocationSplits.Clear();
+		vars.BossSplits.Clear();
+	}
 }
 
 split
 {
     Func<string, bool> LogAndSplit = (splitId) => {
-        // if (!vars.Splits.Contains(splitId)) return false;
+		vars.ItemSplits.Add(splitId);
         vars.Log("Splitting: " + splitId);
-        vars.Splits.Add(splitId);
         return settings[splitId];
     };
 
@@ -368,13 +373,13 @@ split
             {
                 case 0x0000000B:
                 {
-                    if (!vars.Splits.Contains("shotgun"))
+                    if (vars.ItemSplits.Contains("shotgun"))
                         return LogAndSplit("shotgun");
                     break;
                 }
                 case 0x0000002A:
                 {
-                    if (!vars.Splits.Contains("gL"))
+                    if (vars.ItemSplits.Contains("gL"))
                         return LogAndSplit("gL");
                     break;
                 }
@@ -392,250 +397,300 @@ split
             {
                 case 0x0000001F:
                 {
-                    if (!vars.Splits.Contains("detonator")) return LogAndSplit("detonator");
+                    if (!vars.ItemSplits.Contains("detonator"))
+                        return LogAndSplit("detonator");
                     break;
                 }
                 case 0x00000022:
                 {
-                    if (!vars.Splits.Contains("emptyDetonator")) return LogAndSplit("emptyDetonator");
+                    if (!vars.ItemSplits.Contains("emptyDetonator"))
+                        return LogAndSplit("emptyDetonator");
                     break;
                 }
                 case 0x0000004D:
                 {
-                    if (!vars.Splits.Contains("storageKey")) return LogAndSplit("storageKey");
+                    if (!vars.ItemSplits.Contains("storageKey"))
+                        return LogAndSplit("storageKey");
                     break;
                 }
                 case 0x0000004F:
                 {
-                    if (!vars.Splits.Contains("mechanicHandle")) return LogAndSplit("mechanicHandle");
+                    if (!vars.ItemSplits.Contains("mechanicHandle"))
+                        return LogAndSplit("mechanicHandle");
                     break;
                 }
                 case 0x00000050:
                 {
-                    if (!vars.Splits.Contains("squareCrank")) return LogAndSplit("squareCrank");
+                    if (!vars.ItemSplits.Contains("squareCrank"))
+                        return LogAndSplit("squareCrank");
                     break;
                 }
                 case 0x00000051:
                 {
-                    if (!vars.Splits.Contains("unicorn")) return LogAndSplit("unicorn");
+                    if (!vars.ItemSplits.Contains("unicorn"))
+                        return LogAndSplit("unicorn");
                     break;
                 }
                 case 0x00000076:
                 {
-                    if (!vars.Splits.Contains("lion")) return LogAndSplit("lion");
+                    if (!vars.ItemSplits.Contains("lion"))
+                        return LogAndSplit("lion");
                     break;
                 }
                 case 0x0000007C:
                 {
-                    if (!vars.Splits.Contains("maiden")) return LogAndSplit("maiden");
+                    if (!vars.ItemSplits.Contains("maiden"))
+                        return LogAndSplit("maiden");
                     break;
                 }
                 case 0x00000052:
                 {
-                    if (!vars.Splits.Contains("spade")) return LogAndSplit("spade");
+                    if (!vars.ItemSplits.Contains("spade"))
+                        return LogAndSplit("spade");
                     break;
                 }
                 case 0x00000053:
                 {
-                    if (!vars.Splits.Contains("parkingcard")) return LogAndSplit("parkingcard");
+                    if (!vars.ItemSplits.Contains("parkingcard"))
+                        return LogAndSplit("parkingcard");
                     break;
                 }
                 case 0x00000054:
                 {
-                    if (!vars.Splits.Contains("weaponcard")) return LogAndSplit("weaponcard");
+                    if (!vars.ItemSplits.Contains("weaponcard"))
+                        return LogAndSplit("weaponcard");
                     break;
                 }
                 case 0x00000056:
                 {
-                    if (!vars.Splits.Contains("valve")) return LogAndSplit("valve");
+                    if (!vars.ItemSplits.Contains("valve"))
+                        return LogAndSplit("valve");
                     break;
                 }
                 case 0x00000057:
                 {
-                    if (!vars.Splits.Contains("starsbadge")) return LogAndSplit("starsbadge");
+                    if (!vars.ItemSplits.Contains("starsbadge"))
+                        return LogAndSplit("starsbadge");
                     break;
                 }
                 case 0x00000058:
                 {
-                    if (!vars.Splits.Contains("scepter")) return LogAndSplit("scepter");
+                    if (!vars.ItemSplits.Contains("scepter"))
+                        return LogAndSplit("scepter");
                     break;
                 }
                 case 0x0000005A:
                 {
-                    if (!vars.Splits.Contains("jewel")) return LogAndSplit("jewel");
+                    if (!vars.ItemSplits.Contains("jewel"))
+                        return LogAndSplit("jewel");
                     break;
                 }
                 case 0x0000005B:
                 {
-                    if (!vars.Splits.Contains("jewelbox")) return LogAndSplit("jewelbox");
+                    if (!vars.ItemSplits.Contains("jewelbox"))
+                        return LogAndSplit("jewelbox");
                     break;
                 }
                 case 0x0000005E:
                 {
-                    if (!vars.Splits.Contains("rook")) return LogAndSplit("rook");
+                    if (!vars.ItemSplits.Contains("rook"))
+                        return LogAndSplit("rook");
                     break;
                 }
                 case 0x0000005F:
                 {
-                    if (!vars.Splits.Contains("king")) return LogAndSplit("king");
+                    if (!vars.ItemSplits.Contains("king"))
+                        return LogAndSplit("king");
                     break;
                 }
                 case 0x00000084:
                 {
-                    if (!vars.Splits.Contains("knight")) return LogAndSplit("knight");
+                    if (!vars.ItemSplits.Contains("knight"))
+                        return LogAndSplit("knight");
                     break;
                 }
                 case 0x00000086:
                 {
-                    if (!vars.Splits.Contains("queen")) return LogAndSplit("queen");
+                    if (!vars.ItemSplits.Contains("queen"))
+                        return LogAndSplit("queen");
                     break;
                 }
                 case 0x0000005D:
                 {
-                    if (!vars.Splits.Contains("bishop")) return LogAndSplit("bishop");
+                    if (!vars.ItemSplits.Contains("bishop"))
+                        return LogAndSplit("bishop");
                     break;
                 }
                 case 0x00000062:
                 {
-                    if (!vars.Splits.Contains("block")) return LogAndSplit("block");
+                    if (!vars.ItemSplits.Contains("block"))
+                        return LogAndSplit("block");
                     break;
                 }
                 case 0x00000072:
                 {
-                    if (!vars.Splits.Contains("redbook")) return LogAndSplit("redbook");
+                    if (!vars.ItemSplits.Contains("redbook"))
+                        return LogAndSplit("redbook");
                     break;
                 }
                 case 0x00000073:
                 {
-                    if (!vars.Splits.Contains("arm")) return LogAndSplit("arm");
+                    if (!vars.ItemSplits.Contains("arm"))
+                        return LogAndSplit("arm");
                     break;
                 }
                 case 0x00000077:
                 {
-                    if (!vars.Splits.Contains("diamond")) return LogAndSplit("diamond");
+                    if (!vars.ItemSplits.Contains("diamond"))
+                        return LogAndSplit("diamond");
                     break;
                 }
                 case 0x00000078:
                 {
-                    if (!vars.Splits.Contains("carkey")) return LogAndSplit("carkey");
+                    if (!vars.ItemSplits.Contains("carkey"))
+                        return LogAndSplit("carkey");
                     break;
                 }
                 case 0x00000087:
                 {
-                    if (!vars.Splits.Contains("partA")) return LogAndSplit("partA");
+                    if (!vars.ItemSplits.Contains("partA"))
+                        return LogAndSplit("partA");
                     break;
                 }
                 case 0x00000088:
                 {
-                    if (!vars.Splits.Contains("partB")) return LogAndSplit("partB");
+                    if (!vars.ItemSplits.Contains("partB"))
+                        return LogAndSplit("partB");
                     break;
                 }
                 case 0x00000081:
                 {
-                    if (!vars.Splits.Contains("smallgear")) return LogAndSplit("smallgear");
+                    if (!vars.ItemSplits.Contains("smallgear"))
+                        return LogAndSplit("smallgear");
                     break;
                 }
                 case 0x00000082:
                 {
-                    if (!vars.Splits.Contains("largegear")) return LogAndSplit("largegear");
+                    if (!vars.ItemSplits.Contains("largegear"))
+                        return LogAndSplit("largegear");
                     break;
                 }
                 case 0x00000083:
                 {
-                    if (!vars.Splits.Contains("courtyardkey")) return LogAndSplit("courtyardkey");
+                    if (!vars.ItemSplits.Contains("courtyardkey"))
+                        return LogAndSplit("courtyardkey");
                     break;
                 }
                 case 0x0000009F:
                 {
-                    if (!vars.Splits.Contains("orphanageKey")) return LogAndSplit("orphanageKey");
+                    if (!vars.ItemSplits.Contains("orphanageKey"))
+                        return LogAndSplit("orphanageKey");
                     break;
                 }
                 case 0x000000A0:
                 {
-                    if (!vars.Splits.Contains("club")) return LogAndSplit("club");
+                    if (!vars.ItemSplits.Contains("club"))
+                        return LogAndSplit("club");
                     break;
                 }
                 case 0x000000A9:
                 {
-                    if (!vars.Splits.Contains("heart")) return LogAndSplit("heart");
+                    if (!vars.ItemSplits.Contains("heart"))
+                        return LogAndSplit("heart");
                     break;
                 }
                 case 0x000000B0:
                 {
-                    if (!vars.Splits.Contains("tbar")) return LogAndSplit("tbar");
+                    if (!vars.ItemSplits.Contains("tbar"))
+                        return LogAndSplit("tbar");
                     break;
                 }
                 case 0x000000B3:
                 {
-                    if (!vars.Splits.Contains("dispenseEmpty")) return LogAndSplit("dispenseEmpty");
+                    if (!vars.ItemSplits.Contains("dispenseEmpty"))
+                        return LogAndSplit("dispenseEmpty");
                     break;
                 }
                 case 0x000000B4:
                 {
-                    if (!vars.Splits.Contains("dispenseSolution")) return LogAndSplit("dispenseSolution"); 
+                    if (!vars.ItemSplits.Contains("dispenseSolution"))
+                        return LogAndSplit("dispenseSolution"); 
                     break;
                 }
                 case 0x000000B5:
                 {
-                    if (!vars.Splits.Contains("herbicide")) return LogAndSplit("herbicide");
+                    if (!vars.ItemSplits.Contains("herbicide"))
+                        return LogAndSplit("herbicide");
                     break;
                 }
                 case 0x000000B7:
                 {
-                    if (!vars.Splits.Contains("jointPlug")) return LogAndSplit("jointPlug");
+                    if (!vars.ItemSplits.Contains("jointPlug"))
+                        return LogAndSplit("jointPlug");
                     break;
                 }
                 case 0x000000BB:
                 {
-                    if (!vars.Splits.Contains("chipAdmin")) return LogAndSplit("chipAdmin");
+                    if (!vars.ItemSplits.Contains("chipAdmin"))
+                        return LogAndSplit("chipAdmin");
                     break;
                 }
                 case 0x000000BD:
                 {
-                    if (!vars.Splits.Contains("modulator")) return LogAndSplit("modulator");
+                    if (!vars.ItemSplits.Contains("modulator"))
+                        return LogAndSplit("modulator");
                     break;
                 }
                 case 0x000000C2:
                 {
-                    if (!vars.Splits.Contains("sewerKey")) return LogAndSplit("sewerKey");
+                    if (!vars.ItemSplits.Contains("sewerKey"))
+                        return LogAndSplit("sewerKey");
                     break;
                 }
                 case 0x000000C3:
                 case 0x000000C8:
                 {
-                    // check if leon so it doesnt split on ada
-                    if (!vars.Splits.Contains("generalChip") && (current.survivorType == 0 || current.survivorType == 1)) return LogAndSplit("generalChip");
+					if (!vars.ItemSplits.Contains("generalChipAda") && current.survivorType == 2)
+                        return LogAndSplit("generalChipAda");
+					if (!vars.ItemSplits.Contains("generalChipMain") && (current.survivorType == 0 || current.survivorType == 1))
+                        return LogAndSplit("generalChipMain");
                     break;
                 }
                 case 0x000000C4:
                 case 0x000000C9:
                 {
-                    if (!vars.Splits.Contains("staffChip")) return LogAndSplit("staffChip");
+                    if (!vars.ItemSplits.Contains("staffChip"))
+                        return LogAndSplit("staffChip");
                     break;
                 }
                 case 0x000000C5:
                 case 0x000000CA:
                 {
-                    if (!vars.Splits.Contains("seniorChip")) return LogAndSplit("seniorChip");
+                    if (!vars.ItemSplits.Contains("seniorChip"))
+                        return LogAndSplit("seniorChip");
                     break;
                 }
                 case 0x000000F0:
                 {
-                    if (!vars.Splits.Contains("fuse1")) return LogAndSplit("fuse1");
+                    if (!vars.ItemSplits.Contains("fuse1"))
+                        return LogAndSplit("fuse1");
                     break;
                 }
                 case 0x000000F1:
                 {
-                    if (!vars.Splits.Contains("fuse2")) return LogAndSplit("fuse2");
+                    if (!vars.ItemSplits.Contains("fuse2"))
+                        return LogAndSplit("fuse2");
                     break;
                 }
                 case 0x000000F3:
                 {
-                    if (!vars.Splits.Contains("scissors")) return LogAndSplit("scissors");
+                    if (!vars.ItemSplits.Contains("scissors"))
+                        return LogAndSplit("scissors");
                     break;
                 }
                 case 0x000000F4:
-                    if (!vars.Splits.Contains("boltCutters")) return LogAndSplit("boltCutters");
+                    if (!vars.ItemSplits.Contains("boltCutters"))
+                        return LogAndSplit("boltCutters");
                     break;
                 default:
                 {
@@ -646,102 +701,102 @@ split
     }
 
     // G3 End
-    if (current.map == 419 && !(current.bossCHP >= 1) && vars.Splits.Contains("g3Start") && !vars.Splits.Contains("g3"))
-        return LogAndSplit("g3");
+    if (current.map == 419 && !(current.bossCHP >= 1))
+		if (vars.BossSplits.Contains("g3Start") && !vars.BossSplits.Contains("g3"))
+        	return LogAndSplit("g3");
 
     // G2 Start
-    if (current.map == 335 && !(current.bossHP == 24000) && !vars.Splits.Contains("g2Start"))
-        return LogAndSplit("g2Start");
+    if (current.map == 335 && !(current.bossHP == 24000))
+		if (!vars.BossSplits.Contains("g2Start"))
+        	return LogAndSplit("g2Start");
 
     // G2 End
-    if (current.map == 335 && !(current.bossHP >= 1) && vars.Splits.Contains("g2Start") && !vars.Splits.Contains("g2"))
-        return LogAndSplit("g2");
+    if (current.map == 335 && !(current.bossHP >= 1))
+		if (vars.BossSplits.Contains("g2Start") && !vars.BossSplits.Contains("g2"))
+        	return LogAndSplit("g2");
 
     // G4 Start
-    if (current.map == 421 && current.bossHP >= 3000000 && !vars.Splits.Contains("g4Start"))
-        return LogAndSplit("g4Start");
+    if (current.map == 421 && current.bossHP >= 3000000)
+		if (!vars.BossSplits.Contains("g4Start"))
+        	return LogAndSplit("g4Start");
 
     // G4 End and Alt Ending
-    bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.Splits.Contains("g4Start") && !vars.Splits.Contains("end");
-    bool isOtherEnding = old.map == 373 && current.map == 422 && !vars.Splits.Contains("end");
+    bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.BossSplits.Contains("g4Start") && !vars.LocationSplits.Contains("end");
+    bool isOtherEnding = old.map == 373 && current.map == 422 && !vars.LocationSplits.Contains("end");
 
     if (isG4Ending || isOtherEnding)
         return LogAndSplit("end");
 
     // True Endings?
-    bool isSTyrantEnding = old.map == 422 && current.map == 422 && vars.Splits.Contains("end") && !vars.Splits.Contains("trueEnd") && current.isCutscene == 1;
-    bool isG5Ending = current.map == 421 && vars.Splits.Contains("onTrain") && old.map == 423 && !vars.Splits.Contains("trueEnd") && current.isCutscene == 1;
-
+    bool isSTyrantEnding = old.map == 422 && current.map == 422 && current.isCutscene == 1 && vars.LocationSplits.Contains("end") && !vars.LocationSplits.Contains("trueEnd");
+    bool isG5Ending = current.map == 421 && old.map == 423 && current.isCutscene == 1 && vars.LocationSplits.Contains("onTrain") && !vars.LocationSplits.Contains("trueEnd");
     if (isSTyrantEnding || isG5Ending)
         return LogAndSplit("trueEnd");
 
     // Map splits
     if (current.map != old.map)
     {
-        if (current.map == 317 && !vars.Splits.Contains("reachedSewers") || current.map == 377 && old.map == 407 && !vars.Splits.Contains("reachedSewers"))
+        if (current.map == 317 && !vars.LocationSplits.Contains("reachedSewers") || current.map == 377 && old.map == 407 && !vars.LocationSplits.Contains("reachedSewers"))
             return LogAndSplit("reachedSewers");
 
-        if (current.map == 112 && !vars.Splits.Contains("reachedRPDA") || current.map == 261 && !vars.Splits.Contains("reachedRPDA"))
-        {
-            // Check is Scenerio B and Does Not Have Courtyard Key
+        if (current.map == 112 && !vars.LocationSplits.Contains("reachedRPDA") || current.map == 261 && !vars.LocationSplits.Contains("reachedRPDA"))
+		{
             if (current.scenerioTypeValue == 2 || current.scenerioTypeValue == 3)
-                if (!vars.Splits.Contains("courtyardkey")) return false;
-            return LogAndSplit("reachedRPDA");
-        }
+                if (vars.courtyardkey == 0) return false;
+        	return LogAndSplit("reachedRPDA");
+		}
 
-        if (current.map == 277 && !vars.Splits.Contains("reachedGarage"))
+        if (current.map == 277 && !vars.LocationSplits.Contains("reachedGarage"))
             return LogAndSplit("reachedGarage");
 
-        if (current.map == 350 && !vars.Splits.Contains("reachedSecretRoom"))
+        if (current.map == 350 && !vars.LocationSplits.Contains("reachedSecretRoom"))
             return LogAndSplit("reachedSecretRoom");
 
-        if (old.map == 277 && current.map == 351 && !vars.Splits.Contains("exitedGarage"))
+        if (old.map == 277 && current.map == 351 && !vars.LocationSplits.Contains("exitedGarage"))
             return LogAndSplit("exitedGarage");
 
-        if (current.map == 338 && !vars.Splits.Contains("rescue") || old.map == 0 && current.map == 335 && !vars.Splits.Contains("rescue"))
+        if (current.map == 338 && !vars.LocationSplits.Contains("rescue") || old.map == 0 && current.map == 335 && !vars.LocationSplits.Contains("rescue"))
             return LogAndSplit("rescue");
 
-        if (current.map == 423 && !vars.Splits.Contains("onTrain"))
-            vars.Splits.Add("onTrain");
+        if (current.map == 423 && !vars.LocationSplits.Contains("onTrain"))
+            vars.LocationSplits.Add("onTrain");
         
-        if (current.map == 0 && old.map == 330 && !vars.Splits.Contains("adaEnd"))
+        if (current.map == 0 && old.map == 330 && !vars.LocationSplits.Contains("adaEnd"))
             return LogAndSplit("adaEnd");
     }
 
     // Character Swap splits
-    if (current.map == 310 && current.survivorType == 2 && !vars.Splits.Contains("adaStart"))
+    if (current.map == 310 && current.survivorType == 2 && !vars.LocationSplits.Contains("adaStart"))
         return LogAndSplit("adaStart");
 
-    if (current.map == 363 && current.survivorType == 3 && !vars.Splits.Contains("sherryStart"))
+    if (current.map == 363 && current.survivorType == 3 && !vars.LocationSplits.Contains("sherryStart"))
         return LogAndSplit("sherryStart");
 
     // Cutscene Playing
     if (current.isCutscene == 1)
     {
-        if (current.map == 353 && !vars.Splits.Contains("reachedG1"))
-            vars.Splits.Add("reachedG1");
-        if (current.map == 419 && !vars.Splits.Contains("reachedG3"))
-            vars.Splits.Add("reachedG3");
+        if (current.map == 353 && !vars.BossSplits.Contains("reachedG1"))
+			vars.BossSplits.Add("reachedG1");
+        if (current.map == 419 && !vars.BossSplits.Contains("reachedG3"))
+			vars.BossSplits.Add("reachedG3");
     }
 
     // Cutscene Paused For Skipping
     if (current.isPaused == 1)
-    {
-        if (current.map == 353 && vars.Splits.Contains("reachedG1") && !vars.Splits.Contains("g1CutsceneSkipped"))
-            vars.Splits.Add("g1CutsceneSkipped");
-    }
+        if (current.map == 353 && vars.BossSplits.Contains("reachedG1") && !vars.BossSplits.Contains("g1CutsceneSkipped"))
+			vars.BossSplits.Add("g1CutsceneSkipped");
 
-    if (current.map == 419 && vars.Splits.Contains("reachedG3") && !vars.Splits.Contains("g3CutsceneSkipped"))
-        vars.Splits.Add("g3CutsceneSkipped");
+    if (current.map == 419 && vars.BossSplits.Contains("reachedG3") && !vars.BossSplits.Contains("g3CutsceneSkipped"))
+		vars.BossSplits.Add("g3CutsceneSkipped");
 
     // Cutscene Skipped
     if (current.isCutscene == 0 && current.isPaused == 0)
     {
-        if (current.map == 353 && vars.Splits.Contains("g1CutsceneSkipped") && !vars.Splits.Contains("g1Start"))
+        if (current.map == 353 && vars.BossSplits.Contains("g1CutsceneSkipped") && !vars.BossSplits.Contains("g1Start"))
             return LogAndSplit("g1Start");
-        if (current.map == 419 && vars.Splits.Contains("g3CutsceneSkipped") && !vars.Splits.Contains("g3Start"))
+        if (current.map == 419 && vars.BossSplits.Contains("g3CutsceneSkipped") && !vars.BossSplits.Contains("g3Start"))
             return LogAndSplit("g3Start");
-        if (current.map == 353 && !(current.bossHP >= 1) && vars.Splits.Contains("g1Start") && !vars.Splits.Contains("g1"))
+        if (current.map == 353 && !(current.bossHP >= 1) && vars.BossSplits.Contains("g1Start") && !vars.BossSplits.Contains("g1"))
             return LogAndSplit("g1");
     }
 }
