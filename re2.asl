@@ -127,6 +127,66 @@ startup
         {3, "Sherry"},
     };
 
+    vars.ItemID = new Dictionary<int,string> {
+        {0x1F, "detonator"},
+        {0x22, "emptyDetonator"},
+        {0x4D, "storageKey"},
+        {0x4F, "mechanicHandle"},
+        {0x50, "squareCrank"},
+        {0x51, "unicorn"},
+        {0x52, "spade"},
+        {0x53, "parkingcard"},
+        {0x54, "weaponcard"},
+        {0x56, "valve"},
+        {0x57, "starsbadge"},
+        {0x58, "scepter"},
+        {0x5A, "jewel"},
+        {0x5B, "jewelbox"},
+        {0x5D, "bishop"},
+        {0x5E, "rook"},
+        {0x5F, "king"},
+        {0x62, "block"},
+        {0x72, "redbook"},
+        {0x73, "arm"},
+        {0x76, "lion"},
+        {0x77, "diamond"},
+        {0x78, "carkey"},
+        {0x7C, "maiden"},
+        {0x81, "smallgear"},
+        {0x82, "largegear"},
+        {0x83, "courtyardkey"},
+        {0x84, "knight"},
+        {0x86, "queen"},
+        {0x87, "partA"},
+        {0x88, "partB"},
+        {0x9F, "orphanageKey"},
+        {0xA0, "club"},
+        {0xA9, "heart"},
+        {0xB0, "tbar"},
+        {0xB3, "dispenseEmpty"},
+        {0xB4, "dispenseSolution"},
+        {0xB5, "herbicide"},
+        {0xB7, "jointPlug"},
+        {0xBB, "chipAdmin"},
+        {0xBD, "modulator"},
+        {0xC2, "sewerKey"},
+        {0xC3, "generalChipAda"},
+        {0xC4, "staffChip"},
+        {0xC5, "seniorChip"},
+        {0xC8, "generalChipMain"},
+        {0xC9, "staffChip"},
+        {0xCA, "seniorChip"},
+        {0xF0, "fuse1"},
+        {0xF1, "fuse2"},
+        {0xF3, "scissors"},
+        {0xF4, "boltCutters"},
+    };
+
+    vars.WeaponID = new Dictionary<int,string> {
+        {0x0B, "shotgun"},
+        {0x2A, "gL"},
+    };
+
     initSettingGroup("logToFile", false, "Debug Logging", "Toggles the DebugOutput to output 10 latest logs to log file");
     initSettingGroup("segments", false, "Segment Practice Start", "Enables or disables segmented start trigger for segmented practice.");
 
@@ -367,13 +427,13 @@ split
             {
                 case 0x0000000B:
                 {
-                    if (vars.Splits.Contains("shotgun"))
+                    if (!vars.Splits.Contains("shotgun"))
                         return LogAndSplit("shotgun");
                     break;
                 }
                 case 0x0000002A:
                 {
-                    if (vars.Splits.Contains("gL"))
+                    if (!vars.Splits.Contains("gL"))
                         return LogAndSplit("gL");
                     break;
                 }
