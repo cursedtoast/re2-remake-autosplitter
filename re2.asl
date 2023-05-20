@@ -1,6 +1,6 @@
 //Resident Evil 2 Remake Autosplitter
 //By CursedToast 1/28/2019
-//Last updated 05/14/2023
+//Last updated 05/20/2023
 //New Pointers by VideoGameRoulette & DeathHound
 
 state("re2", "World Public RT 2023")
