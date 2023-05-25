@@ -780,14 +780,13 @@ split
     // G4 End and Alt Ending
     bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.Splits.Contains("g4Start") && !vars.Splits.Contains("end");
     bool isOtherEnding = current.isCutscene == 1 && current.map == 422 && !vars.Splits.Contains("end");
-
     if (isG4Ending || isOtherEnding)
         return LogAndSplit("end");
 
-    // True Endings?
-    bool isSTyrantEnding = old.map == 422 && current.map == 422 && current.isCutscene == 1 && vars.Splits.Contains("end") && !vars.Splits.Contains("trueEnd");
+    // True Ending - G5
+    //bool isSTyrantEnding = old.map == 422 && current.map == 422 && current.isCutscene == 1 && vars.Splits.Contains("end") && !vars.Splits.Contains("trueEnd");
     bool isG5Ending = current.map == 421 && old.map == 423 && current.isCutscene == 1 && vars.Splits.Contains("onTrain") && !vars.Splits.Contains("trueEnd");
-    if (isSTyrantEnding || isG5Ending)
+    if (isG5Ending)
         return LogAndSplit("trueEnd");
 
     // Map splits
