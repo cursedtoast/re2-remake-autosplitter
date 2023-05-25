@@ -779,7 +779,7 @@ split
 
     // G4 End and Alt Ending
     bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.Splits.Contains("g4Start") && !vars.Splits.Contains("end");
-    bool isOtherEnding = old.map == 373 && current.map == 422 && !vars.Splits.Contains("end");
+    bool isOtherEnding = current.isCutscene == 1 && current.map == 422 && !vars.Splits.Contains("end");
 
     if (isG4Ending || isOtherEnding)
         return LogAndSplit("end");
