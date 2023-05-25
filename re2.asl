@@ -781,7 +781,7 @@ split
     bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.Splits.Contains("g4Start") && !vars.Splits.Contains("endA");
     bool isOtherEnding = current.isCutscene == 1 && current.map == 422 && !vars.Splits.Contains("endA");
     if (isG4Ending || isOtherEnding)
-        return LogAndSplit("end");
+        return LogAndSplit("endA");
 
     // True Ending - G5
     //bool isSTyrantEnding = old.map == 422 && current.map == 422 && current.isCutscene == 1 && vars.Splits.Contains("end") && !vars.Splits.Contains("endB");
