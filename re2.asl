@@ -258,8 +258,8 @@ startup
     initSettingGroupOption("g1", true, "G1 Battle Complete", "eventgroup", "");
     initSettingGroupOption("g2", true, "G2 Battle Complete", "eventgroup", "");
     initSettingGroupOption("g3", false, "G3 Battle Complete", "eventgroup", "");
-    initSettingGroupOption("end", false, "End (Scenario A/First final boss of B)", "eventgroup", "");
-    initSettingGroupOption("trueEnd", false, "True End", "eventgroup", "");
+    initSettingGroupOption("endA", false, "End (Scenario A)", "eventgroup", "");
+    initSettingGroupOption("endB", false, "End (Scenario B)", "eventgroup", "");
 
     initSettingGroup("miscgroup", true, "Misc.", "Misc items to split when first picked up.");
     initSettingGroupOption("boltCutters", false, "Bolt Cutters", "miscgroup", "");
@@ -778,16 +778,16 @@ split
             return LogAndSplit("g4Start");
 
     // G4 End and Alt Ending
-    bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.Splits.Contains("g4Start") && !vars.Splits.Contains("end");
-    bool isOtherEnding = current.isCutscene == 1 && current.map == 422 && !vars.Splits.Contains("end");
+    bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.Splits.Contains("g4Start") && !vars.Splits.Contains("endA");
+    bool isOtherEnding = current.isCutscene == 1 && current.map == 422 && !vars.Splits.Contains("endA");
     if (isG4Ending || isOtherEnding)
         return LogAndSplit("end");
 
     // True Ending - G5
-    //bool isSTyrantEnding = old.map == 422 && current.map == 422 && current.isCutscene == 1 && vars.Splits.Contains("end") && !vars.Splits.Contains("trueEnd");
-    bool isG5Ending = current.map == 421 && old.map == 423 && current.isCutscene == 1 && vars.Splits.Contains("onTrain") && !vars.Splits.Contains("trueEnd");
+    //bool isSTyrantEnding = old.map == 422 && current.map == 422 && current.isCutscene == 1 && vars.Splits.Contains("end") && !vars.Splits.Contains("endB");
+    bool isG5Ending = current.map == 421 && old.map == 423 && current.isCutscene == 1 && (vars.Splits.Contains("onTrain") || vars.Splits.Contains("endA")) && !vars.Splits.Contains("endB");
     if (isG5Ending)
-        return LogAndSplit("trueEnd");
+        return LogAndSplit("endB");
 
     // Map splits
     if (current.map != old.map)
