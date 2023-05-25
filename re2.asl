@@ -45,7 +45,7 @@ startup
     vars.logToFile = false;
     vars.logPath = "re2.log";
     vars.MAX_ITEMS = 20;
-	vars.Splits = new List<string>();
+    vars.Splits = new List<string>();
 
     // DX11
     vars.re2WW_11055033 = new byte[32] { 0xF2, 0x6C, 0xDE, 0xBF, 0xFE, 0x66, 0x55, 0xD0, 0x5B, 0xF0, 0x04, 0x7F, 0x79, 0x39, 0xEA, 0x5E, 0x38, 0x36, 0x08, 0xAF, 0xF4, 0x60, 0x3C, 0xA3, 0xF0, 0xF3, 0x6A, 0x12, 0xDC, 0x56, 0x23, 0xCA };
@@ -258,8 +258,8 @@ startup
     initSettingGroupOption("g1", true, "G1 Battle Complete", "eventgroup", "");
     initSettingGroupOption("g2", true, "G2 Battle Complete", "eventgroup", "");
     initSettingGroupOption("g3", false, "G3 Battle Complete", "eventgroup", "");
-    initSettingGroupOption("end", false, "End (Scenario A/First final boss of B)", "eventgroup", "");
-    initSettingGroupOption("trueEnd", false, "True End", "eventgroup", "");
+    initSettingGroupOption("endA", false, "End (Scenario A)", "eventgroup", "");
+    initSettingGroupOption("endB", false, "End (Scenario B)", "eventgroup", "");
 
     initSettingGroup("miscgroup", true, "Misc.", "Misc items to split when first picked up.");
     initSettingGroupOption("boltCutters", false, "Bolt Cutters", "miscgroup", "");
@@ -404,13 +404,13 @@ update
 
     // Initialize Global Run Variables
     if (timer.CurrentPhase == TimerPhase.NotRunning)
-		vars.Splits.Clear();
+        vars.Splits.Clear();
 }
 
 split
 {
     Func<string, bool> LogAndSplit = (splitId) => {
-		vars.Splits.Add(splitId);
+        vars.Splits.Add(splitId);
         vars.Log("Splitting: " + splitId);
         return settings[splitId];
     };
@@ -707,9 +707,9 @@ split
                 case 0x000000C3:
                 case 0x000000C8:
                 {
-					if (!vars.Splits.Contains("generalChipAda") && current.survivorType == 2)
+                    if (!vars.Splits.Contains("generalChipAda") && current.survivorType == 2)
                         return LogAndSplit("generalChipAda");
-					if (!vars.Splits.Contains("generalChipMain") && (current.survivorType == 0 || current.survivorType == 1))
+                    if (!vars.Splits.Contains("generalChipMain") && (current.survivorType == 0 || current.survivorType == 1))
                         return LogAndSplit("generalChipMain");
                     break;
                 }
@@ -759,36 +759,35 @@ split
 
     // G3 End
     if (current.map == 419 && !(current.bossCHP >= 1))
-		if (vars.Splits.Contains("g3Start") && !vars.Splits.Contains("g3"))
-        	return LogAndSplit("g3");
+        if (vars.Splits.Contains("g3Start") && !vars.Splits.Contains("g3"))
+            return LogAndSplit("g3");
 
     // G2 Start
     if (current.map == 335 && !(current.bossHP == 24000))
-		if (!vars.Splits.Contains("g2Start"))
-        	return LogAndSplit("g2Start");
+        if (!vars.Splits.Contains("g2Start"))
+            return LogAndSplit("g2Start");
 
     // G2 End
     if (current.map == 335 && !(current.bossHP >= 1))
-		if (vars.Splits.Contains("g2Start") && !vars.Splits.Contains("g2"))
-        	return LogAndSplit("g2");
+        if (vars.Splits.Contains("g2Start") && !vars.Splits.Contains("g2"))
+            return LogAndSplit("g2");
 
     // G4 Start
     if (current.map == 421 && current.bossHP >= 3000000)
-		if (!vars.Splits.Contains("g4Start"))
-        	return LogAndSplit("g4Start");
+        if (!vars.Splits.Contains("g4Start"))
+            return LogAndSplit("g4Start");
 
     // G4 End and Alt Ending
-    bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.Splits.Contains("g4Start") && !vars.Splits.Contains("end");
-    bool isOtherEnding = old.map == 373 && current.map == 422 && !vars.Splits.Contains("end");
-
+    bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.Splits.Contains("g4Start") && !vars.Splits.Contains("endA");
+    bool isOtherEnding = current.isCutscene == 1 && current.map == 422 && !vars.Splits.Contains("endA");
     if (isG4Ending || isOtherEnding)
         return LogAndSplit("end");
 
-    // True Endings?
-    bool isSTyrantEnding = old.map == 422 && current.map == 422 && current.isCutscene == 1 && vars.Splits.Contains("end") && !vars.Splits.Contains("trueEnd");
-    bool isG5Ending = current.map == 421 && old.map == 423 && current.isCutscene == 1 && vars.Splits.Contains("onTrain") && !vars.Splits.Contains("trueEnd");
-    if (isSTyrantEnding || isG5Ending)
-        return LogAndSplit("trueEnd");
+    // True Ending - G5
+    //bool isSTyrantEnding = old.map == 422 && current.map == 422 && current.isCutscene == 1 && vars.Splits.Contains("end") && !vars.Splits.Contains("endB");
+    bool isG5Ending = current.map == 421 && old.map == 423 && current.isCutscene == 1 && (vars.Splits.Contains("onTrain") || vars.Splits.Contains("endA")) && !vars.Splits.Contains("endB");
+    if (isG5Ending)
+        return LogAndSplit("endB");
 
     // Map splits
     if (current.map != old.map)
@@ -797,11 +796,11 @@ split
             return LogAndSplit("reachedSewers");
 
         if (current.map == 112 && !vars.Splits.Contains("reachedRPDA") || current.map == 261 && !vars.Splits.Contains("reachedRPDA"))
-		{
+        {
             if (current.scenerioTypeValue == 2 || current.scenerioTypeValue == 3)
                 if (vars.courtyardkey == 0) return false;
-        	return LogAndSplit("reachedRPDA");
-		}
+            return LogAndSplit("reachedRPDA");
+        }
 
         if (current.map == 277 && !vars.Splits.Contains("reachedGarage"))
             return LogAndSplit("reachedGarage");
@@ -833,18 +832,18 @@ split
     if (current.isCutscene == 1)
     {
         if (current.map == 353 && !vars.Splits.Contains("reachedG1"))
-			vars.Splits.Add("reachedG1");
+            vars.Splits.Add("reachedG1");
         if (current.map == 419 && !vars.Splits.Contains("reachedG3"))
-			vars.Splits.Add("reachedG3");
+            vars.Splits.Add("reachedG3");
     }
 
     // Cutscene Paused For Skipping
     if (current.isPaused == 1)
         if (current.map == 353 && vars.Splits.Contains("reachedG1") && !vars.Splits.Contains("g1CutsceneSkipped"))
-			vars.Splits.Add("g1CutsceneSkipped");
+            vars.Splits.Add("g1CutsceneSkipped");
 
     if (current.map == 419 && vars.Splits.Contains("reachedG3") && !vars.Splits.Contains("g3CutsceneSkipped"))
-		vars.Splits.Add("g3CutsceneSkipped");
+        vars.Splits.Add("g3CutsceneSkipped");
 
     // Cutscene Skipped
     if (current.isCutscene == 0 && current.isPaused == 0)
