@@ -757,30 +757,22 @@ split
         }
     }
 
-    // G3 End
-    if (current.map == 419 && !(current.bossCHP >= 1))
-        if (vars.Splits.Contains("g3Start") && !vars.Splits.Contains("g3"))
-            return LogAndSplit("g3");
-
     // G2 Start
-    if (current.map == 335 && !(current.bossHP == 24000))
-        if (!vars.Splits.Contains("g2Start"))
-            return LogAndSplit("g2Start");
+    if (current.map == 335 && current.bossHP == 24000 && !vars.Splits.Contains("g2Start"))
+        return LogAndSplit("g2Start");
 
     // G2 End
-    if (current.map == 335 && !(current.bossHP >= 1))
-        if (vars.Splits.Contains("g2Start") && !vars.Splits.Contains("g2"))
-            return LogAndSplit("g2");
+    if (current.map == 335 && !(current.bossHP >= 1) && vars.Splits.Contains("g2Start") && !vars.Splits.Contains("g2"))
+        return LogAndSplit("g2");
 
     // G4 Start
-    if (current.map == 421 && current.bossHP >= 3000000)
-        if (!vars.Splits.Contains("g4Start"))
-            return LogAndSplit("g4Start");
+    if (current.map == 421 && current.bossHP >= 3000000 && !vars.Splits.Contains("g4Start"))
+        return LogAndSplit("g4Start");
 
     // G4 End and Alt Ending
     bool isG4Ending = current.isCutscene == 1 && current.map == 421 && vars.Splits.Contains("g4Start") && !vars.Splits.Contains("endA");
-    bool isOtherEnding = current.isCutscene == 1 && current.map == 422 && !vars.Splits.Contains("endA");
-    if (isG4Ending || isOtherEnding)
+    bool isTyrantEnding = current.isCutscene == 1 && current.map == 422 && !vars.Splits.Contains("endA");
+    if (isG4Ending || isTyrantEnding)
         return LogAndSplit("endA");
 
     // True Ending - G5
@@ -831,29 +823,26 @@ split
     // Cutscene Playing
     if (current.isCutscene == 1)
     {
-        if (current.map == 353 && !vars.Splits.Contains("reachedG1"))
+        if (current.map == 353 && !vars.Splits.Contains("reachedG1") && current.bossCHP == 5000 && current.bossHP == 5000)
             vars.Splits.Add("reachedG1");
-        if (current.map == 419 && !vars.Splits.Contains("reachedG3"))
+        if (current.map == 419 && !vars.Splits.Contains("reachedG3") && current.bossCHP == 15000 && current.bossHP == 15000)
             vars.Splits.Add("reachedG3");
     }
 
-    // Cutscene Paused For Skipping
-    if (current.isPaused == 1)
-        if (current.map == 353 && vars.Splits.Contains("reachedG1") && !vars.Splits.Contains("g1CutsceneSkipped"))
-            vars.Splits.Add("g1CutsceneSkipped");
-
-    if (current.map == 419 && vars.Splits.Contains("reachedG3") && !vars.Splits.Contains("g3CutsceneSkipped"))
-        vars.Splits.Add("g3CutsceneSkipped");
-
     // Cutscene Skipped
-    if (current.isCutscene == 0 && current.isPaused == 0)
+    if (current.isCutscene == 0 && old.isCutscene == 1 && current.isPaused == 0)
     {
-        if (current.map == 353 && vars.Splits.Contains("g1CutsceneSkipped") && !vars.Splits.Contains("g1Start"))
+        if (current.map == 353 && vars.Splits.Contains("reachedG1") && !vars.Splits.Contains("g1Start") && current.bossCHP == 5000 && current.bossHP == 5000)
             return LogAndSplit("g1Start");
-        if (current.map == 419 && vars.Splits.Contains("g3CutsceneSkipped") && !vars.Splits.Contains("g3Start"))
+        if (current.map == 419 && vars.Splits.Contains("reachedG3") && !vars.Splits.Contains("g3Start") && current.bossCHP == 15000 && current.bossHP == 15000)
             return LogAndSplit("g3Start");
-        if (current.map == 353 && !(current.bossHP >= 1) && vars.Splits.Contains("g1Start") && !vars.Splits.Contains("g1"))
+    }
+    else if (current.isCutscene == 1 && old.isCutscene == 0)
+    {
+        if (current.map == 353 && current.bossCHP == 0 && current.bossHP == 5000 && vars.Splits.Contains("g1Start") && !vars.Splits.Contains("g1"))
             return LogAndSplit("g1");
+        if (current.map == 419 && current.bossCHP == 0 && current.bossHP == 15000 && vars.Splits.Contains("g3Start") && !vars.Splits.Contains("g3"))
+            return LogAndSplit("g3");
     }
 }
 
