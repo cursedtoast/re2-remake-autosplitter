@@ -790,7 +790,7 @@ split
         if ((current.map == 112 || current.map == 261) && !vars.Splits.Contains("reachedRPD"))
         {
             if (current.scenerioTypeValue == 2 || current.scenerioTypeValue == 3)
-                if (vars.courtyardkey == 0) return false;
+                if (!vars.Splits.Contains("courtyardkey")) return false;
             return LogAndSplit("reachedRPD");
         }
 
