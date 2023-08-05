@@ -242,7 +242,7 @@ startup
     initSettingGroupOption("chipAdmin", false, "Admin (Claire Only)", "wristgroup", "");
 
     initSettingGroup("eventgroup", true, "Events", "Events to split when first picked up.");
-    initSettingGroupOption("reachedRPDA", false, "Reached the RPD (A Scenario only)", "eventgroup", "");
+    initSettingGroupOption("reachedRPD", false, "Reached the RPD", "eventgroup", "");
     initSettingGroupOption("reachedSecretRoom", false, "Reached Secret Room", "eventgroup", "");
     initSettingGroupOption("reachedGarage", false, "Reached Parking Garage", "eventgroup", "");
     initSettingGroupOption("exitedGarage", false, "Back on the Streets (leave parking garage)", "eventgroup", "");
@@ -784,14 +784,14 @@ split
     // Map splits
     if (current.map != old.map)
     {
-        if (current.map == 317 && !vars.Splits.Contains("reachedSewers") || current.map == 377 && old.map == 407 && !vars.Splits.Contains("reachedSewers"))
+        if ((current.map == 317 || (current.map == 377 && old.map == 407)) && !vars.Splits.Contains("reachedSewers"))
             return LogAndSplit("reachedSewers");
 
-        if (current.map == 112 && !vars.Splits.Contains("reachedRPDA") || current.map == 261 && !vars.Splits.Contains("reachedRPDA"))
+        if ((current.map == 112 || current.map == 261) && !vars.Splits.Contains("reachedRPD"))
         {
             if (current.scenerioTypeValue == 2 || current.scenerioTypeValue == 3)
-                if (vars.courtyardkey == 0) return false;
-            return LogAndSplit("reachedRPDA");
+                if (!vars.Splits.Contains("courtyardkey")) return false;
+            return LogAndSplit("reachedRPD");
         }
 
         if (current.map == 277 && !vars.Splits.Contains("reachedGarage"))
@@ -803,7 +803,7 @@ split
         if (old.map == 277 && current.map == 351 && !vars.Splits.Contains("exitedGarage"))
             return LogAndSplit("exitedGarage");
 
-        if (current.map == 338 && !vars.Splits.Contains("rescue") || old.map == 0 && current.map == 335 && !vars.Splits.Contains("rescue"))
+        if ((current.map == 338 || (old.map == 0 && current.map == 335)) && !vars.Splits.Contains("rescue"))
             return LogAndSplit("rescue");
 
         if (current.map == 423 && !vars.Splits.Contains("onTrain"))
