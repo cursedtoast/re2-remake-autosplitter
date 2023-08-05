@@ -242,7 +242,7 @@ startup
     initSettingGroupOption("chipAdmin", false, "Admin (Claire Only)", "wristgroup", "");
 
     initSettingGroup("eventgroup", true, "Events", "Events to split when first picked up.");
-    initSettingGroupOption("reachedRPDA", false, "Reached the RPD (A Scenario only)", "eventgroup", "");
+    initSettingGroupOption("reachedRPD", false, "Reached the RPD", "eventgroup", "");
     initSettingGroupOption("reachedSecretRoom", false, "Reached Secret Room", "eventgroup", "");
     initSettingGroupOption("reachedGarage", false, "Reached Parking Garage", "eventgroup", "");
     initSettingGroupOption("exitedGarage", false, "Back on the Streets (leave parking garage)", "eventgroup", "");
@@ -787,11 +787,11 @@ split
         if ((current.map == 317 || (current.map == 377 && old.map == 407)) && !vars.Splits.Contains("reachedSewers"))
             return LogAndSplit("reachedSewers");
 
-        if ((current.map == 112 || current.map == 261) && !vars.Splits.Contains("reachedRPDA"))
+        if ((current.map == 112 || current.map == 261) && !vars.Splits.Contains("reachedRPD"))
         {
             if (current.scenerioTypeValue == 2 || current.scenerioTypeValue == 3)
                 if (vars.courtyardkey == 0) return false;
-            return LogAndSplit("reachedRPDA");
+            return LogAndSplit("reachedRPD");
         }
 
         if (current.map == 277 && !vars.Splits.Contains("reachedGarage"))
