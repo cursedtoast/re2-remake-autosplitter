@@ -274,7 +274,7 @@ startup
     initSettingGroupOption("modulator", false, "Signal Modulator", "miscgroup", "");
     initSettingGroupOption("jointPlug", false, "Joint Plug", "miscgroup", "");
     
-    initSettingGroup("deprecate", true, "Deprecated", "Deprecated items to split when first picked up.");
+    initSettingGroup("deprecate", true, "Deprecated", "Deprecated items or events to split when first picked up.");
     initSettingGroupOption("redbook", false, "Red Book", "deprecate", "");
     initSettingGroupOption("arm", false, "Statue's Left Arm", "deprecate", "");
     initSettingGroupOption("scepter", false, "Scepter", "deprecate", "");
@@ -283,6 +283,7 @@ startup
     initSettingGroupOption("starsbadge", false, "S.T.A.R.S Badge", "deprecate", "");
     initSettingGroupOption("gL", false, "Grenade Launcher", "deprecate", "");
     initSettingGroupOption("shotgun", false, "Shotgun", "deprecate", "");
+    initSettingGroupOption("adaLegacyStart", false, "Legacy Ada Start (Ladder)", "deprecate", "");
 }
 
 init
@@ -784,6 +785,9 @@ split
     // Map splits
     if (current.map != old.map)
     {
+        if (current.map == 312 && current.survivorType == 2 && vars.Splits.Contains("adaStart") && !vars.Splits.Contains("adaLegacyStart"))
+            return LogAndSplit("adaLegacyStart");
+
         if ((current.map == 317 || (current.map == 377 && old.map == 407)) && !vars.Splits.Contains("reachedSewers"))
             return LogAndSplit("reachedSewers");
 
