@@ -87,8 +87,8 @@ startup
         if (vars.logToFile)
         {
             vars.Log("Clearing Logs");
-                    if (File.Exists(filePath))
-                        File.WriteAllLines(filePath, new string[0]);
+            if (File.Exists(filePath))
+                File.WriteAllLines(filePath, new string[0]);
         }
     };
     vars.LogsClear = ClearLogs;
