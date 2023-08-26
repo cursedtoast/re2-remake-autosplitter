@@ -6,14 +6,14 @@
 state("re2", "World Public RT 2023")
 {
     int gameStartType : "re2.exe", 0x091AE1F0, 0x54;
-    int scenerioTypeValue : "re2.exe", 0x091AE100, 0x1A0, 0x1C; // TODO: get new offsets
-    int survivorType : "re2.exe", 0x091AD1F0, 0x50, 0x10, 0x20, 0x54; // TODO: get new offsets
-    int playerCurrentHP : "re2.exe", 0x091AD1F0, 0x50, 0x10, 0x20, 0x230, 0x58; // TODO: get new offsets
-    int playerMaxHP : "re2.exe", 0x091AD1F0, 0x50, 0x10, 0x20, 0x230, 0x54; // TODO: get new offsets
+    int scenerioTypeValue : "re2.exe", 0x091AE1F0, 0x1A0, 0x1C;
+    int survivorType : "re2.exe", 0x091AD2C0, 0x50, 0x10, 0x20, 0x54;
+    int playerCurrentHP : "re2.exe", 0x091AD2C0, 0x50, 0x10, 0x20, 0x230, 0x58;
+    int playerMaxHP : "re2.exe", 0x091AD2C0, 0x50, 0x10, 0x20, 0x230, 0x54;
     int map : "re2.exe", 0x91A8074;
     int loc : "re2.exe", 0x91A8070;
-    int bossCHP : "re2.exe", 0x091A6A08, 0x58, 0x10, 0x20, 0x218, 0xB8, 0x58; // TODO: get new offsets
-    int bossHP : "re2.exe", 0x091A6A08, 0x58, 0x10, 0x20, 0x218, 0xB8, 0x54; // TODO: get new offsets
+    int bossCHP : "re2.exe", 0x091A6AF8, 0x58, 0x10, 0x20, 0x218, 0xB8, 0x58;
+    int bossHP : "re2.exe", 0x091A6AF8, 0x58, 0x10, 0x20, 0x218, 0xB8, 0x54;
     byte isCutscene : "re2.exe", 0x091AED68, 0x51;
     byte isPaused : "re2.exe", 0x091AED68, 0x53;
     long active : "re2.exe", 0x091AED68, 0x60, 0x18;
@@ -299,7 +299,7 @@ init
 
     byte[] checksum = vars.CalcModuleHash(modules.First());
     if (Enumerable.SequenceEqual(checksum, vars.re2WW_11026357))
-        UpdateVersion("World Public RT 2023", 0x091A6CD0); // TODO: get new offsets
+        UpdateVersion("World Public RT 2023", 0x91A6DC0);
     else if (Enumerable.SequenceEqual(checksum, vars.re2WW_11055033))
         UpdateVersion("World DX11 2023", 0x070B23A8);
     else
